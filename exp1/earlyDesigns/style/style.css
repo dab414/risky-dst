@@ -1,0 +1,140 @@
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+body {
+	font-size: 16px;
+	padding: 0;
+	margin: 0;
+}
+
+body p {
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	background-color: lightgrey;
+	margin: 0;
+}
+
+.screen {
+	height: 600px;
+	width: 800px;
+	margin: 0 auto;
+	border: 1px solid black;
+	box-sizing: border-box;
+}
+
+.feedbackContainer {
+	width: 100%;
+	height: 150px;
+	padding: 0 20px 0px 20px;
+	margin: 0;
+	/*border: 0px solid red;*/
+}
+
+.feedbackContainer p {
+	font-size: 25pt;
+}
+
+.feedbackLevelOne, .feedbackLevelTwo {
+	width: 100%;
+	overflow: auto;
+	height: 75px;
+	display: flex;
+	align-items: center;
+	/*margin: 10px 0;*/
+}
+
+
+.keyFormat {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.bonusFeedback {
+	float: left;
+}
+
+.progressFeedback {
+	float: right;
+	margin: 0;
+	padding: 0;
+	margin-left: auto;
+	/*line-height: 0;
+	height: 20px;*/
+}
+
+.topHalf {
+	width: 100%;
+	height: 216px;
+	margin: 6px 0;
+	box-sizing: border-box;
+}
+
+.cardOne {
+	height: 216px;
+	width: 144px;
+	margin-left: 92px;
+	background-color: white;
+	box-sizing: border-box;
+	border: 1px solid black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cardOne p {
+	font-family: 'Courier New';
+	font-size: 25pt;
+	color: blue;
+	font-weight: 600;
+}
+
+.bottomHalf {
+	width: 100%;
+	height: 216px;
+	margin-bottom: 6px;
+	box-sizing: border-box;
+	
+}
+
+.deck {
+	height: 216px;
+	width: 144px;
+	margin-left: 92px;
+	background-color: white;
+	border: 1px solid black;
+	display: inline-block;
+	box-sizing: border-box;
+	box-shadow: 3px 3px;
+}
+/*
+.deckTwo {
+	height: 281px;
+	width: 187px;
+	margin-left: 5px;
+	border: 1px solid blue;
+	background-color: white;
+	display: inline-block;
+}
+
+.deckThree {
+	height: 281px;
+	width: 187px;
+	margin-left: 5px;
+	border: 1px solid blue;
+	background-color: white;
+	display: inline-block;
+}
+*/

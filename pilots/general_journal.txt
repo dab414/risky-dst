@@ -1,0 +1,9 @@
+11/26/2018
+	finished data collection for the first pilot
+	going to do a quick look at the results
+
+	at some point i need to make sure i have the method detail together
+		although that should be in the experiment_outline.docx doc that i wrote up
+
+	plotted the switch costs but they look very strange..
+		i need to carefully check that i didn't mess something up

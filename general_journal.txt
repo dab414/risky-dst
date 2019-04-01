@@ -1,0 +1,31 @@
+3/31/2019
+  things left to do:
+    instructions
+    figure out how to run online with pypool
+    remove all console logs
+    figure out whether i can get a static and reliable link to the HIT
+  https://www.nchsoftware.com/capture/index.html
+    screen capturing
+
+3/27/2019
+  i *think* three choice is working well
+  my only concern is, for the neutral trials, there's very little attribute space on the switching dimension
+  i've noticed several times the p(switch | neutral) = p(switch | hardTask), which i don't like
+  but fr i think we're at a point where things are really working
+
+3/14/2019
+  alright, can't put this off anymore
+  time to really think hard about how im gonna program all these
+  exp1 is the most important to get off the ground rn... but i ought to think whether i can consolidate some of the programming efforts across all three exps
+
+  things like certain html pages or css might pretty easily transfer across exps.. i think that's easy enough to copy & paste tho..
+  so maybe the idea will be to, while programming exp1, think about how i can abstract certain operations across all experiments, then build up a library that i can source from throughout
+
+  put together a basic opening slide 
+  still need to do key remind and stimulus slide [for cued practice, to start]
+
+3/15/2019
+  best breakdown ive seen of flex-box: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+ 3/19/2019
+ 	a good breakdown of python cgi and http: https://www.elvenware.com/python-guide/PythonScripts.html

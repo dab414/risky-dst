@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+  <title>Braun Dissertation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=2'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
+  <script src='../js/exp1Functions.js?v=1'></script>
+  <script src='../../globalJs/globalFunctions.js?v=4'></script>
+  <script src='../../globalJs/TimTurkTools.js'></script>
+  <script src='../../globalJs/jquery-bbq.js'></script>
+
+<script>
+
+$(document).ready(function(){
+
+// global vars
+//URL ARGS
+var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? codeTaskCue() : urlArgsToVar('taskCueCode');
+var clientCueCode = cueForClient(taskCueCode);
+var experimentStartTime = urlArgsToVar('experimentStartTime');
+// THE VALUES COME IN AS STRINGS (for now)
+var rtPercentiles = urlArgsToVar('rtPercentiles');
+rtPercentiles['fiftieth'] = parseInt(rtPercentiles['fiftieth'])
+rtPercentiles['thirtyFifth'] = parseInt(rtPercentiles['thirtyFifth'])
+
+// other global vars
+var trialCount = 0;
+var rsi = 500;
+var prevTaskColor = '';
+var rtStartTime = new Date();
+var error = 0;
+var choiceRt = new Date();
+var responseCount = 0;
+var trialThreshold = 16;
+var rtThreshold = rtPercentiles['fiftieth'];
+var deckCode = {};
+
+// set initial state
+$('#titleSlide').show();
+$('#detailSlide').hide();
+$('#keyRemindSlide').hide();
+$('.expSlide').hide();
+
+var vid = document.getElementById('tutorial');
+
+$('#detail').click(function(){
+  $('#titleSlide').hide();
+  $('#detailSlide').show();
+  vid.pause();
+});
+
+$('.resetTitle').click(function(){
+  $('#titleSlide').show();
+  $('#detailSlide').hide();
+  $('#keyRemindSlide').hide();
+});
+
+$('#seeKeys').click(function(){
+  $('#keyRemindSlide').show();
+  $('#titleSlide').hide();
+  vid.pause();
+});
+
+$('#startSegment').click(function(){
+  startSegment();
+});
+
+
+function startSegment(){
+  // control display
+  $('#keyRemindSlide').hide();
+
+  $('#keyToggle').html('<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>');
+  $('#keyToggle').hide();
+  $('.card').addClass('cardHidden');
+  $('.expSlide').show();
+
+
+  runTrial();
+
+} // end startSegment
+
+
+function runTrial() {
+  // update count
+  trialCount += 1;
+
+  // control display
+  $('.bottomHalf').hide();
+  if (trialCount > 1) {
+    $('#' + targetDeck + 'Card').removeClass('cardShow').addClass('cardHidden');
+  }
+  // fill feedback (ie, instructions) based on trialCount
+  $('.bonusFeedback').html('<p>Choose the ' + (trialCount <= 10? 'low': 'high') + ' demand deck.</p>');
+  $('.bonusFeedback').show();
+
+  // determine deck positions
+  deckCode = getDeckCode(2, 'prac');
+ 
+  // determine target deck
+  targetDeck = findTargetDeck(trialCount, deckCode);
+
+
+  
+  // fill deck attributes
+  $('#leftDeckSwitch').html('<p>' + deckCode['left']['pSwitch'] * 100 + '%</p>');
+  $('#rightDeckSwitch').html('<p>' + deckCode['right']['pSwitch'] * 100 + '%</p>');
+
+  // control rsi, initialize stimulus
+  setTimeout(function(){
+    $('.bottomHalf').show();
+
+    // reset error
+    error = 0;
+
+    // listen for space bar
+    $(document).bind('keydown.listenForSpaceDown', function(e){
+      if (e.which == 32) {
+        $('#keyToggle').show();
+      }
+    });
+    $(document).bind('keyup.listenForSpaceUp', function(e){
+      if (e.which == 32) {
+        $('#keyToggle').hide();
+      }
+    });
+
+
+    // listen for choice keys
+    $(document).bind('keydown.listenForChoiceKeys', function(e){
+      // they need to choose the easy deck on the first 10 trials then the hard deck on the next 10
+      if ((targetDeck == 'left' && e.which == 68) || targetDeck == 'right' && e.which == 70) {
+
+        // unbind choice keys
+        $(document).unbind('keydown.listenForChoiceKeys');
+
+        responseCount = 0;
+        
+        
+        cuedTrial();
+        
+      }
+    }) // end listen for choice keys
+
+  }, rsi)
+
+} // end runTrial()
+
+
+function cuedTrial() {
+  // generate stimulus
+  currentTaskColor = generateTransition(deckCode[targetDeck]['pSwitch'], prevTaskColor);
+  currentStim = generateCuedStim();
+  currentTask = taskCueCode[currentTaskColor];
+
+  // update display
+  $('#' + targetDeck + 'Card').removeClass('cardShow').addClass('cardHidden');
+  $('#' + targetDeck + 'CardFeedback').hide();
+  $('#' + targetDeck + 'CardStim').html('<p>' + currentStim + '</p>');
+  $('#' + targetDeck + 'CardStim').css({'color': currentTaskColor});
+
+  error = 0;
+
+
+  setTimeout(function(){
+    $('#' + targetDeck + 'Card').addClass('cardShow').removeClass('cardHidden');
+
+    rtStartTime = new Date();
+
+    // rt window kicks once the rtThreshold is hit
+    rtWindow = setTimeout(function(){
+      console.log('timeout is running');
+      // stop listening for keys
+      $(document).unbind('keydown.listenForResponseKeys');
+      
+      // fill and show feedback
+      $('#' + targetDeck + 'CardFeedback').html('<p><strong>TIMEOUT!</strong></p>');
+      $('#' + targetDeck + 'CardFeedback').show();
+
+      // update vars
+      responseCount += 1;
+      prevTaskColor = currentTaskColor;
+
+      // prepare for next trial
+      setTimeout(function(){
+        $('#' + targetDeck + 'CardFeedback').hide();
+        if (trialCount != trialThreshold) {
+          if (responseCount == 2) {
+            runTrial();
+          } else {
+            cuedTrial();
+          } 
+        } else {
+            if (responseCount == 2) {
+              endSegment();
+            } else {
+              cuedTrial();
+              }
+          }
+      }, rsi);
+    }, rtThreshold);
+
+
+    $(document).bind('keydown.listenForResponseKeys', function(i){
+      console.log('keydown is running');
+      // rt window
+
+      console.log(i.which);
+      if ($.inArray(i.which, [74, 75]) + 1) {
+        // stop listening for keys
+        $(document).unbind('keydown.listenForResponseKeys');
+        // stop the timeout procedure
+        clearTimeout(rtWindow);
+        // code error
+        error = cuedIsError(String(i.which), currentTask, currentStim);
+        // code transition
+        transition = codeTransition(prevTaskColor, currentTaskColor);
+        //update previous task
+        prevTaskColor = currentTaskColor;
+        // update response count
+        responseCount += 1
+
+        console.log([error, transition, prevTaskColor, responseCount]);
+        // start error sequence
+        if (error) {
+          // fill and display feedback
+          $('#' + targetDeck + 'CardFeedback').html('<p><strong>ERROR!</strong></p>');
+          $('#' + targetDeck + 'CardFeedback').show();
+          // prepare for next trial
+          setTimeout(function(){
+            $('#' + targetDeck + 'CardFeedback').hide();
+            if (trialCount != trialThreshold) {
+	            if (responseCount == 2) {
+	              runTrial();
+	            } else {
+	              console.log('Error sequence is running');
+	              cuedTrial();
+	            }
+          	} else {
+              if (responseCount == 2) {
+                endSegment();
+              } else {
+                cuedTrial();
+                }
+              }
+          }, rsi)
+
+
+          // if accurate response
+        } else { 
+
+        	if (trialCount != trialThreshold) {
+	          if (responseCount == 2) {
+	            runTrial();
+	          } else {
+	            cuedTrial();
+	        }
+      	} else {
+      		if (responseCount == 2) {
+            endSegment();
+          } else {
+            cuedTrial();
+            }
+      		}
+        }
+      } // end if appropriate response key
+
+    }) // end listenForResponseKeys
+
+  }, rsi)
+
+
+
+} // end cuedTrial()
+
+function endSegment() {
+  console.log('ayy we done mf lmao');
+  
+  urlArgs = {
+    'workerId': GetWorkerId(),
+    'assignmentId': GetAssignmentId(),
+    'taskCueCode': taskCueCode,
+    'experimentStartTime': experimentStartTime,
+    'rtPercentiles': rtPercentiles
+  };
+
+  window.location.replace('../calibration/?' + $.param(urlArgs));
+}
+
+
+}); // end document.ready()
+
+
+</script>
+
+</head>
+
+<body>
+
+  <!-- the entire display -->
+  <div class='container'>
+    <!-- the 800 x 600 experiment area -->
+    <div class='screen'>
+
+      <!-- BEGIN TITLE SLIDE -->
+      <div id='titleSlide'>
+        <div class='titleBar'>
+          <h2>Welcome to the second segment.</h2>
+          <p>You will now be introduced to the choice portion of the HIT.</p>
+        </div>
+
+        <div class='leftTwoThirds'>
+          <p>Now that you are familiar with basic task switching, you'll be introduced to how you will be making choices through the rest of the HIT. Watch the video below for full instructions.</p>
+          <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
+
+
+          <video id = 'tutorial' width = "410" height = "190" controls>
+            <source src = "../placeholder.mp4" type = "video/mp4">
+          </video>
+        </div>
+
+        <div class='rightOneThirdsDown'>
+          <button id='detail' class='experimentButton center smallButton'>See Text Instructions</button>
+          <button id='seeKeys' class='experimentButton center'>See Controls</button>
+        </div>
+      </div> <!-- end title slide -->
+
+
+    <!-- BEGIN DETAIL SLIDE -->
+    <div id='detailSlide'>
+      <p>PLaceholder.</p>
+      <button class='experimentButton resetTitle'>Go Back</button>
+    </div> <!-- end detail slide -->
+
+    <!-- KEY REMIND SLIDE -->
+    <div id='keyRemindSlide'>
+      <div class='titleBar'>
+      </div>
+
+      <div class='leftTwoThirds'>
+        <p>Blah blah blah keys and what naht.</p>
+      </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='resetTitle experimentButton smallButton center'>Go Back</button>
+        <button id='startSegment' class='experimentButton center'>Begin Segment</button>
+      </div>
+    </div> <!-- end key remind slide -->
+
+    <!--EXPERIMENT SLIDE-->
+    <div class='expSlide'>
+      <div class='feedbackContainer'>
+        <div class='feedbackLevelOne'>
+          <div class='bonusFeedback'>
+          </div>
+        </div>
+
+        <div class='feedbackLevelTwo'>
+          <div id='keyToggle' class='keyFormat'>
+          </div>
+        </div>
+
+      </div>
+      
+
+      <div class='topHalf'>
+        <div class='card' id='leftCard'>
+          <div class='cardFeedback' id='leftCardFeedback'>
+          </div>
+          <div class='cardStim' id='leftCardStim'>
+          </div>
+        </div>
+        <!--
+        <div class='card' id='middleCard'>
+          <div class='cardFeedback' id='middleCardFeedback'>
+          </div>          
+          <div class='cardStim' id='middleCardStim'>
+          </div>
+        </div>
+        -->
+        <div class='card' id='rightCard'>
+          <div class='cardFeedback' id='rightCardFeedback'>
+          </div>          
+          <div class='cardStim' id='rightCardStim'>
+          </div>
+        </div>        
+      
+      </div>
+
+      <div class='bottomHalf'>
+        <div class='deck' id='leftDeck'>
+          <div class='deckAttribute' id='leftDeckPoints'>
+          </div>
+          <div class='deckAttribute' id='leftDeckSwitch'>
+          </div>
+        </div>
+        <!--<div class='deck' id='middleDeck'>
+          <div class='deckAttribute' id='middleDeckPoints'>
+          </div>
+          <div class='deckAttribute' id='middleDeckSwitch'>
+          </div>          
+        </div>-->
+        <div class='deck' id='rightDeck'>
+          <div class='deckAttribute' id='rightDeckPoints'>
+          </div>
+          <div class='deckAttribute' id='rightDeckSwitch'>
+          </div>          
+        </div>
+      </div>
+
+
+    </div> <!-- end expSlide -->
+
+
+
+    </div> <!-- end screen -->
+  </div> <!-- end container-->
+
+</body>
+
+</html>
+

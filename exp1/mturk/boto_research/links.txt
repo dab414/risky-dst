@@ -1,0 +1,14 @@
+http://scottlobdell.me/2015/03/use-mechanical-turk-python-boto-crowdsource-tasks/
+https://ericscrivner.me/2015/04/mturk-python-guide-part-2/
+https://blog.mturk.com/tutorial-getting-started-with-mturk-and-python-using-boto-452fb0243a30
+
+
+ACTUAL USEFUL INFORMATION ABOUT THE API
+	including how to see how many assignments there are for a given HIT
+	http://boto.cloudhackers.com/en/latest/ref/mturk.html#module-boto.mturk.connection
+
+some info about creating and managing assignments
+	https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMechanicalTurkRequester/Concepts_AssignmentsArticle.html
+
+list(mtc.get_all_hits())
+	allows the hits to be indexed

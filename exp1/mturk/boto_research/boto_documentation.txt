@@ -1,0 +1,89 @@
+this is all boto 2
+	boto3 is a thing, but i haven't found support for external hits
+	but otherwise it looks like the code does many similar functions
+	they say that they interact well together, but i might as well just stick to learning v2 for now i guess
+
+from boto.mturk.connection import MTurkConnection
+
+mtc = MTurkConnection(aws_keys, host (main or sandbox))
+
+## HANDLING ASSIGNMENTS FOR A HIT
+
+mtc.get_assignments(hit_id)
+
+	returns list of assignment objects
+	this container holding all the assignment objects is called a "ResultSet"
+		it has its own attributes
+		difficult to interpret
+		but either attributes .NumResults, or .TotalNumResults should give you the total number of assignments to the hit
+
+	you can index the ResultSet to return any particular assignment (or iterate over them)
+
+	assignment object (this matters)
+		attributes:
+			AcceptTime
+			ApprovalTime - (this showed up as 'AutoApprovalTime' in a newer hit)
+			Assignment -- is blank?
+			AssignmentId -- returns AssignmentId, can use this to cross reference with data files on server
+			AssignmentStatus -- ['Approved', 'Submitted', 'Rejected']
+			AutoApprovalTime
+			HITId -- equal to HIT id that is returned when creating the hit (which is good)
+			SubmitTime
+			WorkerId -- im assuming a unique char string for each worker (eg, 'A2JDJL3FQ56GO1')
+
+mtc.get_account_balance()
+	returns how much money left in account
+
+
+## HANDLING APPROVAL / REJECTION OF ASSIGNMENTS
+
+mtc.approve_assignment(assignment_id, feedback = NONE)
+	to approve a given assignment
+
+mtc.approve_rejected_assignment(assignment_id, feedback = NONE)
+
+mtc.reject_assignment(assignment_id, feedback = NONE)
+
+mtc.assign_qualification(qualification_type_id, worker_id, value=1, send_notification = True)
+	not sure, but i think this might be a way to tag a worker with a qualification so i can manipulate whether i want the person in a future study
+
+## WAYS TO GET RID OF HITS
+
+	mtc.dispose_hit(hit_id)
+		only hits in 'reviewable', with all assignments approved or rejected, can be disposed of
+		eliminates the hit from `mtc.get_all_hits()`
+	mtc.disable_hit(hit_id)
+		approves all assignments that haven't already been approved, removes from the mturk marketplace
+	mtc.expire_hit(hit_id)
+		same as hit expiring on its own
+		ppl who have accepted the hit before expiring can decide to complete or return
+
+
+## MANAGING HITS
+
+	mtc.get_hit(hit_id)[0]
+
+		.HITStatus : ['Disposed', 'Reviewable', '']
+
+		a lot of other parameters that are passed when creating the HIT
+
+	mtc.extend_hit(hit_id, assignments_increment = None, expiration_increment=None)
+		this is used to either add assignments or time to a hit (or both)
+
+		NOTE: If a HIT has a status of Reviewable and the HIT is extended to make it Available, the HIT will not be returned by GetReviewableHITs, and its submitted assignments will not be returned by GetAssignmentsForHIT, until the HIT is Reviewable again. Assignment auto-approval will still happen on its original schedule, even if the HIT has been extended. Be sure to retrieve and approve (or reject) submitted assignments before extending the HIT, if so desired.
+
+		NOTE: HITS with 9 or fewer assignments can't exceed 9 assignments.
+		NOTE: expiration_increment is on the same time scale as when establishing the hit (seconds)
+
+	## LOOK AT ALL HITS THAT ARE ACTIVE OR JUST ON MTURK OR WHATEVER
+
+		mtc.get_all_hits()
+
+		need to iterate through it though
+
+		for e in mtc.get_all_hits():
+			print e
+
+		mtc.get_hit(hit_id)
+			haven't tried this yet, but this might save me from having to iterate through the hits object
+

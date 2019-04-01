@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+  <title>Braun Dissertation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=4'>
+  <script src='../js/exp1Functions.js?v=1'></script>
+  <script src='../../globalJs/globalFunctions.js?v=4'></script>
+  <script src='../../globalJs/TimTurkTools.js'></script>
+
+  <script>
+
+$(document).ready(function(){
+  // global vars
+  var transition = 'startBlock';
+  var taskCueCode = codeTaskCue();
+  var clientCueCode = cueForClient(taskCueCode);
+  var currentTaskColor = '';
+  var currentTask = '';
+  var error = 0;
+  var currentStim = '';
+  var trialCount = 0;
+  var trialStruct = new Array();
+  var rt = 0;
+  var keyCode = {74: 'j', 75: 'k'}
+  var prevTask = '';
+  var experimentName = 'dissertationExperiment1';
+  var phase = 'pracCued';
+  // experimentStartTime in MS
+  var experimentStartTime = Date.now();
+  var rtStartTime = new Date();
+
+  // thresholds & manipulations
+  var trialThreshold = 16;
+  var rsi = 500;
+  var errorTimeout = 500;
+
+  // save an init
+  registerId(experimentName);
+
+  // control flow of first few clicks
+  $('#titleSlide').show();
+  $('#detailSlide').hide();
+  $('#keyRemindSlide').hide();
+  $('.stimSlide').hide();
+
+  var vid = document.getElementById('tutorial');
+
+  $('#detail').click(function(){
+    $('#titleSlide').hide();
+    $('#detailSlide').show();
+    vid.pause();
+  });
+
+  $('.resetTitle').click(function(){
+    $('#titleSlide').show();
+    $('#detailSlide').hide();
+    $('#keyRemindSlide').hide();
+  });
+
+  $('#seeKeys').click(function(){
+    $('#keyRemindSlide').show();
+    $('#titleSlide').hide();
+    vid.pause();
+  });
+
+  $('#startCued').click(function(){
+    startCued();
+    /*$('#keyRemindSlide').hide();
+    $('.stimSlide').show();*/
+  });
+
+
+function startCued() {
+  // set initial state
+
+  $('#keyRemindSlide').hide();
+  $('.keyContainer').html('<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>');
+  $('.keyContainer').hide();
+  $('.errorContainer').hide();
+  $('.stimSlide').show();
+  runTrial();
+}
+
+function runTrial() {
+  // update count
+  trialCount += 1;
+
+  // generate stimulus
+  $('.stimContainer').hide();
+  currentTaskColor = generateTransition(0.5, prevTask);
+  currentStim = generateCuedStim();
+  currentTask = taskCueCode[currentTaskColor];
+  $('.stimContainer').html('<p>' + currentStim + '</p>');
+  $('.stimContainer').css({'color': currentTaskColor});
+
+  // trigger RSI
+  setTimeout(function(){
+
+    // show stimulus
+    $('.stimContainer').show();
+
+    // start rt clock
+    rtStartTime = new Date();
+
+    // reset error 
+    error = 0;
+
+    // listen for space bar
+    $(document).bind('keydown.listenForSpaceDown', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').show();
+      }
+    });
+    $(document).bind('keyup.listenForSpaceUp', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').hide();
+      }
+    });
+
+    // listen for response keys 
+    $(document).bind('keydown.listenForKeys', function(e){
+      if ($.inArray(e.which, [74, 75]) + 1) {
+        
+        // log rt
+        rt = new Date() - rtStartTime;
+
+        // stop listening for response keys
+        $(document).unbind('keydown.listenForKeys');
+
+        // code error
+        error = cuedIsError(String(e.which), currentTask, currentStim);
+        
+        // code transition
+        transition = codeTransition(prevTask, currentTask);
+
+        // log data
+        trialStruct.push({
+          'trialCount': trialCount,
+          'rsi': rsi,
+          'stimulus': currentStim,
+          'stimColor': currentTaskColor,
+          'taskCode': currentTask,
+          'responseKey': keyCode[e.which],
+          'transition': transition,
+          'error': error,
+          'rt': rt
+        });
+
+
+        // update prevTask
+        prevTask = currentTaskColor;
+
+        // prepare for next trial
+        if (error) {
+          $('.errorContainer').show();
+
+          setTimeout(function(){
+            if (trialCount == trialThreshold) {
+              endCued();
+            } else {
+              $('.errorContainer').hide();
+              runTrial();
+            }
+          }, errorTimeout)
+        } else {
+          if (trialCount == trialThreshold) {
+            endCued();
+          } else {
+            runTrial();
+          }
+        }
+
+      }
+    });
+
+  }, rsi);
+
+
+}
+
+function endCued() {
+  // store and send cued data and ship to next phase
+  var curDate = new Date();
+  var finishTime = new Date() - experimentStartTime;
+  var curId = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you are on Turk, so I'm guessing you're probably testing." + 
+    " Enter an ID to save your data with:", "id");
+
+  var currentData = {
+    'curId': curId,
+    'workerId': GetWorkerId(),
+    'curTime': curDate.today() + '@' + curDate.timeNow(),
+    'userAgent': navigator.userAgent,
+    'screenWidth': screen.width,
+    'screenHeight': screen.height,
+    'windowWidth': $(window).width(),
+    'windowHeight': $(window).height(),
+    'phase': phase,
+    'blueTask': taskCueCode['blue'],
+    'redTask': taskCueCode['red'],
+    'cuedRunTime': finishTime,
+    'trialStruct': trialStruct
+  }
+
+  sendToServer(curId, currentData);
+}
+
+function sendToServer(curId, currentData) {
+  var dataToServer = {
+    'curId': curId,
+    'experiment': experimentName,
+    'sessionCode': phase,
+    'currentData': JSON.stringify(currentData)
+  };
+
+  var urlArgs = {
+    'workerId': GetWorkerId(),
+    'assignmentId': GetAssignmentId(),
+    'taskCueCode': taskCueCode,
+    'experimentStartTime':  experimentStartTime,
+    'rtPercentiles': {'fiftieth': findPercentile(trialStruct, 50), 'thirtyFifth': findPercentile(trialStruct, 35)}
+  };
+
+  $.post(
+    // relative to this script
+    url = '../../../../cgi-bin/saveData.py',
+    data = dataToServer,
+    success = function(data) {
+      window.location.replace('../pracDecks/?' + $.param(urlArgs));
+    }).fail(function(data){
+      console.log('FAILURE');
+      window.location.replace('../pracDecks/?' + $.param(urlArgs));
+    });
+
+}
+
+
+}); // end documnet.ready()
+
+  </script>
+
+
+</head>
+
+<body>
+
+  <!-- the entire display -->
+  <div class='container'>
+    <!-- the 800 x 600 experiment area -->
+    <div class='screen'>
+
+      <!-- BEGIN TITLE SLIDE -->
+      <div id='titleSlide'>
+        <div class='titleBar'>
+          <h2>Welcome to the HIT.</h2>
+          <p>You will be making simple responses to prompts on the screen. The whole HIT should last for about 30 mins, but exact time will depend on performance.</p>
+        </div>
+
+        <div class='leftTwoThirds'>
+          <p>This HIT is divided into five segments. You'll receive instructions before each segment. Watch the video below to receive instructions for the next segment. When you are ready, press the "See Controls" button on the right to see your controls before beginning this next segment.</p>
+          <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
+
+
+          <video id = 'tutorial' width = "410" height = "190" controls>
+            <source src = "../placeholder.mp4" type = "video/mp4">
+          </video>
+        </div>
+
+        <div class='rightOneThirdsDown'>
+          <button id='detail' class='experimentButton center smallButton'>See Text Instructions</button>
+          <button id='seeKeys' class='experimentButton center'>See Controls</button>
+        </div>
+      </div> <!-- end title slide -->
+
+
+    <!-- BEGIN DETAIL SLIDE -->
+    <div id='detailSlide'>
+      <p>Placeholder.</p>
+      <button class='experimentButton resetTitle'>Go Back</button>
+    </div> <!-- end detail slide -->
+
+    <!-- KEY REMIND SLIDE -->
+    <div id='keyRemindSlide'>
+      <div class='titleBar'>
+      </div>
+
+      <div class='leftTwoThirds'>
+        <p>Blah blah blah keys and what naht.</p>
+      </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='resetTitle experimentButton smallButton center'>Go Back</button>
+        <button id='startCued' class='experimentButton center'>Begin Segment</button>
+      </div>
+    </div> <!-- end key remind slide -->
+
+    <!-- STIMULUS SLIDE -->
+    <!-- a centered column div serving as the parent flex-box -->
+    <div class='stimSlide'>
+      <!-- html filled from js -->
+      <div class='keyContainer'>
+      </div>
+
+      <div class='errorContainer'>
+        <p><strong>ERROR!</strong></p>
+      </div>
+
+      <div class='stimContainer'>
+      </div>
+    </div> <!-- end stimWrapper -->
+
+
+
+    </div> <!-- end screen -->
+  </div> <!-- end container-->
+
+</body>
+
+</html>
