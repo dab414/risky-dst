@@ -46,7 +46,7 @@ $(document).ready(function(){
     	'curId': curId,
     	'workerId': GetWorkerId(),
     	'curTime': curDate.today() + '@' + curDate.timeNow(),
-    	'totalTime_mins': (Date.now() - experimentStartTime) / 1000 / 60,
+    	'totalTime_mins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
       'screen_width': screen.width,
       'screen_height': screen.height,
       'window_width': $(window).width(),

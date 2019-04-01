@@ -29,6 +29,7 @@ var pointThreshold = 200;
 var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? codeTaskCue() : urlArgsToVar('taskCueCode');
 var clientCueCode = cueForClient(taskCueCode);
 var experimentStartTime = urlArgsToVar('experimentStartTime');
+var phaseStartTime = Date.now();
 // THE VALUES COME IN AS STRINGS (for now)
 var rtPercentiles = urlArgsToVar('rtPercentiles');
 rtPercentiles['fiftieth'] = parseInt(rtPercentiles['fiftieth']);
@@ -393,6 +394,8 @@ function saveTrialData() {
     'block': blockCount,
     'trial': trialCount,
     'responseCount': responseCount,
+    'experimentRunTimeMins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
+    'phaseRunTimeMins': Math.round((Date.now() - phaseStartTime) / 1000 / 60),
     'rsi': rsi,
     'rtThreshold': rtThreshold,
     'stimulus': currentStim,
