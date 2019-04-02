@@ -1,0 +1,37 @@
+---
+title: "Pilot Instructions"
+author: "Dave Braun"
+date: "April 1, 2019"
+output: pdf_document
+urlcolor: blue
+---
+
+Thanks for piloting my dissertation experiment. This is a really important step for me in helping to make sure that I'm getting things right, so I appreciate it. I'm hoping it should take you around 30 mins, but the exact runtime is something I'm hoping to get a better handle on through piloting.
+
+## How to Perform the Experiment
+
+### Basic Concepts
+You'll need to create an MTurk Worker account (those of you who already piloted my last study might already have one). MTurk is basically a marketplace for labor run by Amazon. There are *requesters* who post what are called Human Intelligence Tasks (HITS, i.e., experiments), and there are workers who get paid to perform the HITs. In this scenario, I'm the requester and you're the worker, except, sadly, you won't be earning any money. You will be paid in a healthy amount of gratitude, however.
+
+### What to do
+
+* Create or log in to a worker account by going [here](http://workersandbox.mturk.com/) 
+
+* I'm a little unsure about this next part, you either will need to 
+    * Click on [this link](https://workersandbox.mturk.com/projects/3V7AFCJQID7RGGH0AW6IFW1FTRX4A9/tasks)
+    * Or, if that link doesn't take you to the experiment, navigate to the "HIT Groups" page and search for my name. That should reveal only one experiment creatively entitled "A Decision Making Experiment."  
+* Complete the experiment  
+    * It should be self explanatory, and I would welcome your feedback as to whether the instructions were clear or whether there was anything you didn't understand.  
+    * When you get to the end, you will be asked to fill out a short survey. Please put the following information in the "Comments" section:  
+        * Name (technically you don't have to do this if you're not comfortable with it, but it would help me know who to ask if I see something strange in one person's data)  
+        * Were there any bugs or technical issues?  
+        * Was there anything about the instructions that could have been more clear?
+    
+If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email me and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches, otherwise I'll lose lots of \$\$\$\$\$\$\$\$\$\$\$\$.
+
+Let me know if you have trouble getting to the experiment. I'll also be curious to know whether that link works. Let me know if you have any general questions or concerns.  
+
+Good luck with the end of your semesters!  
+
+Best,  
+Dave

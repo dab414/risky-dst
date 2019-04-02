@@ -35,8 +35,8 @@ def PostHits():
   #qualifications.add(mtqu.Requirement("2Z046OQ1SNQQREGXAFSQPCNR1605PN"))
 
   theHIT = mtc.create_hit(question=q,
-                          lifetime=7 * 24 * 60 * 60, # days, hours, mins, seconds
-                          max_assignments=10,
+                          lifetime=14 * 24 * 60 * 60, # days, hours, mins, seconds
+                          max_assignments=20,
                           title=title,
                           description=description,
                           keywords=keywords,

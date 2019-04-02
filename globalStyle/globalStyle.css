@@ -58,7 +58,7 @@ body h1, body h2, body h3, body p {
 
 /* div containing welcome title */
 .titleBar {
-  height: 120px;
+  height: 100px;
   width: 100%;
 }
 
@@ -66,7 +66,7 @@ body h1, body h2, body h3, body p {
 .leftTwoThirds {
   float: left;
   width: 66.66667%;
-  height: 80%;
+  height: 700px;
   padding: 20px;
 }
 
