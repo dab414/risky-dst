@@ -1,12 +1,12 @@
 ---
 title: "Pilot Instructions"
 author: "Dave Braun"
-date: "April 1, 2019"
+date: "April 2, 2019"
 output: pdf_document
 urlcolor: blue
 ---
 
-Thanks for piloting my dissertation experiment. This is a really important step for me in helping to make sure that I'm getting things right, so I appreciate it. I'm hoping it should take you around 30 mins, but the exact runtime is something I'm hoping to get a better handle on through piloting.
+Thanks for piloting my dissertation experiment. This is a really important step for me in helping to make sure that I'm getting things right, so I appreciate it. 
 
 ## How to Perform the Experiment
 
@@ -19,19 +19,23 @@ You'll need to create an MTurk Worker account (those of you who already piloted 
 
 * I'm a little unsure about this next part, you either will need to 
     * Click on [this link](https://workersandbox.mturk.com/projects/3V7AFCJQID7RGGH0AW6IFW1FTRX4A9/tasks)
-    * Or, if that link doesn't take you to the experiment, navigate to the "HIT Groups" page and search for my name. That should reveal only one experiment creatively entitled "A Decision Making Experiment."  
+    * Or, if that link doesn't take you to the experiment, navigate to the "HIT Groups" page and search for my name, "David Braun". That should reveal only one experiment creatively entitled "A Decision Making Experiment."  
 * Complete the experiment  
     * It should be self explanatory, and I would welcome your feedback as to whether the instructions were clear or whether there was anything you didn't understand.  
     * When you get to the end, you will be asked to fill out a short survey. Please put the following information in the "Comments" section:  
         * Name (technically you don't have to do this if you're not comfortable with it, but it would help me know who to ask if I see something strange in one person's data)  
         * Were there any bugs or technical issues?  
         * Was there anything about the instructions that could have been more clear?
+        
+### Other notes
     
-If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email me and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches, otherwise I'll lose lots of \$\$\$\$\$\$\$\$\$\$\$\$.
+* If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email me and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches, otherwise I'll lose lots of \$\$\$\$\$\$\$\$\$\$\$\$.  
+* I'm trying to keep the run time close to 30 minutes. However, I can't guarantee that the experiment will be exactly 30 minutes for *you*--experiment run time is one of the things that I'm hoping to figure out through this piloting.  
+* I've only done video instructions so far (which is all you should need). So, if you were to click for text instructions, all you'll see is "Placeholder". I'm aware of this, so you don't need to let me know.
 
-Let me know if you have trouble getting to the experiment. I'll also be curious to know whether that link works. Let me know if you have any general questions or concerns.  
+Let me know if you have trouble getting to the experiment. I'll also be curious to know whether that link works.  
 
-Good luck with the end of your semesters!  
+Let me know if you have any general questions or concerns. Good luck with the end of your semesters!  
 
 Best,  
 Dave

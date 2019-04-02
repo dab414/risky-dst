@@ -23,7 +23,7 @@ $(document).ready(function(){
 // GLOBAL VARS
 // thresholds
 var blockThreshold = 3;
-var pointThreshold = 200;
+var pointThreshold = 3000;
 
 // parse url args
 var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? codeTaskCue() : urlArgsToVar('taskCueCode');
@@ -110,7 +110,7 @@ function blockTransition() {
   var feedback = '';
 
   if (blockCount == 1){
-    additionalInstructions = '<p>From this point on, segments of the HIT are broken up into groups. Each group lasts until you have reached ' + String(pointThreshold) + ' points. The points you currently have and the amount of points you need in order to finish the group will be displayed on the screen while you\'re performing the group.</p><br>'
+    additionalInstructions = '<p>From this point on, phases of the HIT are broken up into groups. Each group lasts until you have reached ' + String(pointThreshold) + ' points. The points you currently have and the amount of points you need in order to finish the group will be displayed on the screen while you\'re performing the group.</p><br>'
   } else {
     
     blockStruct.push({
@@ -131,7 +131,7 @@ function blockTransition() {
   $('#' + chosenDeckLocation + 'Card').removeClass('cardShow').addClass('cardHidden');
   
   if (blockCount <= blockThreshold) {
-    $('#blockInstructions').html(additionalInstructions + feedback + '<p>You are in Segment 4 of the HIT and are about to perform Group ' + String(blockCount) + ' of ' + String(blockThreshold) + '. Please press "Continue" when you are ready to start this group.</p>');
+    $('#blockInstructions').html(additionalInstructions + feedback + '<p>You are in Phase 4 of the HIT and are about to perform Group ' + String(blockCount) + ' of ' + String(blockThreshold) + '. Please press "Continue" when you are ready to start this group.</p>');
     $('#blockTransitionSlide').show();
     $('#startBlock').unbind().click(function(){
       blockTime = new Date();
@@ -518,7 +518,7 @@ function sendToServer(curId, currentData) {
 
       <div class='rightOneThirdsDown'>
         <button class='resetTitle experimentButton smallButton center'>Go Back</button>
-        <button id='startSegment' class='experimentButton center'>Begin Segment</button>
+        <button id='startSegment' class='experimentButton center'>Begin Phase</button>
       </div>
     </div> <!-- end key remind slide -->
 

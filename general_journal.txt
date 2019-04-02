@@ -2,6 +2,10 @@
   things left to do:
     transcribe instructions
     set thresholds
+    make some indication about introducing S as a decision key in the last phase
+    i only wrote in runtime for the first phase
+    watch: if you skip right to twoChoice, the high-demand points is NaN
+      might want to program in a default here in case calibration fails for any reason
 
 3/31/2019
   things left to do:
