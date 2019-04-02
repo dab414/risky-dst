@@ -63,8 +63,12 @@ var phaseStartTime = new Date();
 
 var vid = document.getElementById('tutorial');
 
+// serve client facing controls string
+var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
 // set initial state
 $('#detailSlide').hide();
+$('#controlsFill').html(controlsString);
 $('#keyRemindSlide').hide();
 $('.expSlide').hide();
 $('#blockTransitionSlide').hide();
@@ -95,7 +99,7 @@ $('#startSegment').click(function(){
 function startSegment() {
   $('#keyRemindSlide').hide();
 
-  $('#keyToggle').html('<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>');
+  $('#keyToggle').html(controlsString);
   $('#keyToggle').hide();
   $('.card').addClass('cardHidden');
   
@@ -159,8 +163,6 @@ function runTrial() {
   // update count
   trialCount += 1;
 
-  console.log(trialStruct);
-
   //control display
   $('.bottomHalf').hide();
   $('.cardStim').hide();
@@ -175,12 +177,9 @@ function runTrial() {
 
   // get the condition
   condition = getCondition('twoChoice');
-  console.log('condition: ' + condition);
 
   // determine deck attributes (switch levels and location)
   deckCode = getDeckCode(2, 'twoChoice', condition, highRewardPoints);
-
-  console.log(deckCode);
 
   // update deck attributes
   $('#leftDeckSwitch').html('<p>' + Math.round(deckCode['left']['pSwitch'] * 100) + '%</p>');
@@ -264,7 +263,6 @@ function cuedTrial() {
   error = 0;
   timeout = 0;
 
-  console.log('trial loop is running');
 
   // initialize cued stimulus, control cued rsi
   setTimeout(function(){
@@ -416,8 +414,6 @@ function saveTrialData() {
 }
 
 function endSegment() {
-  
-  console.log(blockStruct);
 
   var curDate = new Date();
   var finishTime = new Date() - phaseStartTime;
@@ -489,17 +485,17 @@ function sendToServer(curId, currentData) {
     <!-- BEGIN TITLE SLIDE -->
       <div id='titleSlide'>
         <div class='titleBar'>
-          <h2>Welcome to the third segment.</h2>
-          <p>You will now be introduced to the reward system.</p>
+          <h2>Welcome to the fourth phase.</h2>
+          <p>You are now ready to begin the main experiment.</p>
         </div>
 
         <div class='leftTwoThirds'>
-          <p>Now that you are familiar with how to choose between decks, we'll add reward to the decks. The goal is to earn a set amount of points as quickly as possible, and different decks will give you different amounts of points. Watch the video for full instructions.</p>
+          <p>That is it for the practice. Watch the video to get some basics about how the rest of the experiment will run.</p>
           <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
 
 
-          <video id = 'tutorial' width = "410" height = "190" controls>
-            <source src = "../placeholder.mp4" type = "video/mp4">
+          <video id = 'tutorial' width = "460" height = "240" controls>
+            <source src = "twoChoiceTutorial.mp4" type = "video/mp4">
           </video>
         </div>
 
@@ -532,10 +528,10 @@ function sendToServer(curId, currentData) {
     <!-- KEY REMIND SLIDE -->
     <div id='keyRemindSlide'>
       <div class='titleBar'>
+        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
       </div>
 
-      <div class='leftTwoThirds'>
-        <p>Blah blah blah keys and what naht.</p>
+      <div class='leftTwoThirds' id='controlsFill'>
       </div>
 
       <div class='rightOneThirdsDown'>

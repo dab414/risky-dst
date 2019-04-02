@@ -27,7 +27,6 @@ var rtPercentiles = urlArgsToVar('rtPercentiles');
 rtPercentiles['fiftieth'] = parseInt(rtPercentiles['fiftieth'])
 rtPercentiles['thirtyFifth'] = parseInt(rtPercentiles['thirtyFifth'])
 
-console.log(['experiment start time: ', experimentStartTime]);
 
 // other global vars
 var trialCount = 0;
@@ -53,8 +52,12 @@ var pointCalibration = {
 
 var vid = document.getElementById('tutorial');
 
+// serve client facing controls string
+var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
 // set initial state
 $('#detailSlide').hide();
+$('#controlsFill').html(controlsString);
 $('#keyRemindSlide').hide();
 $('.expSlide').hide();
 
@@ -84,7 +87,7 @@ $('#startSegment').click(function(){
 function startSegment() {
   $('#keyRemindSlide').hide();
 
-  $('#keyToggle').html('<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>');
+  $('#keyToggle').html(controlsString);
   $('#keyToggle').hide();
   $('.card').addClass('cardHidden');
   $('.expSlide').show();
@@ -167,8 +170,6 @@ function runTrial() {
 
 function cuedTrial() {
 
-  console.log([deckCode, chosenDeckLocation]);
-
   // generate stimulus
   currentTaskColor = generateTransition(deckCode[chosenDeckLocation]['pSwitch'], prevTaskColor);
   currentStim = generateCuedStim();
@@ -205,8 +206,6 @@ function cuedTrial() {
       responseCount += 1;
       prevTaskColor = currentTaskColor;
       pointCalibration['prevDeckDifficulty'] = deckCode[chosenDeckLocation]['id'];
-      console.log('from main script');
-      console.log([pointCalibration, deckCode, chosenDeckLocation]);
 
       // prepare for next trial
       setTimeout(function(){
@@ -245,8 +244,6 @@ function cuedTrial() {
         prevTaskColor = currentTaskColor;
         // update previous task difficulty
         pointCalibration['prevDeckDifficulty'] = deckCode[chosenDeckLocation]['id'];
-        console.log('from main script');
-        console.log([pointCalibration, deckCode, chosenDeckLocation]);
 
         // start error sequence
         if (error) {
@@ -260,7 +257,6 @@ function cuedTrial() {
               if (responseCount == 2) {
                 runTrial();
               } else {
-                console.log('Error sequence is running');
                 cuedTrial();
               }
             } else {
@@ -302,7 +298,6 @@ function cuedTrial() {
 } // end cuedTrial()
 
 function endSegment() {
-  console.log('ayy we done mf lmao');
   urlArgs = {
     'workerId': GetWorkerId(),
     'assignmentId': GetAssignmentId(),
@@ -331,7 +326,7 @@ function endSegment() {
     <!-- BEGIN TITLE SLIDE -->
       <div id='titleSlide'>
         <div class='titleBar'>
-          <h2>Welcome to the third segment.</h2>
+          <h2>Welcome to the third phase.</h2>
           <p>You will now be introduced to the reward system.</p>
         </div>
 
@@ -340,8 +335,8 @@ function endSegment() {
           <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
 
 
-          <video id = 'tutorial' width = "410" height = "190" controls>
-            <source src = "../placeholder.mp4" type = "video/mp4">
+          <video id = 'tutorial' width = "460" height = "240" controls>
+            <source src = "calibrationTutorial.mp4" type = "video/mp4">
           </video>
         </div>
 
@@ -361,10 +356,10 @@ function endSegment() {
     <!-- KEY REMIND SLIDE -->
     <div id='keyRemindSlide'>
       <div class='titleBar'>
+        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
       </div>
 
-      <div class='leftTwoThirds'>
-        <p>Blah blah blah keys and what naht.</p>
+      <div class='leftTwoThirds' id='controlsFill'>
       </div>
 
       <div class='rightOneThirdsDown'>

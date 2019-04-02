@@ -239,9 +239,6 @@ function getChosenDeckLocation(key, phase){
   // determine chosen deck location
   var chosenDeckLocation = '';
 
-  console.log('from inside getChosenDeckLocation()');
-  console.log(phase);
-
   if (phase == 'twoChoice') {
     if (key == 68){
       chosenDeckLocation = 'left';

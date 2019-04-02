@@ -24,12 +24,8 @@ function findPercentile(trialArray, percentile){
 	// sort in ascending order
 	rtDist = rtDist.sort(function(x, y){return x-y});
 
-	console.log(rtDist);
-
 	// find position 
 	var position = (percentile / 100) * nTrials;
-
-	console.log(position);
 
 	// control for whether position is a whole number
 	if (position % 1) {
@@ -95,7 +91,6 @@ function calibrateDeckPoints(deckCode, pointCalibration, trialCount){
 		// pointCalibration, keys: ['lowRewardPoints', 'highRewardPoints', 'currentAdjustment', 'prevDeckDifficulty']
 	// updates both dicts as a return
 
-	console.log('from inside calibrateDeckPoints()');
 
 	if (trialCount != 1) {
 		if (pointCalibration['prevDeckDifficulty'] == 'hard') {
@@ -110,9 +105,6 @@ function calibrateDeckPoints(deckCode, pointCalibration, trialCount){
 
 	deckCode['left']['points'] = deckCode['left']['id'] == 'hard'? pointCalibration['highRewardPoints'] : pointCalibration['lowRewardPoints'];
 	deckCode['right']['points'] = deckCode['right']['id'] == 'hard'? pointCalibration['highRewardPoints'] : pointCalibration['lowRewardPoints'];
-
-	console.log('after adjustments:');
-	console.log([deckCode, pointCalibration]);
 
 	return [deckCode, pointCalibration];
 
@@ -209,9 +201,6 @@ function getDeckCode(nDecks, phase, condition, highRewardPoints) {
     deckTwo['points'] = Math.floor(Math.random() * highRewardPoints);
     deckThree['points'] = Math.floor(Math.random() * highRewardPoints);
   }
-
-  console.log('From inside getDeckCode()');
-  console.log([deckOne, deckTwo, deckThree]);
 
   deckCode = getDeckLocation(deckOne, deckTwo, deckThree, nDecks);
 

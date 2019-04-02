@@ -39,9 +39,13 @@ var trialThreshold = 16;
 var rtThreshold = rtPercentiles['fiftieth'];
 var deckCode = {};
 
+// control string to serve to client
+var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
 // set initial state
 $('#titleSlide').show();
 $('#detailSlide').hide();
+$('#controlsFill').html(controlsString);
 $('#keyRemindSlide').hide();
 $('.expSlide').hide();
 
@@ -74,7 +78,7 @@ function startSegment(){
   // control display
   $('#keyRemindSlide').hide();
 
-  $('#keyToggle').html('<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>');
+  $('#keyToggle').html(controlsString);
   $('#keyToggle').hide();
   $('.card').addClass('cardHidden');
   $('.expSlide').show();
@@ -173,7 +177,6 @@ function cuedTrial() {
 
     // rt window kicks once the rtThreshold is hit
     rtWindow = setTimeout(function(){
-      console.log('timeout is running');
       // stop listening for keys
       $(document).unbind('keydown.listenForResponseKeys');
       
@@ -206,10 +209,8 @@ function cuedTrial() {
 
 
     $(document).bind('keydown.listenForResponseKeys', function(i){
-      console.log('keydown is running');
       // rt window
 
-      console.log(i.which);
       if ($.inArray(i.which, [74, 75]) + 1) {
         // stop listening for keys
         $(document).unbind('keydown.listenForResponseKeys');
@@ -224,7 +225,6 @@ function cuedTrial() {
         // update response count
         responseCount += 1
 
-        console.log([error, transition, prevTaskColor, responseCount]);
         // start error sequence
         if (error) {
           // fill and display feedback
@@ -237,7 +237,6 @@ function cuedTrial() {
 	            if (responseCount == 2) {
 	              runTrial();
 	            } else {
-	              console.log('Error sequence is running');
 	              cuedTrial();
 	            }
           	} else {
@@ -278,7 +277,6 @@ function cuedTrial() {
 } // end cuedTrial()
 
 function endSegment() {
-  console.log('ayy we done mf lmao');
   
   urlArgs = {
     'workerId': GetWorkerId(),
@@ -309,7 +307,7 @@ function endSegment() {
       <!-- BEGIN TITLE SLIDE -->
       <div id='titleSlide'>
         <div class='titleBar'>
-          <h2>Welcome to the second segment.</h2>
+          <h2>Welcome to the second phase.</h2>
           <p>You will now be introduced to the choice portion of the HIT.</p>
         </div>
 
@@ -339,10 +337,10 @@ function endSegment() {
     <!-- KEY REMIND SLIDE -->
     <div id='keyRemindSlide'>
       <div class='titleBar'>
+        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
       </div>
 
-      <div class='leftTwoThirds'>
-        <p>Blah blah blah keys and what naht.</p>
+      <div class='leftTwoThirds' id='controlsFill'>
       </div>
 
       <div class='rightOneThirdsDown'>

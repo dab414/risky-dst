@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang = 'en'>
 <head>
   <meta charset='UTF-8' />
@@ -38,12 +38,16 @@ $(document).ready(function(){
   var rsi = 500;
   var errorTimeout = 500;
 
+  // string for serving client key reminders
+  var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
   // save an init
   registerId(experimentName);
 
   // control flow of first few clicks
   $('#titleSlide').show();
   $('#detailSlide').hide();
+  $('#controlsFill').html(controlsString);
   $('#keyRemindSlide').hide();
   $('.stimSlide').hide();
 
@@ -78,7 +82,7 @@ function startCued() {
   // set initial state
 
   $('#keyRemindSlide').hide();
-  $('.keyContainer').html('<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>');
+  $('.keyContainer').html(controlsString);
   $('.keyContainer').hide();
   $('.errorContainer').hide();
   $('.stimSlide').show();
@@ -261,7 +265,7 @@ function sendToServer(curId, currentData) {
         </div>
 
         <div class='leftTwoThirds'>
-          <p>This HIT is divided into five segments. You'll receive instructions before each segment. Watch the video below to receive instructions for the next segment <i class='small'>(Runtime: 2 min 23 sec)</i>. When you are ready, press the "See Controls" button on the right to see your controls before beginning this next segment.</p>
+          <p>This HIT is divided into five phases. You'll receive instructions before each phase. Watch the video below to receive instructions for the next phase <i class='small'>(Runtime: 2 min 23 sec)</i>. When you are ready, press the "See Controls" button on the right to see your controls before beginning this next phase.</p>
           <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
 
 
@@ -286,10 +290,10 @@ function sendToServer(curId, currentData) {
     <!-- KEY REMIND SLIDE -->
     <div id='keyRemindSlide'>
       <div class='titleBar'>
+        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
       </div>
 
-      <div class='leftTwoThirds'>
-        <p>Blah blah blah keys and what naht.</p>
+      <div class='leftTwoThirds' id='controlsFill'>
       </div>
 
       <div class='rightOneThirdsDown'>
