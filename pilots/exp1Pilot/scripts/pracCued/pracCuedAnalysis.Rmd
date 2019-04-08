@@ -1,0 +1,128 @@
+---
+title: "Phase 1: Practice Cued Task Switching"
+author: "Dave Braun"
+date: "April 8, 2019"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+This document is dedicated to descriptive analysis of the cued task switching phase from Experiment 1.  
+These are pilot data from RAs in the lab collected during the week of 4/1/2019.  
+The main goal here is really just to make sure variables in the data look like they're being coded correctly.
+
+```{r include=FALSE}
+library(tidyverse)
+library(DT)
+library(data.table)
+```
+
+```{r}
+d <- read.csv('../../data/pracCued.csv')
+datatable(d, filter = 'top', options = list(pageLength = 5, dom = 't', scrollX = TRUE, scrollCollapse = TRUE, autoWidth = TRUE))
+```
+
+## Variable Coding
+A breakdown of some of the important variables:  
+*Right away, I'm noticing `transition` was coded incorrectly.. But it's easy enough to figure out with `taskCode`, and `transition` looks fine in the other two data files.*  
+
+* `rt` Response time (ms) 
+* `taskCode` The task that the participant was cued to respond to
+* `stimulus` The actual digit stimulus that appeared on the screen
+* `error` Was an error committed? {0 = no, 1 = yes}
+* `runTimeMins` The beginning of the phase subtracted from the time stamp on each trial (converted to mins)  
+    * So this includes time spent watching the instructional video
+* `responseKey` The actual key that was pressed
+
+
+## Error Rate and Response Time Distribution
+Let's check the error rate first to make sure things look reasonable.
+
+```{r}
+## forgot that i need to code subject id by hand (from workerId)
+d <- d %>% 
+  group_by(workerId) %>% 
+  summarize(n()) %>% 
+  mutate(subject = 1:nrow(.)) %>% 
+  inner_join(d, by = 'workerId')
+```
+
+
+```{r}
+d %>% 
+  group_by(subject) %>% 
+  summarize(error = mean(error)) %>% 
+  ggplot(aes(x = reorder(subject, error) , y = error)) + geom_bar(stat='identity') + coord_flip() + 
+  xlab('Subject') + ylab('Mean Error Rate')
+```
+
+Error rates are very low overall. 
+
+```{r}
+d$subject <- as.factor(d$subject)
+d %>% 
+  ggplot(aes(x = rt, group = subject)) + geom_density(aes(fill = subject), alpha = .3) + 
+  xlab('Response Time (ms)') +
+  theme_bw() + 
+  labs(caption = 'Colors map on to different subjects') + 
+  theme(legend.position = 'none',
+        axis.title.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank())
+```
+
+These distibutions look very acceptable, good job, RAs.
+
+
+
+## Switch Cost
+The last thing we can really look for in these data is evidence of the switch cost. I'll break it down by subject since there are only five.
+
+```{r}
+d %>% 
+  ## coding a correct transition variable
+  mutate(transition = ifelse(taskCode == shift(taskCode), 'repeat', 'switch')) %>% 
+  filter(error == 0, transition != 'startBlock') %>% 
+  group_by(subject, transition) %>% 
+  summarize(rTime = mean(rt), sd = sd(rt)) %>% 
+  ggplot(aes(x = transition, y = rTime)) + 
+  geom_bar(stat = 'identity') + 
+  geom_errorbar(aes(ymin = rTime - sd, ymax = rTime + sd)) + 
+  labs(caption = 'Bars reflect standard deviations') + 
+  xlab('Transition') +
+  ylab('Response Time (ms)') + 
+  theme_bw() + 
+  facet_wrap(~subject)
+
+d %>% 
+  ## coding a correct transition variable
+  mutate(transition = ifelse(taskCode == shift(taskCode), 'repeat', 'switch')) %>% 
+  filter(error == 0, transition != 'startBlock') %>% 
+  ggplot(aes(x = transition, y = rt)) + 
+  geom_boxplot() + 
+  xlab('Transition') +
+  ylab('Response Time (ms)') + 
+  theme_bw() + 
+  facet_wrap(~subject)
+
+```
+
+Looks like switch costs are coming through. The box plot reveals that the large standard deviations in the bar graph are likely driven by RT outliers (> 5000) that I'm not trimming.  
+
+## Final Thoughts
+I'm happy with these data overall. Although, I'll have to go back and see what happened with the coding of that transition variable.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

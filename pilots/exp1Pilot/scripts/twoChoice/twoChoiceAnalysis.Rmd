@@ -1,0 +1,176 @@
+---
+title: 'Phase 2: Two-Option Choice'
+author: "Dave Braun"
+date: "April 8, 2019"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: true
+    
+---
+
+This document is dedicated to descriptive analysis of the cued task switching phase from Experiment 1.
+These are pilot data from RAs in the lab collected during the week of 4/1/2019.
+The main goal here is really just to make sure variables in the data look like they’re being coded correctly.
+
+```{r include=FALSE}
+library(tidyverse)
+library(DT)
+```
+
+```{r}
+d <- read.csv('../../data/twoChoice.csv')
+datatable(d, filter = 'top', options = list(pageLength = 5, dom = 't', scrollX = TRUE, scrollCollapse = TRUE, autoWidth = TRUE))
+```
+
+## Variable Coding
+This is an overview of some of the important variables in the data.  
+
+* `workerId` Unique to each worker--this is what I'll use to make a subject ID.
+* `blockTime` How much time (in seconds) did it take to complete a given block (constant within block)
+* `highRewardPoints` Determined from the calibration phase. This variable codes how many points is the high-reward/high-demand deck anchored at.
+* `cuedRt` The RT for cued responses. Coded as `-999` for timeout trials.
+* `choiceCode` Which deck did they choose? {`filler`: this is always the code on filler trials, `easy`: chose the low-demand deck (on critical trials), `hard`: chose the high-demand deck (on critical trials)}  
+* `condition` In this phase, condition will only take levels: {'decoyAbsent`: critical trials, 'filler': filler trials}
+* `right/leftDeckSwitch` + `right/leftDeckPoints` Attribute levels for the decks
+* `responseCount` Codes whether it's the first or second response within a deck selection
+* `rtThreshold` Between-subject variable. Determined during the practice cued phase. This is the number of milliseconds before the timeout procedure onsets.
+* `experimentRunTime` Time stamp difference between each trial and the beginning of the experiment (to the nearest minute)
+* `chosenDeckLocation` Did they choose right or left deck?
+* `choiceRT` Response time for each cued task response
+* `transition` DV, switch or repeat
+* `timeout` Did they fail to respond in time? {'yes' = 0, 'no' = 1}
+* `error` Did they commit an error? {'yes' = 0, 'no' = 1}
+
+## Performance Data
+Maybe one of the first things to look at is the relative frequency of timeouts and errors, followed by response time distributions for both choice and performance.
+
+### Timeouts and Errors
+
+For each subject, I'll plot the proportion of timeouts, errors, and accurate responses.
+
+```{r}
+## code subject
+d <- d %>% 
+  group_by(workerId) %>% 
+  summarize(dummy = n()) %>% 
+  mutate(subject = 1:nrow(.)) %>% 
+  select(-dummy) %>% 
+  inner_join(d, by = 'workerId')
+
+```
+
+
+
+```{r}
+d %>% 
+  group_by(subject) %>% 
+  summarize(errors = sum(error), timeouts = sum(timeout), n = n()) %>% 
+  mutate(errorsP = errors / n, timeoutsP = timeouts / n, accurateP = 1 - ((errors + timeouts) / n)) %>% 
+  gather(trialCode, proportion, errorsP:accurateP) %>% 
+  ggplot(aes(x = trialCode, y = proportion)) +
+  geom_bar(stat = 'identity') + 
+  facet_wrap(~subject) + 
+  ylim(0,1) + 
+  xlab('Type of Response') + 
+  ylab('Proportion') +
+  scale_x_discrete(labels = c('Accurate', 'Error', 'Timeout')) + 
+  theme_bw() + 
+  labs(caption = 'Facets correspond to different subjects')
+```
+
+We're actually only seeing accuracy rates between 50-75%, which isn't great. Some of the feedback indicated that RAs found this to be very difficult, so this is making me consider relaxing that RT threshold a bit.
+
+### RT Distributions
+
+```{r}
+## first, a breakdown of RT threshold
+d %>% 
+  group_by(subject) %>% 
+  summarize(rtThreshold = max(rtThreshold)) %>% 
+  ggplot(aes(x = reorder(subject, rtThreshold), y = rtThreshold)) +
+  geom_bar(stat = 'identity') +
+  xlab('Subject') + 
+  ylab('Response Time Threshold (ms)') + 
+  theme_bw()
+
+d$subject <- as.factor(d$subject)
+
+## rt distributions by subject by choice / response
+d %>% 
+  select(subject, choiceRt, cuedRt) %>% 
+  filter(cuedRt > 0, choiceRt < 10000) %>% 
+  gather(rtType, rt, choiceRt, cuedRt) %>% 
+  mutate(rtType = recode(rtType, choiceRt = 'Choice RT (ms)', cuedRt = 'Cued RT (ms)')) %>%  
+  ggplot(aes(x = rt, group = subject)) + 
+  geom_density(aes(fill = subject), alpha = .4) + 
+  facet_wrap(~rtType, scales = 'free') + 
+  xlab('Response Time (ms)') + 
+  labs(caption = 'Colors correspond to different subjects') + 
+  theme_bw() +
+  theme(legend.position = 'none',
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+
+**Comment on Plot 1**  
+Hmm, so all subjects but one are receiving the default RT threshold (679 ms)... that's not great, I'll have to look into that. The criteria I have set up for that is to:  
+
+* Calculate percentiles from only trials with < 1000 ms RT  
+* Only use the calculated percentile if:   
+    * There are more than 10 trials in the distribution
+    * The calculated percentile rtThreshold is greater than 350 ms  
+    
+If one or more of these conditions aren't met, the script will resort to the default of 679 ms.  
+
+**Comment on Plot 2**  
+I'm trimming choice RT to be under 10 s for now.  
+
+This seems alright overall. This is the most normal performance RT distribution I've ever seen, thanks to the RT threshold. I'll have to watch the choice RTs, this is where people might just stop working on the task for awhile.
+
+## Choice Data
+I'll have a look at how evenly spread choices are across the low- and high-demand options. These will be only critical trials (ie, no filler trials), and I won't filter by RT or errors / timeouts for now. 
+
+```{r}
+d %>% 
+  filter(responseCount == 1, condition == 'decoyAbsent') %>% 
+  mutate(choiceCodeNum = ifelse(choiceCode == 'easy', 1, ifelse(choiceCode == 'hard', 0, NA))) %>% 
+  group_by(subject, choiceCode) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = choiceCode, y = count)) +
+  geom_bar(stat = 'identity') + 
+  facet_wrap(~subject) +
+  xlab('Chosen Deck Effort Demand') + 
+  ylab('Number of Choices') + 
+  labs(caption = 'Facets correspond to different subjects') + 
+  theme_bw() 
+```
+
+Only two subjects really chose between the decks somewhat evenly. There also seem to be some differences in the baseline number of critical trials each subject is getting. I'm guessing this is just a result of the fact that condtion counts are randomly generated.
+
+
+## Final Thoughts
+
+There's obviously much more to be analyzed here, but--as far as data integrity--it appears that things are coded correctly. I'm a little concerned about the RT threshold coding. I'll have to check that out. And I'll err toward relaxing the threshold, as it seems that it's set at a pretty difficult level right now.  
+
+It's also somewhat concerning that only 2 out of the 5 subjects here are switching between the easy and hard decks. I'm aware that this is going to be the difficult part--a 2:3 ratio of balanced choices to not balanced is a little lower than I would've liked. Two out of the three subjects who didn't switch decks are sticking with the hard one, which strikes me as surprising if people are claiming that this task is too difficult. I'll have to think more about this.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
