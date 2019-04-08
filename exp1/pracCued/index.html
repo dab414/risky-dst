@@ -8,7 +8,7 @@
   <link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=4'>
   <script src='../js/exp1Functions.js?v=1'></script>
-  <script src='../../globalJs/globalFunctions.js?v=4'></script>
+  <script src='../../globalJs/globalFunctions.js?v=5'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
 
   <script>
@@ -231,7 +231,7 @@ function sendToServer(curId, currentData) {
 
   $.post(
     // relative to this script
-    url = '../../../../cgi-bin/saveData.py',
+    url = '../../../../../cgi-bin/saveData.py',
     data = dataToServer,
     success = function(data) {
       window.location.replace('../pracDecks/?' + $.param(urlArgs));

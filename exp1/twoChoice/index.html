@@ -9,7 +9,7 @@
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=2'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
   <script src='../js/exp1Functions.js?v=2'></script>
-  <script src='../../globalJs/globalFunctions.js?v=1'></script>
+  <script src='../../globalJs/globalFunctions.js?v=2'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
   <script src='../../globalJs/jquery-bbq.js'></script>
 
@@ -458,7 +458,7 @@ function sendToServer(curId, currentData) {
   };
 
   $.post(
-    url = '../../../../cgi-bin/saveData.py',
+    url = '../../../../../cgi-bin/saveData.py',
     data = dataToServer,
     success = function(data) {
       window.location.replace('../threeChoice/?' + $.param(urlArgs));

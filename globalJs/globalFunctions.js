@@ -277,7 +277,7 @@ function registerId(experiment){
   }
 
   $.post(
-    url = '../../../../cgi-bin/saveData.py',
+    url = '../../../../../cgi-bin/saveData.py',
     data = dataToServer
     )
 }
