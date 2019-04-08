@@ -43,12 +43,10 @@ This is an overview of some of the important variables in the data.
 * `timeout` Did they fail to respond in time? {'yes' = 0, 'no' = 1}
 * `error` Did they commit an error? {'yes' = 0, 'no' = 1}
 
-## Performance Data
-Maybe one of the first things to look at is the relative frequency of timeouts and errors, followed by response time distributions for both choice and performance.
+## Basic Data Check
+This section is for doing basic checks to make sure the paradigm is running as expected.  
 
-### Timeouts and Errors
-
-For each subject, I'll plot the proportion of timeouts, errors, and accurate responses.
+*4/8* Eventually, I'll want to really dive into this. For now, I'm just making sure the conditions are working correctly. There should be a roughly equal number of two conditions in this phase: filler and decoyAbsent. The script generates condition on each trial as if it were flipping a coin, so they won't be exactly equal, but they should be close.
 
 ```{r}
 ## code subject
@@ -59,8 +57,26 @@ d <- d %>%
   select(-dummy) %>% 
   inner_join(d, by = 'workerId')
 
-```
 
+d %>% 
+  group_by(subject, condition) %>% 
+  summarize(count = n()) %>% 
+  ggplot(aes(x = condition, y = count)) +
+  geom_bar(stat = 'identity') +
+  facet_wrap(~subject) + 
+  xlab('Condition') +
+  ylab('Frequency') +
+  labs(caption = 'Facets correspond to different subjects') +
+  theme_bw()
+```
+Looks like the script is behaving as indended. This also reveals the between-subject differences in overall trial count.
+
+## Performance Data
+Maybe one of the first things to look at is the relative frequency of timeouts and errors, followed by response time distributions for both choice and performance.
+
+### Timeouts and Errors
+
+For each subject, I'll plot the proportion of timeouts, errors, and accurate responses.
 
 
 ```{r}
