@@ -1,5 +1,5 @@
 ---
-title: 'Phase 2: Two-Option Choice'
+title: 'Phase 4: Two-Option Choice'
 author: "Dave Braun"
 date: "April 8, 2019"
 output: 
