@@ -5,11 +5,11 @@ This repository contains the source code for my dissertation experiments to be r
 
 ## Pilot Data  
 
-* [Pilot Data Summary](http://davebraun.org/dissertation/experiments/pilots/scripts/dissertationPilot_1-23.html)
+* [Pilot Data Summary](http://davebraun.org/dissertation/experiments/production/pilots/scripts/dissertationPilot_1-23.html)
 
 ## Experiment 1
 
-The experiment is hosted at https://davebraun.org/dissertation/experiments/exp1  
+The experiment is hosted at https://davebraun.org/dissertation/experiments/production/exp1  
 
 Experiment 1 is broken down into five phases:  
 
