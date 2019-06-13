@@ -11,13 +11,10 @@ This repository contains the source code for my dissertation experiments to be r
 
 The experiment is hosted at https://davebraun.org/dissertation/experiments/production/exp1  
 
-Experiment 1 is broken down into five phases:  
+Experiment 1 is broken down into two phases:  
 
 * [Practice Cued Task Switching](exp1/pracCued/index.html)  
-* [Practice Deck Selections](exp1/pracDecks/index.html)  
-* [Point Calibration](exp1/calibration/index.html)  
-* [Two-option choice](exp1/twoChoice/index.html)  
-* [Three-option choice](exp1/threeChoice/index.html)  
+* [Demand Selection Task](exp1/dst/index.html)  
 
 The supplementary JavaScript functions for the experiment are separated into two files based on whether they will generalize across all three experiments:  
 
