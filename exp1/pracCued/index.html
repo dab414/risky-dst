@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang = 'en'>
 <head>
   <meta charset='UTF-8' />
@@ -8,7 +8,7 @@
   <link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=4'>
   <script src='../js/exp1Functions.js?v=1'></script>
-  <script src='../../globalJs/globalFunctions.js?v=5'></script>
+  <script src='../../globalJs/globalFunctions.js?v=6'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
 
   <script>
@@ -16,8 +16,8 @@
 $(document).ready(function(){
   // global vars
   var transition = 'startBlock';
-  var taskCueCode = codeTaskCue();
-  var clientCueCode = cueForClient(taskCueCode);
+  var taskCueCode = createTaskCue();
+  var clientCueCode = createClientCueText(taskCueCode);
   var currentTaskColor = '';
   var currentTask = '';
   var error = 0;
@@ -26,7 +26,7 @@ $(document).ready(function(){
   var trialStruct = new Array();
   var rt = 0;
   var keyCode = {74: 'j', 75: 'k'}
-  var prevTask = '';
+  var prevTaskColor = '';
   var experimentName = 'dissertationExperiment1';
   var phase = 'pracCued';
   // experimentStartTime in MS
@@ -34,7 +34,8 @@ $(document).ready(function(){
   var rtStartTime = new Date();
 
   // thresholds & manipulations
-  var trialThreshold = 100;
+  // DEVELOPMENT
+  var trialThreshold = 10;
   var rsi = 500;
   var errorTimeout = 500;
 
@@ -51,7 +52,8 @@ $(document).ready(function(){
   $('#keyRemindSlide').hide();
   $('.stimSlide').hide();
 
-  var vid = document.getElementById('tutorial');
+  // DEVELOPMENT -- update
+  // var vid = document.getElementById('tutorial');
 
   $('#detail').click(function(){
     $('#titleSlide').hide();
@@ -73,8 +75,6 @@ $(document).ready(function(){
 
   $('#startCued').click(function(){
     startCued();
-    /*$('#keyRemindSlide').hide();
-    $('.stimSlide').show();*/
   });
 
 
@@ -95,7 +95,7 @@ function runTrial() {
 
   // generate stimulus
   $('.stimContainer').hide();
-  currentTaskColor = generateTransition(0.5, prevTask);
+  currentTaskColor = generateTransition(0.5, prevTaskColor);
   currentStim = generateCuedStim();
   currentTask = taskCueCode[currentTaskColor];
   $('.stimContainer').html('<p>' + currentStim + '</p>');
@@ -139,7 +139,7 @@ function runTrial() {
         error = cuedIsError(String(e.which), currentTask, currentStim);
         
         // code transition
-        transition = codeTransition(prevTask, currentTask);
+        transition = codeTransition(prevTaskColor, currentTaskColor);
 
         // log data
         trialStruct.push({
@@ -156,8 +156,8 @@ function runTrial() {
         });
 
 
-        // update prevTask
-        prevTask = currentTaskColor;
+        // update prevTaskColor
+        prevTaskColor = currentTaskColor;
 
         // prepare for next trial
         if (error) {
@@ -210,6 +210,7 @@ function endCued() {
     'trialStruct': trialStruct
   }
 
+
   sendToServer(curId, currentData);
 }
 
@@ -225,8 +226,7 @@ function sendToServer(curId, currentData) {
     'workerId': GetWorkerId(),
     'assignmentId': GetAssignmentId(),
     'taskCueCode': taskCueCode,
-    'experimentStartTime':  experimentStartTime,
-    'rtPercentiles': {'fiftieth': findPercentile(trialStruct, 50), 'thirtyFifth': findPercentile(trialStruct, 35)}
+    'experimentStartTime':  experimentStartTime
   };
 
   $.post(
@@ -234,10 +234,10 @@ function sendToServer(curId, currentData) {
     url = '../../../../../cgi-bin/saveData.py',
     data = dataToServer,
     success = function(data) {
-      window.location.replace('../pracDecks/?' + $.param(urlArgs));
+      window.location.replace('../dst/?' + $.param(urlArgs));
     }).fail(function(data){
       console.log('FAILURE');
-      window.location.replace('../pracDecks/?' + $.param(urlArgs));
+      window.location.replace('../dst/?' + $.param(urlArgs));
     });
 
 }
@@ -261,17 +261,17 @@ function sendToServer(curId, currentData) {
       <div id='titleSlide'>
         <div class='titleBar'>
           <h2>Welcome to the HIT.</h2>
-          <p>You will be making simple responses to prompts on the screen. The whole HIT should last for about 30 mins, but exact time will depend on performance.</p>
+          <p>You will be making simple responses to prompts on the screen. The HIT should last for about 30 mins.</p>
         </div>
 
         <div class='leftTwoThirds'>
-          <p>This HIT is divided into five phases. You'll receive instructions before each phase. Watch the video below to receive instructions for the next phase <i class='small'>(Runtime: 2 min 23 sec)</i>. When you are ready, press the "See Controls" button on the right to see your controls before beginning this next phase.</p>
-          <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
+          <p>Instructions pending.</p>
 
-
+          <!-- Need to update
           <video id = 'tutorial' width = "460" height = "240" controls>
             <source src = "pracCuedTutorial.mp4" type = "video/mp4">
           </video>
+        -->
         </div>
 
         <div class='rightOneThirdsDown'>

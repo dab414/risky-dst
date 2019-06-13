@@ -1,0 +1,38 @@
+
+Call:
+lm(formula = rt ~ pSwitchC, data = pilot[pilot$error == 0, ])
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-746.3 -264.1 -111.1  123.5 3716.5 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  832.473      3.265  254.94   <2e-16 ***
+pSwitchC     327.909     10.295   31.85   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 446.7 on 18727 degrees of freedom
+Multiple R-squared:  0.05139,	Adjusted R-squared:  0.05134 
+F-statistic:  1015 on 1 and 18727 DF,  p-value: < 2.2e-16
+
+
+Call:
+lm(formula = error ~ pSwitchC, data = pilot)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.09916 -0.08493 -0.07070 -0.05647  0.94827 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.075446   0.001851  40.763  < 2e-16 ***
+pSwitchC    0.047437   0.005847   8.113  5.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.2634 on 20251 degrees of freedom
+Multiple R-squared:  0.00324,	Adjusted R-squared:  0.003191 
+F-statistic: 65.83 on 1 and 20251 DF,  p-value: 5.201e-16
+

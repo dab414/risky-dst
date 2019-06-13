@@ -1,3 +1,24 @@
+6/13/2019
+  im just adding in the deck background image for now
+  then when dad leaves ill do the video
+
+6/12/2019
+  so this is pretty much ready to go
+  just need to basically copy and paste the demo routine in, but the dst stimulus presentation and data collection seems flawless..
+  i also need to make the instructional video
+    it's actually essential to the manipulation now that Ps watch the video
+    i might wanna think about how to make advancing to the exp contingent on having finished the video..
+
+6/11/2019
+  first time returning since 'the incident'
+  i need to do a lot of refreshing on wtf is going on here
+  the existing exp1 slot needs to be migrated to garbage...
+  then ill develop in that directory
+
+  got up through the block-level procedure of the dst
+    need to really look through that again after i've eaten
+    i think it looks good, but the conditional logic gets tricky...
+
 4/1/2019
   things left to do:
     transcribe instructions

@@ -50,27 +50,18 @@ function generateTransition(pSwitch, prevTaskColor) {
       out = prevTaskColor;
       // otherwise, it's a switch
     } else {
-      if (prevTaskColor == 'blue') {
-        out = 'red';
-      } else {
-        out = 'blue';
-      }
+      out = prevTaskColor == 'blue' ? 'red' : 'blue';
     }
     // otherwise, generate as if a coin flip
   } else {
-      if (Math.random() > .5) {
-        out = 'red';
-      } else {
-        out = 'blue';
-      }
+      out = Math.random() > .5 ? 'red' : 'blue';
   }
-
   return out;
 }
 
 // counterbalance task cue
 
-function codeTaskCue() {
+function createTaskCue() {
   // randomly determines for each subject which color represents which task
 
   var out = {};
@@ -82,6 +73,26 @@ function codeTaskCue() {
   }
   return out;
 }
+
+
+function createClientCueText(taskCueCode) {
+  // takes as input {'blue': 'par', etc}
+  // returns dict with client facing text
+
+  var out = {};
+
+  if (taskCueCode['blue'] == 'par') {
+    out['blue'] = 'Parity';
+    out['red'] = 'Magnitude';
+  } else {
+    out['blue'] = 'Magnitude';
+    out['red'] = 'Parity';
+  }
+
+  return out;
+
+}
+
 
 
 // cued task switching error check
@@ -129,11 +140,7 @@ function codeTransition(prevTaskColor, currentTaskColor) {
   var out = '';
 
   if (prevTaskColor) {
-    if (prevTaskColor == currentTaskColor) {
-      out = 'repeat';
-    } else {
-      out = 'switch';
-    } 
+    out = prevTaskColor == currentTaskColor ? 'repeat' : 'switch';
   } else {
     out = 'startBlock';
   }
@@ -284,21 +291,4 @@ function registerId(experiment){
 
 
 
-function cueForClient(taskCueCode) {
-  // takes as input {'blue': 'par', etc}
-  // returns dict with client facing text
-
-  var out = {};
-
-  if (taskCueCode['blue'] == 'par') {
-    out['blue'] = 'Parity';
-    out['red'] = 'Magnitude';
-  } else {
-    out['blue'] = 'Magnitude';
-    out['red'] = 'Parity';
-  }
-
-  return out;
-
-}
 
