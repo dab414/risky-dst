@@ -8,11 +8,7 @@ import numpy as np
 import re
 import os
 
-## define the phases of the experiment (taken from line 55)
-#fTypes = ['dst']
-fTypes = ['pracCued', 'dst', 'demo']
-
-def catchPartialData(args, fTypesLen):
+def catchPartialData(args):
   '''
   takes as input all file names
   returns assignmentIds that completed one or two fTypes but not three
@@ -24,9 +20,8 @@ def catchPartialData(args, fTypesLen):
   ## for each file name
   for arg in args:
     ## take out only the assignmentId and extension (ie, fType)
-    #l = re.search('\\d.*', arg).group()
-    #l = l.replace('.txt','').split('_')
-    l = arg.replace('.txt','').split('_')
+    l = re.search('\\d.*', arg).group()
+    l = l.replace('.txt','').split('_')
     ## if the assignment id isn't already in the dict
     if l[0] not in d.keys():
       ## add it in as a list
@@ -38,7 +33,7 @@ def catchPartialData(args, fTypesLen):
   partialData = []
 
   for key in d:
-    if len(d[key]) < fTypesLen:
+    if len(d[key]) < 4:
       ## if an assignmentId doesn't have all four phases, add it to partialData
       partialData.append(key)
 
@@ -53,18 +48,19 @@ def summarize_data(args):
   passes each one to a separate function to get summarized
   returns a list of lists, where each nested list is a trial
   '''
-  
+  ## run a different procedure for each portion of the experiment
+  fTypes = ['pracCued','twoChoice','threeChoice', 'demo']
   out = {}
 
   ## look for subjects that started but didn't complete all phases of the experiment
-  partialData = catchPartialData(args, len(fTypes))
+  partialData = catchPartialData(args)
 
   for proc in fTypes:
     ## grab only the data we're interested in (from same phases of the experiment)
     
     ## very ugly, but it works
     ## for each x in arg, reduce it down to only the assignmentId, and make sure it isn't partial data
-    relArgs = [x for x in args if proc in x and x.replace('.txt','').split('_')[0] not in partialData]
+    relArgs = [x for x in args if proc in x and re.search('\\d.*', x).group().replace('.txt','').split('_')[0] not in partialData]
 
     if relArgs:
       ## extract the headers from the first file to use for the whole dataset

@@ -22,7 +22,7 @@ def PostHits():
                         host=HOST)
   
   
-  q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/exp1/", frame_height=675)
+  q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/exp1/", frame_height=675)
   keywords = ['attention', 'psychology', 'experiment', 'research']
   title = 'A Decision Making Experiment'
   experimentName = 'Decision Making Experiment' ## this is NOT what it ends up getting called on my server
