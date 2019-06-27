@@ -190,6 +190,7 @@ function runTrial() {
 
           setTimeout(function(){
             if (trialCount == trialThreshold) {
+              $('.errorContainer').hide();
               runCycle();
             } else {
               $('.errorContainer').hide();
