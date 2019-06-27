@@ -43,3 +43,86 @@ function getRandomFromBucket(bucket) {
   return bucket.splice(randomIndex, 1)[0];
 }
 
+
+function createConditionOrder() {
+  // Returns an array of dicts
+  // Where each dict:
+    // {'id': 'HE', 'pSwitch': {'safe': 11, 'risky': 14}}
+
+  var conditionHolder = [
+    {
+      'id': 'HE',
+      'pSwitch': {'safe': 11, 'risky': 14}
+    },
+
+    {
+      'id': 'HM',
+      'pSwitch': {'safe': 10, 'risky': 12}
+    },
+
+    {
+      'id': 'EE',
+      'pSwitch': {'safe': 5, 'risky': 2}
+    },
+
+    {
+      'id': 'EM',
+      'pSwitch': {'safe': 6, 'risky': 4}
+    }
+  ]
+
+  var conditionOrder = []
+
+  for (i = 0; i < 4; i++) {
+    conditionOrder.push(getRandomFromBucket(conditionHolder));
+  }
+
+  return conditionOrder;
+
+}
+
+function getDeckCode(currentCondition) {
+  // Takes in current condition (see above)
+  // Returns an object sorting the current condition by deck parameters
+    // {'left': {'name:' 'risky', 'pSwitch': {'top': 8, 'bottom': 14}}}
+
+  // Initialize the two decks
+  var riskyDeck = {'name': 'riskyDeck'};
+  var safeDeck = {'name': 'safeDeck', 'pSwitch': {'top': currentCondition['pSwitch']['safe']}};
+
+  // Determine the location (top / bottom) for the two outcomes of the risky deck randomly
+  var top = Math.random() > .5 ? 8 : currentCondition['pSwitch']['risky'];
+  var bottom = top == 8 ? currentCondition['pSwitch']['risky'] : 8;
+
+  // Assign them to riskyDeck
+  riskyDeck['pSwitch'] = {'top': top, 'bottom': bottom};
+
+  // Shuffle left/right and return
+  return getDeckLocation(riskyDeck, safeDeck, '', 2);
+
+}
+
+
+function determineOutcomePswitch(chosenDeckLocation, deckCode) {
+  // Takes in the chosen deck location and deckCode (obv)
+  // Returns dict containing selected pSwitch and the spatial position of the selected outcome:
+    // {'pSwitch': 8, 'horizontal': 'left', 'vertical': 'top'}
+
+  var out = {'horizontal': chosenDeckLocation};
+
+  if (deckCode[chosenDeckLocation]['name'] == 'safeDeck') {
+    out['vertical'] = 'Top';
+    out['pSwitch'] = deckCode[chosenDeckLocation]['pSwitch']['top'];
+  } else {
+    if (Math.random() > .5) {
+      out['pSwitch'] = deckCode[chosenDeckLocation]['pSwitch']['top']
+      out['vertical'] = 'Top';
+    } else {
+      out['pSwitch'] = deckCode[chosenDeckLocation]['pSwitch']['bottom']
+      out['vertical'] = 'Bottom';
+    }
+  }
+
+  return out;
+
+}

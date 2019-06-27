@@ -7,6 +7,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
+  <link rel='stylesheet' type='text/css' href='../style/exp2Style.css'>
+  <script src='../js/exp2Functions.js'></script>
   <script src='../../globalJs/globalFunctions.js'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
   <script src='../../globalJs/jquery-bbq.js'></script>
@@ -15,8 +17,312 @@
 
 $(document).ready(function(){
 
-  // GLOBAL VARS
-  // 
+// GLOBAL VARS
+// thresholds
+var responseThreshold = 17;
+var trialThreshold = 4;
+var cycleThreshold = 10;
+
+// parse url args
+var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? createTaskCue() : urlArgsToVar('taskCueCode');
+var clientCueCode = createClientCueText(taskCueCode);
+var experimentStartTime = urlArgsToVar('experimentStartTime');
+var phaseStartTime = Date.now();
+
+// Other global vars
+var cycleCount = 0;
+var trialCount = 0;
+var cycleTrialCount = 0;
+var responseCount = 0;
+var cuedRsi = 200;
+var choiceRsi = 500;
+var prevTaskColor = '';
+var experimentName = 'dissertationExperiment2';
+var phase = 'dst';
+var rtStartTime = new Date();
+var error = 0;
+var chosenDeckLocation = '';
+var selectionKey = 0;
+var trialStruct = new Array();
+var deckCode = {};
+var startTime = new Date();
+var cuedRt = new Date();
+var blockTime = new Date();
+var phaseStartTime = new Date();
+var activeSeparator = '';
+
+
+// control conditions
+var conditionOrder = new Array();
+var transitionArray = new Array();
+var difficulty = '';
+var difference = '';
+
+//DEVELOPMENT
+// var vid = document.getElementById('tutorial');
+
+// serve client facing controls string
+var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
+// set initial state
+$('#detailSlide').hide();
+$('#controlsFill').html(controlsString);
+$('#keyRemindSlide').hide();
+$('.expSlide').hide();
+$('#blockTransitionSlide').hide();
+
+
+// button controls
+$('#detail').click(function(){
+  $('#titleSlide').hide();
+  $('#detailSlide').show();
+  vid.pause();
+});
+
+$('.resetTitle').click(function(){
+  $('#titleSlide').show();
+  $('#detailSlide').hide();
+  $('#keyRemindSlide').hide();
+});
+
+$('#seeKeys').click(function(){
+  $('#keyRemindSlide').show();
+  $('#titleSlide').hide();
+});
+
+$('#startSegment').click(function(){
+  startSegment();
+});
+
+
+function startSegment() {
+
+  $('#keyRemindSlide').hide();
+  $('#keyToggle').html(controlsString);
+  $('#keyToggle').hide();
+  $('.card').addClass('cardHidden');
+  $('.expSlide').show();
+
+  runTrial();
+
+} // end startSegment()
+
+function runTrial() {
+
+  console.log('im running')
+
+  // control display
+  $('.deckAttributeContainer').hide();
+  $('.cardStim').hide();
+  $('.deckAttributeSeparator').hide();
+  $('#leftDeckBottom').hide();
+  $('#rightDeckBottom').hide();
+  if (chosenDeckLocation) {
+    $('#' + chosenDeckLocation + 'Card').removeClass('cardShow').addClass('cardHidden');
+    $('.cardStim').hide();
+    $('#' + chosenDeckLocation + 'CardFeedback').hide();
+    $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).removeClass('selectedAttribute').addClass('deSelectedAttribute');
+  }
+
+
+  // control between cycle condition update and counters
+  if (cycleTrialCount == trialThreshold | cycleTrialCount == 0) {
+    conditionOrder = createConditionOrder();
+    cycleCount += 1;
+    cycleTrialCount = 0;
+  }
+
+  // set condition and update counters
+  console.log(conditionOrder);
+  currentCondition = conditionOrder[cycleTrialCount];
+  cycleTrialCount += 1;
+  trialCount += 1;
+
+  // Get deck code that maps condition to decks
+  deckCode = getDeckCode(currentCondition);
+
+  // Fill deck attributes
+  $('#leftDeckTop').html('<p>' + String(deckCode['left']['pSwitch']['top'] + '</p>'));
+  $('#rightDeckTop').html('<p>' + String(deckCode['right']['pSwitch']['top'] + '</p>'));
+
+  if (deckCode['left']['pSwitch']['bottom']) {
+    $('#leftDeckBottom').html('<p>' + String(deckCode['left']['pSwitch']['bottom'] + '</p>'));
+    activeSeparator = 'left';
+  } else {
+    $('#rightDeckBottom').html('<p>' + String(deckCode['right']['pSwitch']['bottom'] + '</p>'));
+    activeSeparator = 'right';
+  }
+
+  // listen for space bar
+  $(document).bind('keydown.listenForSpaceDown', function(e){
+    if (e.which == 32) {
+      $('#keyToggle').show();
+    }
+  });
+  $(document).bind('keyup.listenForSpaceUp', function(e){
+    if (e.which == 32) {
+      $('#keyToggle').hide();
+    }
+  });
+
+  setTimeout(function(){
+    
+    // Control Display
+    $('.deckAttributeContainer').show();
+    $('#' + activeSeparator + 'DeckBottom').show();
+    $('#' + activeSeparator + 'DeckAttributeSeparator').show();
+
+    // start rt choice timer
+    startTime = new Date();
+
+    // listen for choice keys
+    $(document).bind('keydown.listenForChoiceKeys', function(e){
+
+      if ($.inArray(e.which, [68, 70]) + 1) {
+
+        // record choice rt
+        choiceRt = new Date() - startTime;
+
+        // Get the location of choice
+        chosenDeckLocation = e.which == 68 ? 'left' : 'right';
+
+        // stop listening for choice keys
+        $(document).unbind('keydown.listenForChoiceKeys');
+
+        // reset cued vars
+        responseCount = 0;
+        prevTaskColor = '';
+
+        // determine outcome
+        selectedOutcome = determineOutcomePswitch(chosenDeckLocation, deckCode);
+
+        // Create stim color array
+        transitionArray = generateTransitionArray(selectedOutcome['pSwitch']);
+        console.log(selectedOutcome);
+        // Draw box around selected outcome
+        $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).addClass('selectedAttribute').removeClass('deSelectedAttribute');
+
+        cuedTrial();
+
+      } // end is response key valid?
+
+    }) // end listenForChoiceKeys()
+
+  }, choiceRsi); // end timeout
+
+} // end runTrial()
+
+
+function cuedTrial() {
+
+  // Generate stimulus
+  currentTaskColor = transitionArray[responseCount];
+  currentStim = generateCuedStim();
+  currentTask = taskCueCode[currentTaskColor]
+
+  // reset error
+  error = 0;
+
+  // update display
+  // hide from previous trial
+  $('#' + chosenDeckLocation + 'Card').removeClass('cardShow').addClass('cardHidden');
+  $('.cardStim').hide();
+  $('#' + chosenDeckLocation + 'CardFeedback').hide();
+
+  // update with new stimuli
+  $('#' + chosenDeckLocation + 'CardStim').html('<p>' + currentStim + '</p>');
+  $('#' + chosenDeckLocation + 'CardStim').css({'color': currentTaskColor});
+    
+  // control rsi
+  setTimeout(function(){
+
+    // show card
+    $('#' + chosenDeckLocation + 'Card').addClass('cardShow').removeClass('cardHidden');
+    $('.cardStim').show();
+
+    // start rt timer
+    startTime = new Date();
+
+    // start listening for keys
+    $(document).bind('keydown.listenForResponseKeys', function(i){
+      // if response is valid
+      if ($.inArray(i.which, [74, 75]) + 1) {
+        // record cued rt
+        cuedRt = new Date() - startTime;
+
+        // stop listening for keys
+        $(document).unbind('keydown.listenForResponseKeys');
+        // code error
+        error = cuedIsError(String(i.which), currentTask, currentStim);
+        // code transition
+        transition = codeTransition(prevTaskColor, currentTaskColor);
+        // update prev task color
+        prevTaskColor = currentTaskColor;
+        // update response count
+        responseCount += 1;
+
+        // record data
+        saveTrialData()
+
+        // start error sequence
+
+        if (error) {
+          // fill and siaply error feedback
+          $('#' + chosenDeckLocation + 'CardFeedback').html('<p><strong>ERROR</strong></p>');
+          $('#' + chosenDeckLocation + 'CardFeedback').show();
+
+          // wait 500 ms and prepare for next trial
+          setTimeout(function(){
+            $('#' + chosenDeckLocation + 'CardFeedback').hide();
+
+            // check whether run is over
+            if (responseCount < responseThreshold) {
+              
+              if (cycleCount < cycleThreshold) {
+                cuedTrial();
+              } else {
+                endSegment();
+              }
+
+            } else {
+              runTrial();
+            }
+
+
+          }, 500) // end error timeout
+        
+        // if accurate response
+        } else {
+
+          // check whether run is over
+          if (responseCount < responseThreshold) {
+            
+            if (cycleCount < cycleThreshold) {
+              cuedTrial();
+            } else {
+              endSegment();
+            }
+
+          } else {
+            runTrial();
+          }
+
+        } // end if accurate response
+
+      } // end is response valid
+
+    }); // end listen for response keys
+
+  }, cuedRsi); // end cued rsi
+
+} // end cuedTrial()
+
+
+function saveTrialData() {
+
+}
+
+
 
 }); // end document.ready()
 
@@ -39,7 +345,7 @@ $(document).ready(function(){
         </div>
 
         <div class='leftTwoThirds'>
-          <p>That is it for the practice. Watch the video to get some basics about how the rest of the experiment will run <i> class='small>(Runtime: 48 sec)</i>.</p>
+          <p>That is it for the practice. Watch the video to get some basics about how the rest of the experiment will run <i class='small'>(Runtime: 48 sec)</i>.</p>
           <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
 
           <!--
@@ -129,12 +435,12 @@ $(document).ready(function(){
             <p>Switches:</p>
           </div>
           <div class='deckAttributeContainer'>
-            <div class='deckAttribute' id='leftDeckPoints'>
+            <div class='deckAttribute' id='leftDeckTop'>
             </div>
             <div class='deckAttributeSeparator' id='leftDeckAttributeSeparator'>
               <p>OR</p>
             </div>                   
-            <div class='deckAttribute' id='leftDeckSwitch'>
+            <div class='deckAttribute' id='leftDeckBottom'>
             </div>
           </div>
         </div>
@@ -144,12 +450,12 @@ $(document).ready(function(){
             <p>Switches:</p>
           </div>
           <div class='deckAttributeContainer'>
-            <div class='deckAttribute' id='rightDeckPoints'>
+            <div class='deckAttribute' id='rightDeckTop'>
             </div>
             <div class='deckAttributeSeparator' id='rightDeckAttributeSeparator'>
               <p>OR</p>
             </div>                   
-            <div class='deckAttribute' id='rightDeckSwitch'>
+            <div class='deckAttribute' id='rightDeckBottom'>
             </div>
           </div>
         </div>

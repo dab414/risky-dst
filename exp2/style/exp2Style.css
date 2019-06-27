@@ -4,3 +4,16 @@
   justify-content: center;
   height: 600px;
 }
+
+.deckAttribute {
+  border: 0px;
+}
+
+.selectedAttribute {
+  border: 1px solid black;
+  margin: 0 10px;
+}
+
+.deSelectedAttribute {
+  border: 0px;
+}
