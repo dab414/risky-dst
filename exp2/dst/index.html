@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+  <title>Braun Dissertation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
+  <script src='../../globalJs/globalFunctions.js'></script>
+  <script src='../../globalJs/TimTurkTools.js'></script>
+  <script src='../../globalJs/jquery-bbq.js'></script>
+
+<script>
+
+$(document).ready(function(){
+
+  // GLOBAL VARS
+  // 
+
+}); // end document.ready()
+
+</script>
+
+</head>
+
+<body>
+
+<!-- the entire display -->
+<div class='container'>
+  <!-- the 800 x 600 experiment area -->
+  <div class='screen'>
+
+    <!-- BEGIN TITLE SLIDE -->
+      <div id='titleSlide'>
+        <div class='titleBar'>
+          <h2>You are about to begin the main experiment.</h2>
+          <p>Subtitle</p>
+        </div>
+
+        <div class='leftTwoThirds'>
+          <p>That is it for the practice. Watch the video to get some basics about how the rest of the experiment will run <i> class='small>(Runtime: 48 sec)</i>.</p>
+          <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
+
+          <!--
+          <video id = 'tutorial' width = "460" height = "240" controls>
+            <source src = "twoChoiceTutorial.mp4" type = "video/mp4">
+          </video>
+        -->
+
+        </div>
+
+        <div class='rightOneThirdsDown'>
+          <button id='detail' class='experimentButton center smallButton'>See Text Instructions</button>
+          <button id='seeKeys' class='experimentButton center'>See Controls</button>
+        </div>
+      </div> <!-- end title slide -->
+
+    <!-- BEGIN DETAIL SLIDE -->
+    <div id='detailSlide'>
+      <p>Placeholder.</p>
+      <button class='experimentButton resetTitle'>Go Back</button>
+    </div> <!-- end detail slide -->
+
+
+    <!-- BLOCK TRANSITION SLIDE -->
+    <div id='blockTransitionSlide'>
+      <div class='titleBar'>
+      </div>
+
+      <div class='leftTwoThirds' id='blockInstructions'>
+      </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='experimentButton center' id='startBlock'>Continue</button>
+      </div>
+    </div> <!-- end block transition slide -->
+
+    <!-- KEY REMIND SLIDE -->
+    <div id='keyRemindSlide'>
+      <div class='titleBar'>
+        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
+      </div>
+
+      <div class='leftTwoThirds' id='controlsFill'>
+      </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='resetTitle experimentButton smallButton center'>Go Back</button>
+        <button id='startSegment' class='experimentButton center'>Begin Phase</button>
+      </div>
+    </div> <!-- end key remind slide -->
+
+    <div class='expSlide'>
+      <div class='feedbackContainer'>
+        <!--<div class='feedbackLevelOne'>
+          <div class='bonusFeedback'>
+          </div>
+        </div> -->
+
+        <div class='feedbackLevelTwo'>
+          <div id='keyToggle' class='keyFormat'>
+          </div>
+        </div>
+
+      </div>
+      
+
+      <div class='topHalf'>
+        <div class='card' id='leftCard'>
+          <div class='cardFeedback' id='leftCardFeedback'>
+          </div>
+          <div class='cardStim' id='leftCardStim'>
+          </div>
+        </div>
+
+        <div class='card' id='rightCard'>
+          <div class='cardFeedback' id='rightCardFeedback'>
+          </div>          
+          <div class='cardStim' id='rightCardStim'>
+          </div>
+        </div>        
+      
+      </div> <!-- end top half -->
+
+      <div class='bottomHalf'>
+        <div class='deckOutline' id='leftDeck'>
+          <div class='deckAttributeContext'>
+            <p>Switches:</p>
+          </div>
+          <div class='deckAttributeContainer'>
+            <div class='deckAttribute' id='leftDeckPoints'>
+            </div>
+            <div class='deckAttributeSeparator' id='leftDeckAttributeSeparator'>
+              <p>OR</p>
+            </div>                   
+            <div class='deckAttribute' id='leftDeckSwitch'>
+            </div>
+          </div>
+        </div>
+
+        <div class='deckOutline' id='rightDeck'>
+          <div class='deckAttributeContext'>
+            <p>Switches:</p>
+          </div>
+          <div class='deckAttributeContainer'>
+            <div class='deckAttribute' id='rightDeckPoints'>
+            </div>
+            <div class='deckAttributeSeparator' id='rightDeckAttributeSeparator'>
+              <p>OR</p>
+            </div>                   
+            <div class='deckAttribute' id='rightDeckSwitch'>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end bottom half -->
+
+
+    </div> <!-- end expSlide -->
+
+
+
+  </div> <!-- end screen -->
+
+</div> <!-- end container -->
+
+
+</body>
+</html>

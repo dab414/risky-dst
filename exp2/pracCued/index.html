@@ -5,9 +5,8 @@
   <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
   <title>Braun Dissertation</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel='stylesheet' type='text/css' href='../style/exp1Style.css'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=4'>
-  <script src='../js/exp1Functions.js?v=1'></script>
+  <link rel='stylesheet' type='text/css' href='../style/exp2Style.css'>
   <script src='../../globalJs/globalFunctions.js?v=6'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
 
@@ -38,6 +37,9 @@ $(document).ready(function(){
   var trialThreshold = 10;
   var rsi = 500;
   var errorTimeout = 500;
+  var cycleThreshold = 3;
+  var cycleCount = 0;
+  var notFirstRun = 0;
 
   // string for serving client key reminders
   var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
@@ -51,6 +53,7 @@ $(document).ready(function(){
   $('#controlsFill').html(controlsString);
   $('#keyRemindSlide').hide();
   $('.stimSlide').hide();
+  $('#interCycleSlide').hide();
 
   // DEVELOPMENT -- update
   // var vid = document.getElementById('tutorial');
@@ -85,8 +88,30 @@ function startCued() {
   $('.keyContainer').html(controlsString);
   $('.keyContainer').hide();
   $('.errorContainer').hide();
-  $('.stimSlide').show();
-  runTrial();
+  runCycle();
+}
+
+function runCycle() {
+  $('.stimSlide').hide();
+  console.log('Im running 1');
+  if (cycleCount == cycleThreshold) {
+    endCued();
+  } else {
+    cycleCount += 1;
+    trialCount = 0;
+    if (notFirstRun) {
+      $('#interCycleSlide').show();
+      setTimeout(function(){
+        $('#interCycleSlide').hide();
+        $('.stimSlide').show()
+        runTrial();
+      }, 4000)
+    } else {
+      notFirstRun = 1;
+      $('.stimSlide').show()
+      runTrial();
+    }
+  }
 }
 
 function runTrial() {
@@ -165,7 +190,7 @@ function runTrial() {
 
           setTimeout(function(){
             if (trialCount == trialThreshold) {
-              endCued();
+              runCycle();
             } else {
               $('.errorContainer').hide();
               runTrial();
@@ -173,7 +198,7 @@ function runTrial() {
           }, errorTimeout)
         } else {
           if (trialCount == trialThreshold) {
-            endCued();
+            runCycle();
           } else {
             runTrial();
           }
@@ -286,6 +311,10 @@ function sendToServer(curId, currentData) {
       <p>Placeholder.</p>
       <button class='experimentButton resetTitle'>Go Back</button>
     </div> <!-- end detail slide -->
+
+    <div id='interCycleSlide'>
+      <p>That was the end of that 17-trial cycle, the next one will begin shortly. Remember 8 of these trials will be task switches, and that is the difficulty level that can be expected during these types of tasks.</p>
+    </div>
 
     <!-- KEY REMIND SLIDE -->
     <div id='keyRemindSlide'>

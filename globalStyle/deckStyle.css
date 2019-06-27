@@ -105,7 +105,6 @@
 	/*margin-left: 92px;*/
 	background-color: white;
 	border: 1px solid black;
-	display: inline-block;
 	box-sizing: border-box;
 	box-shadow: 3px 3px;
 	display: flex;
@@ -115,22 +114,33 @@
 }
 
 
-/*
-.deckTwo {
-	height: 281px;
-	width: 187px;
-	margin-left: 5px;
-	border: 1px solid blue;
+/* styles for exp2 and 3 */
+
+.deckOutline {
+	height: 216px;
+	width: 144px;
 	background-color: white;
+	border: 1px solid black;
+	box-sizing: border-box;
 	display: inline-block;
+	box-shadow: 3px 3px;
+	text-align: center;
 }
 
-.deckThree {
-	height: 281px;
-	width: 187px;
-	margin-left: 5px;
-	border: 1px solid blue;
-	background-color: white;
-	display: inline-block;
+.deckAttributeContext {
+	position: relative;
+	top: 0;
+	height: 32px;
 }
-*/
+
+.deckAttributeContainer {
+	height: 184px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.deckAttributeSeparator p {
+	font-size: 12pt;
+	font-weight: bold;
+}

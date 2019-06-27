@@ -1,0 +1,200 @@
+<html>
+<head>
+<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+<link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
+<link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css'>
+<link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
+<link rel='stylesheet' type='text/css' href='../../globalStyle/demo.css?v=4'>
+<script src='../js/exp1Functions.js?v=3'></script>
+<script src='../../globalJs/globalFunctions.js'></script>
+<script src='../../globalJs/TimTurkTools.js'></script>
+<script src='../../globalJs/jquery-bbq.js'></script>
+
+<script>
+
+$(document).ready(function(){
+	
+	// updates the value of the form that gets submitted to mturk
+	$('#assignmentId').val(GetAssignmentId()); 
+
+	// Top Vars
+	var development = false;
+	var experimentName = 'dissertationExperiment1';
+	var sessionCode = 'demo';
+	var experimentStartTime = urlArgsToVar('experimentStartTime');
+
+	//set initial state of html
+	$('#submit_hit').hide();
+
+	$('#submit_data').click(function(){
+		saveData();
+	});
+
+	function saveData(){
+		// save form data
+		var gender = $("input[type='radio'][name = 'gender']:checked");
+		var race = $("input[type='checkbox'][name = 'race']:checked");
+		var ethnicity = $("input[type='radio'][name = 'ethnicity']:checked");
+		var vision = $("input[type='radio'][name = 'vision']:checked");
+
+		demo = parseDemos([gender, race, ethnicity, vision]);
+    curDate = new Date();
+    var curId = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you are on Turk, so you're probably testing." +
+    	"Enter an ID to save your data with:", "id");
+
+    var currentData = {
+    	'curId': curId,
+    	'workerId': GetWorkerId(),
+    	'curTime': curDate.today() + '@' + curDate.timeNow(),
+    	'totalTime_mins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
+      'screen_width': screen.width,
+      'screen_height': screen.height,
+      'window_width': $(window).width(),
+      'window_height': $(window).height(),
+      'age': $('#age').val(),
+      'gender': demo[0],
+      'race': demo[1],
+      'ethnicity': demo[2],
+      'vision': demo[3],
+      'comments': $('#comments').val(),          	
+    };
+
+    sendToServer(curId, currentData);
+
+	}; // end saveData()
+
+	function sendToServer(curId, currentData){
+		var dataToServer = {
+			'curId': curId,
+			'experiment': experimentName,
+			'sessionCode': sessionCode,
+			'currentData': JSON.stringify(currentData)
+		};
+
+		$.post(
+			url = '../../../../cgi-bin/saveData.py',
+			data = dataToServer,
+			success = function(data){
+				$('#debrief').hide();
+				$('#submit_hit').show();
+				console.log('success');
+			}).fail(function(data){
+				console.log('failure');
+				$('#debrief').hide();
+				$('#submit_hit').show();
+			});
+			
+	}; // end sendToServer
+
+}); // end $(document).ready()
+
+</script>
+</head>
+
+<body>
+
+	<div id = 'debrief' class = 'formContainer'>
+
+		<div id = 'demo_heading'>
+			<h3>You are almost done.</h3>
+			<p>Please fill out this short survey to continue submitting the HIT.</p>
+		</div>
+
+		<div id = 'demo_container'>
+			<form id = 'demo_form'>
+				<fieldset>
+					<legend>Please fill in your age:* <span style='font-style: italic'>Type "Prefer not to respond" if you'd rather not report your age.</span></legend>
+					<input type = 'text' id = 'age' value = '' placeholder='Age' required>
+				</fieldset>
+
+				<fieldset>
+					<legend>How would you describe your gender identity:*</legend>
+						<input type='radio' id = 'gender1' name = 'gender' value='male' required>
+						<label for='gender1'>Male</label>
+						<input type='radio' id = 'gender2' name = 'gender' value='female'>
+						<label for='gender2'>Female</label>
+						<input type='radio' id = 'gender3' name = 'gender' value='non-binary'>
+						<label for='gender3'>Non-Binary</label>
+						<input type='radio' id = 'gender4' name = 'gender' value='other'>
+						<label for='gender4'>Other Gender</label>
+						<input type='radio' id = 'gender5' name = 'gender' value='no_answer'>
+						<label for='gender5'>Prefer not to Answer</label>
+					</fieldset>
+
+				<fieldset>
+					<legend>What race do you consider yourself? Please select one or more of the following.*</legend>
+					<input type='checkbox' id = 'white' name = 'race' value='white'>
+					<label for='white'>White</label>
+					<input type='checkbox' id = 'black' name = 'race' value='black'>
+					<label for='black'>Black or African American</label>
+					<input type='checkbox' id = 'indian' name = 'race' value='indian'>
+					<label for='indian'>American Indian or Alaska Native</label>
+					<input type='checkbox' id = 'asian' name = 'race' value='asian'>
+					<label for='asian'>Asian</label>
+					<input type='checkbox' id = 'hawaiian' name = 'race' value='hawaiian'>
+					<label for='hawaiian'>Native Hawaiian or Pacific Islander</label><br>
+					<input type='checkbox' id = 'other' name = 'race' value='other'>
+					<label for='other'>Other</label>
+					<input type='checkbox' id = 'no_response' name = 'race' value='no_response'>
+					<label for='no_response'>Prefer not to Respond</label>					
+				</fieldset>
+
+				<fieldset>
+					<legend>Please select which of the following you consider yourself to be (select one):*</legend>
+						<input type='radio' id = 'hispanic' name = 'ethnicity' value='hispanic' required>
+						<label for='hispanic'>Hispanic or Latino</label>
+						<input type='radio' id = 'not_hispanic' name = 'ethnicity' value='not_hispanic'>
+						<label for='not_hispanic'>Not Hispanic or Latino</label>
+						<input type='radio' id = 'no_response' name = 'ethnicity' value='no_response'>
+						<label for='no_response'>Prefer not to Respond</label>
+				</fieldset>
+
+				<fieldset>
+					<legend>Please select the option that best describes your vision:*</legend>
+						<input type='radio' id = 'normal' name = 'vision' value='normal' required>
+						<label for='normal'>Normal</label>
+						<input type='radio' id = 'corrected' name = 'vision' value='corrected'>
+						<label for='corrected'>Corrected to Normal</label>
+						<input type='radio' id = 'impaired' name = 'vision' value='impaired'>
+						<label for='impaired'>Impaired</label>
+						<input type='radio' id = 'no_response' name = 'vision' value='no_response'>
+						<label for='no_response'>Prefer not to Respond</label>
+				</fieldset>
+
+				<fieldset>
+					<legend>Please leave any comments you have about the HIT:</legend>
+					<textarea id = 'comments' style = 'height: 200px; width: 80%; resize: none' placeholder='Comments...'></textarea><br><br>
+				</fieldset>
+	  	</form>
+	  	<button id = 'submit_data' class = 'experimentButton'>Continue</button>
+	  </div>
+
+	</div> <!-- end debrief div -->
+
+	<div id = 'submit_hit' class = 'formContainer' style = 'font-size: 12pt;'>
+		<h3>Press the submit button below to submit your HIT. </h3>
+		<h4>Feel free to read the text below to learn more about the study you participated in.</h4>
+		<p>If you have two major projects to finish, would you rather finish one first before moving on to the next, or complete parts of each project until you finish both? Switching tasks can be a very complicated process and doing so requires you to spend more time with the activity than when doing a single task. The experiment that you have participated in today examines the mechanisms involved in task switching.</p>
+		<p>When we have to switch from one task to another, several processes must occur. First we have to forget or inhibit the task that we have just completed. Then we have to prepare for or facilitate the task that we are going to perform next. Both of these processes take some amount of time, so that switching between two tasks from one trial to the next requires more time and effort than repeating the same task across two trials. But what if you were rewarded for switching tasks? </p>
+		<p>In the current experiment, we are interested in looking at how people switch tasks in response to rewards for switching tasks. Previous research in the lab has shown that when there is no reward system and people are told to respond randomly, choices are very influenced by factors such as how fast the number appears on each trial. We will be looking to see how adding this reward system affects decisions about which task to perform. We will also be looking at how varying the probabilities and values of those rewards affects behavior. Our goal is to better understand how external factors (stimulus timing) and internal factors (point maximizing strategies) interact with each other to produce decisions.</p>
+		<p>If you would like to learn more on this topic, one good place to find relevant background is:<p>
+		<p><a target = '_blank' href = 'https://davebraun.org/braun_arrington_2018.pdf'>Braun, D., Arrington, C. M. (2018). Assessing the role of reward in task selection using a reward-based voluntary task switching paradigm. <i>Psychological Research, 82</i>, 54-64.</a></p>
+		<div style = 'float: left'>
+			<p>If you have any questions about the experiment that you have just participated in please contact:</p>
+			<p>Dave Braun</p>
+			<p>admin@davebraun.org</p>
+			<p>Thank you for your participation in this research.</p>
+		</div>
+		
+		<div class = 'submit_button'>
+			<!--DEVELOPMENT FLAG-->
+			<form id="turkSubmit" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" autocomplete="off">
+			<!--<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">-->
+			<input type="hidden" name="assignmentId" id="assignmentId" value="">
+			<input type="submit" value="Submit" name="submitButton" id="submitButton" class = 'experimentButton' style = 'font-size: 18pt'>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
