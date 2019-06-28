@@ -55,7 +55,7 @@ $(document).ready(function(){
   $('#controlsFill').html(controlsString);
   $('#keyRemindSlide').hide();
   $('.stimSlide').hide();
-  $('#interCycleSlide').hide();
+  $('.interCycleSlide').hide();
 
   // DEVELOPMENT -- update
   // var vid = document.getElementById('tutorial');
@@ -103,9 +103,9 @@ function runCycle() {
     cycleCount += 1;
     trialCount = 0;
     if (notFirstRun) {
-      $('#interCycleSlide').show();
+      $('.interCycleSlide').show();
       setTimeout(function(){
-        $('#interCycleSlide').hide();
+        $('.interCycleSlide').hide();
         $('.stimSlide').show()
         runTrial();
       }, 5000)

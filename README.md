@@ -9,7 +9,7 @@ This repository contains the source code for my dissertation experiments to be r
 
 ## Experiment 1
 
-The experiment is hosted at https://davebraun.org/dissertation/experiments/production/exp1  
+The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp1  
 
 Experiment 1 is broken down into two phases:  
 
@@ -24,3 +24,15 @@ The supplementary JavaScript functions for the experiment are separated into two
 Data processing scripts:  
 
 * Convert subject JSON files to aggregate CSV files: [`dataProcessing.py`](exp1/dataProcessing/dataProcessing.py)
+
+## Experiment 2
+
+The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp2
+
+Experiment 2 is broken down into three general phases:  
+
+* [Practice Cued Task Switching](exp2/pracCued/index.html)  
+* [Demand Selection Task](exp2/dst/index.html)  
+* [Rapid Fire Demand Selection Task](exp2/rapidFire/index.html)
+
+The JavaScript specific to this experiment is [here](exp2/js/exp2Functions.js)
