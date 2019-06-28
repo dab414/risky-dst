@@ -51,22 +51,22 @@ function createConditionOrder() {
 
   var conditionHolder = [
     {
-      'id': 'HE',
+      'name': 'HE',
       'pSwitch': {'safe': 11, 'risky': 14}
     },
 
     {
-      'id': 'HM',
+      'name': 'HM',
       'pSwitch': {'safe': 10, 'risky': 12}
     },
 
     {
-      'id': 'EE',
+      'name': 'EE',
       'pSwitch': {'safe': 5, 'risky': 2}
     },
 
     {
-      'id': 'EM',
+      'name': 'EM',
       'pSwitch': {'safe': 6, 'risky': 4}
     }
   ]

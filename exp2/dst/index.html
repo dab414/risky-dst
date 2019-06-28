@@ -109,8 +109,6 @@ function startSegment() {
 
 function runTrial() {
 
-  console.log('im running')
-
   // control display
   $('.deckAttributeContainer').hide();
   $('.cardStim').hide();
@@ -133,11 +131,12 @@ function runTrial() {
   }
 
   // set condition and update counters
-  console.log(conditionOrder);
   currentCondition = conditionOrder[cycleTrialCount];
+
   cycleTrialCount += 1;
   trialCount += 1;
-
+  difficulty = currentCondition['name'] == 'HE' || currentCondition['name'] == 'HM' ? 'Harder than Reference' : 'Easier than Reference';
+  difference = currentCondition['name'] == 'HE' || currentCondition['name'] == 'EE' ? 'Extreme' : 'Moderate';
   // Get deck code that maps condition to decks
   deckCode = getDeckCode(currentCondition);
 
@@ -198,7 +197,6 @@ function runTrial() {
 
         // Create stim color array
         transitionArray = generateTransitionArray(selectedOutcome['pSwitch']);
-        console.log(selectedOutcome);
         // Draw box around selected outcome
         $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).addClass('selectedAttribute').removeClass('deSelectedAttribute');
 
@@ -320,8 +318,106 @@ function cuedTrial() {
 
 function saveTrialData() {
 
+  if (deckCode['left']['name'] == 'risky') {
+    var safeDeckSwitch = deckCode['right']['pSwitch']['top'];
+    var riskyDeckSwitch = [deckCode['left']['pSwitch']['top'], deckCode['left']['pSwitch']['bottom']];
+  } else {
+    var safeDeckSwitch = deckCode['left']['pSwitch']['top'];
+    var riskyDeckSwitch = [deckCode['right']['pSwitch']['top'], deckCode['right']['pSwitch']['bottom']];
+  }
+
+  var selectedRiskyDeck = 0;
+  if (chosenDeckLocation == 'left' && deckCode['left']['name'] == 'riskyDeck') {
+    selectedRiskyDeck = 1;
+  } else if (chosenDeckLocation == 'right' && deckCode['right']['name'] == 'riskyDeck') {
+    selectedRiskyDeck = 1;
+  }
+
+
+  trialStruct.push({
+    'choiceTrial': trialCount,
+    'cuedTrial': responseCount,
+    'overalltrial': trialCount * responseCount,
+    'experimentRunTimeMins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
+    'phaseRunTimeMins': Math.round((Date.now() - phaseStartTime) / 1000 / 60),
+    'stimulus': currentStim,
+    'stimColor': currentTaskColor,
+    'task': currentTask,
+    'condition': currentCondition['name'],
+    'difference': difference,
+    'difficulty': difficulty,
+    'transition': transition,
+    'leftDeckId': deckCode['left']['name'],
+    'rightDeckId': deckCode['right']['name'],
+    'riskyDeckSwitchTop': riskyDeckSwitch[0],
+    'riskyDeckSwitchBottom': riskyDeckSwitch[1],
+    'safeDeckSwitch': safeDeckSwitch,
+    'selectedDeckLocation': chosenDeckLocation,
+    'outcomeSwitch': selectedOutcome['pSwitch'],
+    'selectedRiskyDeck': selectedRiskyDeck,
+    'error': error,
+    'chosenDeckId': deckCode[chosenDeckLocation]['name'],
+    'choiceRt': choiceRt,
+    'cuedRt': cuedRt
+  });
+
+  // Development
+  console.log(trialStruct);
+
 }
 
+function endSegment() {
+
+  var curDate = new Date();
+  var finishTime = new Date() - phaseStartTime;
+  var curId = (IsOnTurk())?  GetAssignmentId() : prompt("Doesn't look like you are on Turk, so I'm guessing you're probably testing. Enter an ID to save your data with.", "id");
+
+  var currentData = {
+    'curId': curId,
+    'workerId': GetWorkerId(),
+    'curTime': curDate.today() + '@' + curDate.timeNow(),
+    'userAgent': navigator.userAgent,
+    'screenWidth': screen.width,
+    'screenHeight': screen.height,
+    'windowWidth': $(window).width(),
+    'windowHeight': $(window).height(),
+    'phase': phase,
+    'blueTask': taskCueCode['blue'],
+    'redTask': taskCueCode['red'],
+    'twoChoiceRunTime': finishTime,
+    'blockStruct': blockStruct
+  };
+
+  sendToServer(curId, currentData);
+
+} // end endSegment()
+
+function sendToServer(curId, currentData) {
+
+  var dataToServer = {
+    'curId': curId,
+    'experiment': experimentName,
+    'sessionCode': phase,
+    'currentData': JSON.stringify(currentData)
+  };
+
+  var urlArgs = {
+    'workerId': GetWorkerId(),
+    'assignmentId': GetAssignmentId(),
+    'experimentStartTime': experimentStartTime
+  };
+
+  $.post(
+    url = '../../../../../cgi-bin/saveData.py',
+    data = dataToServer,
+    success = function(data){
+      window.location.replace('../rapidFire/?' + $.param(urlArgs));
+    }).fail(function(data){
+      console.log('FAILURE');
+      window.location.replace('../rapidFire/?' + $.param(urlArgs));
+    });
+
+} // end sendToServer()
 
 
 }); // end document.ready()
