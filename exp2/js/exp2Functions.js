@@ -126,3 +126,4 @@ function determineOutcomePswitch(chosenDeckLocation, deckCode) {
   return out;
 
 }
+

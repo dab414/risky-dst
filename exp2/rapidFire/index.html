@@ -38,7 +38,7 @@ var cuedRsi = 200;
 var choiceRsi = 500;
 var prevTaskColor = '';
 var experimentName = 'dissertationExperiment2';
-var phase = 'dst';
+var phase = 'rapidFire';
 var rtStartTime = new Date();
 var error = 0;
 var chosenDeckLocation = '';
@@ -50,6 +50,9 @@ var cuedRt = new Date();
 var blockTime = new Date();
 var phaseStartTime = new Date();
 var activeSeparator = '';
+
+// adding for rapid fire
+var selectedOutcomes = new Array();
 
 
 // control conditions
@@ -65,30 +68,13 @@ var difference = '';
 var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
 
 // set initial state
-$('#detailSlide').hide();
-$('#controlsFill').html(controlsString);
-$('#keyRemindSlide').hide();
+//$('#controlsFill').html(controlsString);
+
+$('#keyRemindSlide').show();
 $('.expSlide').hide();
-$('#blockTransitionSlide').hide();
+$('.interCycleSlide').hide();
+$('.stimSlide').hide();
 
-
-// button controls
-$('#detail').click(function(){
-  $('#titleSlide').hide();
-  $('#detailSlide').show();
-  vid.pause();
-});
-
-$('.resetTitle').click(function(){
-  $('#titleSlide').show();
-  $('#detailSlide').hide();
-  $('#keyRemindSlide').hide();
-});
-
-$('#seeKeys').click(function(){
-  $('#keyRemindSlide').show();
-  $('#titleSlide').hide();
-});
 
 $('#startSegment').click(function(){
   startSegment();
@@ -99,6 +85,7 @@ function startSegment() {
 
   $('#keyRemindSlide').hide();
   $('#keyToggle').html(controlsString);
+  $('.keyContainer').html(controlsString);
   $('#keyToggle').hide();
   $('.card').addClass('cardHidden');
   $('.expSlide').show();
@@ -110,18 +97,15 @@ function startSegment() {
 function runTrial() {
 
   // control display
+  $('.keyContainer').hide();
   $('.deckAttributeContainer').hide();
   $('.cardStim').hide();
   $('.deckAttributeSeparator').hide();
   $('#leftDeckBottom').hide();
   $('#rightDeckBottom').hide();
   if (chosenDeckLocation) {
-    $('#' + chosenDeckLocation + 'Card').removeClass('cardShow').addClass('cardHidden');
-    $('.cardStim').hide();
-    $('#' + chosenDeckLocation + 'CardFeedback').hide();
     $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).removeClass('selectedAttribute').addClass('deSelectedAttribute');
   }
-
 
   // control between cycle condition update and counters
   if (cycleTrialCount == trialThreshold | cycleTrialCount == 0) {
@@ -188,19 +172,26 @@ function runTrial() {
         // stop listening for choice keys
         $(document).unbind('keydown.listenForChoiceKeys');
 
-        // reset cued vars
-        responseCount = 0;
-        prevTaskColor = '';
-
         // determine outcome
         selectedOutcome = determineOutcomePswitch(chosenDeckLocation, deckCode);
+        selectedOutcomes.push(selectedOutcome['pSwitch']);
 
-        // Create stim color array
-        transitionArray = generateTransitionArray(selectedOutcome['pSwitch']);
+        // save out choice data
+        saveTrialData();
+
         // Draw box around selected outcome
         $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).addClass('selectedAttribute').removeClass('deSelectedAttribute');
 
-        cuedTrial();
+        // Give them 200 ms to see the outcome
+        setTimeout(function(){
+          if (trialCount < 10) {
+            runTrial();
+          } else {
+            prepCuedTrial();
+          }
+
+        }, 200);
+        
 
       } // end is response key valid?
 
@@ -211,107 +202,113 @@ function runTrial() {
 } // end runTrial()
 
 
+function prepCuedTrial() {
+  // pick a random pSwitch
+  currentCondition = selectedOutcomes[Math.floor(Math.random() * selectedOutcomes.length)]
+  transitionArray = generateTransitionArray(currentCondition);
+
+  // control display
+  $('.expSlide').hide();
+  $('.interCycleSlide').show();
+
+  var timeRemaining = 10;
+
+  // Alert P about condition and that it will start in five seconds
+  $('.interCycleSlide').html('<div><p>The randomly-selected number of switches that you will perform in the next run of cued trials is: <strong>' + String(currentCondition) + '</strong></p><br> <p>These trials will begin in ' + String(timeRemaining) + ' seconds.</p></div>');
+  var alert = setInterval(function(){
+    timeRemaining -= 1;
+    $('.interCycleSlide').html('<div><p>The randomly-selected number of switches that you will perform in the next run of cued trials is: <strong>' + String(currentCondition) + '</strong></p><br> <p>These trials will begin in ' + String(timeRemaining) + ' seconds.</p></div>');
+
+    if (timeRemaining == 0) {
+      clearInterval(alert);
+    }
+  }, 1000);
+
+  setTimeout(function(){
+    $('.interCycleSlide').hide();
+    $('.keyContainer').hide();
+    $('.errorContainer').hide();
+    $('.stimSlide').show();
+    responseCount = 0;
+    cuedTrial();
+  }, 10000);
+
+} // end prepCuedTrial()
+
+
 function cuedTrial() {
+  // update trial count
+  responseCount += 1;
 
-  // Generate stimulus
-  currentTaskColor = transitionArray[responseCount];
+  // generate stimulus
+  $('.stimContainer').hide();
+  currentTaskColor = transitionArray[responseCount - 1];
   currentStim = generateCuedStim();
-  currentTask = taskCueCode[currentTaskColor]
+  currentTask = taskCueCode[currentTaskColor];
+  $('.stimContainer').html('<p>' + currentStim + '<p>');
+  $('.stimContainer').css({'color': currentTaskColor});
 
-  // reset error
-  error = 0;
-
-  // update display
-  // hide from previous trial
-  $('#' + chosenDeckLocation + 'Card').removeClass('cardShow').addClass('cardHidden');
-  $('.cardStim').hide();
-  $('#' + chosenDeckLocation + 'CardFeedback').hide();
-
-  // update with new stimuli
-  $('#' + chosenDeckLocation + 'CardStim').html('<p>' + currentStim + '</p>');
-  $('#' + chosenDeckLocation + 'CardStim').css({'color': currentTaskColor});
-    
-  // control rsi
+  // Trigger RSI
   setTimeout(function(){
 
-    // show card
-    $('#' + chosenDeckLocation + 'Card').addClass('cardShow').removeClass('cardHidden');
-    $('.cardStim').show();
+    // show stimulus
+    $('.stimContainer').show();
 
-    // start rt timer
-    startTime = new Date();
+    // reset error
+    error = 0;
 
-    // start listening for keys
-    $(document).bind('keydown.listenForResponseKeys', function(i){
-      // if response is valid
-      if ($.inArray(i.which, [74, 75]) + 1) {
-        // record cued rt
-        cuedRt = new Date() - startTime;
+     // listen for space bar
+    $(document).bind('keydown.listenForSpaceDown', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').show();
+      }
+    });
+    $(document).bind('keyup.listenForSpaceUp', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').hide();
+      }
+    });
+
+    $(document).bind('keydown.listenForKeys', function(e){
+      if ($.inArray(e.which, [74, 75]) + 1) {
 
         // stop listening for keys
-        $(document).unbind('keydown.listenForResponseKeys');
+        $(document).unbind('keydown.listenForKeys');
+
         // code error
-        error = cuedIsError(String(i.which), currentTask, currentStim);
-        // code transition
-        transition = codeTransition(prevTaskColor, currentTaskColor);
-        // update prev task color
-        prevTaskColor = currentTaskColor;
-        // update response count
-        responseCount += 1;
+        error = cuedIsError(String(e.which), currentTask, currentStim);
 
-        // record data
-        saveTrialData()
-
-        // start error sequence
-
+        // prepare for next trial
         if (error) {
-          // fill and siaply error feedback
-          $('#' + chosenDeckLocation + 'CardFeedback').html('<p><strong>ERROR</strong></p>');
-          $('#' + chosenDeckLocation + 'CardFeedback').show();
+          $('.errorContainer').show();
 
-          // wait 500 ms and prepare for next trial
           setTimeout(function(){
-            $('#' + chosenDeckLocation + 'CardFeedback').hide();
 
-            // check whether run is over
-            if (responseCount < responseThreshold) {
-              
-              if (cycleCount < cycleThreshold) {
-                cuedTrial();
-              } else {
-                endSegment();
-              }
-
+            if (responseCount == 17) {
+              endSegment();
             } else {
-              runTrial();
+              $('.errorContainer').hide();
+              cuedTrial();
             }
 
+          }, 500); // end error timeout
 
-          }, 500) // end error timeout
-        
-        // if accurate response
         } else {
 
-          // check whether run is over
-          if (responseCount < responseThreshold) {
-            
-            if (cycleCount < cycleThreshold) {
-              cuedTrial();
-            } else {
-              endSegment();
-            }
-
+          if (responseCount == 17) {
+            endSegment();
           } else {
-            runTrial();
+            cuedTrial();
           }
 
-        } // end if accurate response
+        }
 
-      } // end is response valid
+      } // end is response a valid key
 
-    }); // end listen for response keys
+    }); // end listen for keys
 
-  }, cuedRsi); // end cued rsi
+
+  }, 500); // end cued rsi
 
 } // end cuedTrial()
 
@@ -336,17 +333,11 @@ function saveTrialData() {
 
   trialStruct.push({
     'choiceTrial': trialCount,
-    'cuedTrial': responseCount,
-    'overalltrial': trialCount * responseCount,
     'experimentRunTimeMins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
     'phaseRunTimeMins': Math.round((Date.now() - phaseStartTime) / 1000 / 60),
-    'stimulus': currentStim,
-    'stimColor': currentTaskColor,
-    'task': currentTask,
     'condition': currentCondition['name'],
     'difference': difference,
     'difficulty': difficulty,
-    'transition': transition,
     'leftDeckId': deckCode['left']['name'],
     'rightDeckId': deckCode['right']['name'],
     'riskyDeckSwitchTop': riskyDeckSwitch[0],
@@ -355,10 +346,8 @@ function saveTrialData() {
     'selectedDeckLocation': chosenDeckLocation,
     'outcomeSwitch': selectedOutcome['pSwitch'],
     'selectedRiskyDeck': selectedRiskyDeck,
-    'error': error,
     'chosenDeckId': deckCode[chosenDeckLocation]['name'],
     'choiceRt': choiceRt,
-    'cuedRt': cuedRt
   });
 
   // Development
@@ -385,7 +374,7 @@ function endSegment() {
     'blueTask': taskCueCode['blue'],
     'redTask': taskCueCode['red'],
     'phaseRunTime': finishTime,
-    'blockStruct': blockStruct
+    'trialStruct': trialStruct
   };
 
   sendToServer(curId, currentData);
@@ -411,10 +400,10 @@ function sendToServer(curId, currentData) {
     url = '../../../../../cgi-bin/saveData.py',
     data = dataToServer,
     success = function(data){
-      window.location.replace('../rapidFire/?' + $.param(urlArgs));
+      window.location.replace('../demo/?' + $.param(urlArgs));
     }).fail(function(data){
       console.log('FAILURE');
-      window.location.replace('../rapidFire/?' + $.param(urlArgs));
+      window.location.replace('../demo/?' + $.param(urlArgs));
     });
 
 } // end sendToServer()
@@ -433,65 +422,24 @@ function sendToServer(curId, currentData) {
   <!-- the 800 x 600 experiment area -->
   <div class='screen'>
 
-    <!-- BEGIN TITLE SLIDE -->
-      <div id='titleSlide'>
-        <div class='titleBar'>
-          <h2>You are about to begin the main experiment.</h2>
-          <p>Subtitle</p>
-        </div>
-
-        <div class='leftTwoThirds'>
-          <p>That is it for the practice. Watch the video to get some basics about how the rest of the experiment will run <i class='small'>(Runtime: 48 sec)</i>.</p>
-          <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
-
-          <!--
-          <video id = 'tutorial' width = "460" height = "240" controls>
-            <source src = "twoChoiceTutorial.mp4" type = "video/mp4">
-          </video>
-        -->
-
-        </div>
-
-        <div class='rightOneThirdsDown'>
-          <button id='detail' class='experimentButton center smallButton'>See Text Instructions</button>
-          <button id='seeKeys' class='experimentButton center'>See Controls</button>
-        </div>
-      </div> <!-- end title slide -->
-
-    <!-- BEGIN DETAIL SLIDE -->
-    <div id='detailSlide'>
-      <p>Placeholder.</p>
-      <button class='experimentButton resetTitle'>Go Back</button>
-    </div> <!-- end detail slide -->
-
-
-    <!-- BLOCK TRANSITION SLIDE -->
-    <div id='blockTransitionSlide'>
-      <div class='titleBar'>
-      </div>
-
-      <div class='leftTwoThirds' id='blockInstructions'>
-      </div>
-
-      <div class='rightOneThirdsDown'>
-        <button class='experimentButton center' id='startBlock'>Continue</button>
-      </div>
-    </div> <!-- end block transition slide -->
-
-    <!-- KEY REMIND SLIDE -->
+    <!-- KEY REMIND SLIDE, which, here, I'm just using as a quick instructions slide -->
     <div id='keyRemindSlide'>
       <div class='titleBar'>
-        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
+        <p>You're almost done. There's one more (short) phase like the one you just did, followed by a very short survey. In total, these two phases should only take a few minutes.</p><br>
+        <p>In this phase, you'll be making choices between decks just like before, except now you'll be making these choices back-to-back without performing cued task switching in between. After you've made 40 choices, we'll randomly select an outcome from one of your choices for you to perform at the end, like you were doing between each selection in the last phase. So it's important to make choices carefully, because one of your choices will affect how difficult the cued task switching is that you'll need to perform at the end.</p><br>
+        <p>Press "Begin" to start this phase.</p>
       </div>
 
       <div class='leftTwoThirds' id='controlsFill'>
       </div>
 
       <div class='rightOneThirdsDown'>
-        <button class='resetTitle experimentButton smallButton center'>Go Back</button>
-        <button id='startSegment' class='experimentButton center'>Begin Phase</button>
+        <button id='startSegment' class='experimentButton center'>Begin</button>
       </div>
     </div> <!-- end key remind slide -->
+
+    <div class='interCycleSlide'>
+    </div>
 
     <div class='expSlide'>
       <div class='feedbackContainer'>
@@ -559,6 +507,19 @@ function sendToServer(curId, currentData) {
 
 
     </div> <!-- end expSlide -->
+
+    <div class='stimSlide'>
+      <div class='keyContainer'>
+      </div>
+
+      <div class='errorContainer'>
+        <p><strong>ERROR</strong></p>
+      </div>
+
+      <div class='stimContainer'>
+      </div>
+    </div>
+
 
 
 
