@@ -23,6 +23,8 @@ var responseThreshold = 17;
 var trialThreshold = 4;
 var cycleThreshold = 10;
 
+// i got lazy and just hard-coded a bunch of thresholds in for this one cuz they shouldn't need to change
+
 // parse url args
 var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? createTaskCue() : urlArgsToVar('taskCueCode');
 var clientCueCode = createClientCueText(taskCueCode);
@@ -46,8 +48,6 @@ var selectionKey = 0;
 var trialStruct = new Array();
 var deckCode = {};
 var startTime = new Date();
-var cuedRt = new Date();
-var blockTime = new Date();
 var phaseStartTime = new Date();
 var activeSeparator = '';
 
@@ -184,7 +184,7 @@ function runTrial() {
 
         // Give them 200 ms to see the outcome
         setTimeout(function(){
-          if (trialCount < 10) {
+          if (trialCount < 40) {
             runTrial();
           } else {
             prepCuedTrial();
