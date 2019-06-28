@@ -1,7 +1,7 @@
 # Dissertation Experiments
 This repository contains the source code for my dissertation experiments to be run on MTurk.  
 
-*These experiments are still under development (3/31/2019)*  
+*These experiments are still under development (6/28/2019)*  
 
 ## Pilot Data  
 
@@ -11,7 +11,7 @@ This repository contains the source code for my dissertation experiments to be r
 
 The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp1  
 
-Experiment 1 is broken down into two phases:  
+Experiment 1 is broken down into two phases, the code for which can be found below:  
 
 * [Practice Cued Task Switching](exp1/pracCued/index.html)  
 * [Demand Selection Task](exp1/dst/index.html)  
@@ -29,7 +29,7 @@ Data processing scripts:
 
 The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp2
 
-Experiment 2 is broken down into three general phases:  
+Experiment 2 is broken down into three general phases, the code for which can be found below:  
 
 * [Practice Cued Task Switching](exp2/pracCued/index.html)  
 * [Demand Selection Task](exp2/dst/index.html)  
