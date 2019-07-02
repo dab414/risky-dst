@@ -153,3 +153,13 @@ body h1, body h2, body h3, body p {
   /*border: 1px solid green;*/
   display: block;
 }
+
+.textInstructionsContainer {
+  height: 450px;
+  overflow: scroll;
+}
+
+.textInstructionsButtons {
+  display: block;
+  /*float: right;*/
+}

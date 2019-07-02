@@ -62,8 +62,7 @@ var currentCondition = {};
 var difficulty = '';
 var difference = '';
 
-//DEVELOPMENT
-// var vid = document.getElementById('tutorial');
+var vid = document.getElementById('tutorial');
 
 // Serve client-facing controls string
 var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
@@ -92,10 +91,16 @@ $('.resetTitle').click(function(){
 $('#seeKeys').click(function(){
   $('#keyRemindSlide').show();
   $('#titleSlide').hide();
+  vid.pause();
 });
 
 $('#startSegment').click(function(){
   startSegment();
+});
+
+$('#seeKeysFromDetailSlide').click(function(){
+  $('#detailSlide').hide();
+  $('#keyRemindSlide').show();
 });
 
 
@@ -184,6 +189,7 @@ function blockTransition() {
   // general instructions
   $('#blockInstructions').html(startingInstructions + feedback + '<p>You are about to perform Group ' + String(blockCount + (cycleCount - 1) * 4) + ' of ' + String(cycleThreshold * 4) + '. Please press "Continue" when you are ready to start this group.</p>');
   $('#blockTransitionSlide').show();
+  $('.expSlide').hide();
   $('#startBlock').unbind().click(function(){
     blockTime = new Date();
     $('#blockTransitionSlide').hide();
@@ -365,7 +371,7 @@ function endSegment() {
     'phase': phase,
     'blueTask': taskCueCode['blue'],
     'redTask': taskCueCode['red'],
-    'twoChoiceRunTime': finishTime,
+    'phaseRunTime': finishTime,
     'blockStruct': blockStruct
   };
 
@@ -417,20 +423,19 @@ function sendToServer(curId, currentData) {
     <!-- BEGIN TITLE SLIDE -->
     <div id='titleSlide'>
       <div class='titleBar'>
-        <h2>You are about to start the main experiment.</h2>
-        <p>Subtitle?</p>
+        <h2>You are about to begin the main experiment.</h2>
       </div>
 
       <div class='leftTwoThirds'>
-        <p>Instructions pending</p>
-        <p class='small'>If you'd rather see text instructions, click the "See Text Instructions" button to the right.</p>
+        <p>That is it for the practice. The next phase will run throughout most of the rest of the experiment (about 25 min). Watch the video below to get final instructions before beginning. <i class='small'>(Runtime: 59 sec)</i>.</p><br>
+        <p class='small'>If you don't have speakers, you can click "See Text Instructions" to read the instructions in text form.</p>
 
         
-        <!-- DEVELOPMENT -- tutorial video goes here
+        
         <video id='tutorial' width='460' height='240' controls>
-          <source src='dstTutorial.mp4' type='video/mp4'>
+          <source src='exp1Dst.mp4' type='video/mp4'>
         </video>
-        -->
+        
       </div>
 
       <div class='rightOneThirdsDown'>
@@ -441,8 +446,14 @@ function sendToServer(curId, currentData) {
 
     <!-- BEGIN DETAIL SLIDE -->
     <div id='detailSlide'>
-      <p>Placeholder.</p>
-      <button class='experimentButton resetTitle'>Go Back</button>
+      <div class='textInstructionsContainer'>
+      <p>For the rest of the experiment, you'll be choosing between two decks of cards on the screen. The "D" key selects the left deck, the "F" key selects the right deck. Each time you select a deck, a card will be flipped upwards, and you'll use the "J" and "K" keys to perform the same types of simple judgments that you performed in that last practice phase. There are differences between the two decks. One deck will reveal colors that will change more often, and the other will reveal colors that will change less often. Remember, every time the color changes, so does the rule. Responses throughout the rest of the experiment are broken down into groups. Every time the group changes, the deck will change also. So, in one group the left deck might be a little easier than the right one, but this will change randomly between groups. If you develop a preference for one of the decks, feel free to choose it for the rest of the group. Remember to try both decks in the beginning of each group before developing a preference, and try to avoid choosing decks based on where they are located. </p>
+    </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='experimentButton resetTitle smallButton textInstructionsButtons'>Go Back</button>
+        <button class='experimentButton textInstructionsButtons' id='seeKeysFromDetailSlide'>See Controls</button>
+      </div>
     </div> <!-- end detail slide -->
 
     <!-- BLOCK TRANSITION SLIDE -->

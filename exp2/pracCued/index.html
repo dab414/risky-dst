@@ -5,10 +5,10 @@
   <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
   <title>Braun Dissertation</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel='stylesheet' type='text/css' href='../style/exp1Style.css'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=4'>
-  <script src='../js/exp1Functions.js?v=1'></script>
-  <script src='../../globalJs/globalFunctions.js?v=6'></script>
+  <link rel='stylesheet' type='text/css' href='../style/exp2Style.css'>
+  <script src='../js/exp2Functions.js'></script>
+  <script src='../../globalJs/globalFunctions.js'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
 
   <script>
@@ -18,6 +18,7 @@ $(document).ready(function(){
   var transition = 'startBlock';
   var taskCueCode = createTaskCue();
   var clientCueCode = createClientCueText(taskCueCode);
+  var transitionArray = [];
   var currentTaskColor = '';
   var currentTask = '';
   var error = 0;
@@ -35,9 +36,18 @@ $(document).ready(function(){
 
   // thresholds & manipulations
   // DEVELOPMENT
-  var trialThreshold = 10;
+  var trialThreshold = 17;
   var rsi = 500;
   var errorTimeout = 500;
+  var cycleThreshold = 3;
+  var cycleCount = 0;
+  var notFirstRun = 0;
+
+  var vid = document.getElementById('tutorial');
+  var instructionsReceived = 0;
+  vid.onended = function() {
+    instructionsReceived = 1;
+  };
 
   // string for serving client key reminders
   var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
@@ -51,14 +61,8 @@ $(document).ready(function(){
   $('#controlsFill').html(controlsString);
   $('#keyRemindSlide').hide();
   $('.stimSlide').hide();
+  $('.interCycleSlide').hide();
 
-  var vid = document.getElementById('tutorial');
-
-  var instructionsReceived = 0;
-
-  vid.onended = function() {
-    instructionsReceived = 1;
-  };
 
   $('#detail').click(function(){
     $('#titleSlide').hide();
@@ -72,9 +76,6 @@ $(document).ready(function(){
     $('#keyRemindSlide').hide();
   });
 
-  // Force Ps to see the normative instructions
-
-  // if watching the video
   $('#seeKeys').click(function(){
     if (instructionsReceived) {
       $('#keyRemindSlide').show();
@@ -86,7 +87,7 @@ $(document).ready(function(){
     }
   });
 
-  // if reading the text
+    // if reading the text
   // from here: https://stackoverflow.com/questions/6271237/detecting-when-user-scrolls-to-bottom-of-div-with-jquery
   jQuery(function($){
     $('.textInstructionsContainer').on('scroll', function(){
@@ -105,7 +106,6 @@ $(document).ready(function(){
     }
   });
 
-
   $('#startCued').click(function(){
     startCued();
   });
@@ -118,8 +118,31 @@ function startCued() {
   $('.keyContainer').html(controlsString);
   $('.keyContainer').hide();
   $('.errorContainer').hide();
-  $('.stimSlide').show();
-  runTrial();
+  runCycle();
+}
+
+function runCycle() {
+  $('.stimSlide').hide();
+  
+  if (cycleCount == cycleThreshold) {
+    endCued();
+  } else {
+    transitionArray = generateTransitionArray(8);
+    cycleCount += 1;
+    trialCount = 0;
+    if (notFirstRun) {
+      $('.interCycleSlide').show();
+      setTimeout(function(){
+        $('.interCycleSlide').hide();
+        $('.stimSlide').show()
+        runTrial();
+      }, 5000)
+    } else {
+      notFirstRun = 1;
+      $('.stimSlide').show()
+      runTrial();
+    }
+  }
 }
 
 function runTrial() {
@@ -128,7 +151,7 @@ function runTrial() {
 
   // generate stimulus
   $('.stimContainer').hide();
-  currentTaskColor = generateTransition(0.5, prevTaskColor);
+  currentTaskColor = transitionArray[trialCount - 1];
   currentStim = generateCuedStim();
   currentTask = taskCueCode[currentTaskColor];
   $('.stimContainer').html('<p>' + currentStim + '</p>');
@@ -198,7 +221,8 @@ function runTrial() {
 
           setTimeout(function(){
             if (trialCount == trialThreshold) {
-              endCued();
+              $('.errorContainer').hide();
+              runCycle();
             } else {
               $('.errorContainer').hide();
               runTrial();
@@ -206,7 +230,7 @@ function runTrial() {
           }, errorTimeout)
         } else {
           if (trialCount == trialThreshold) {
-            endCued();
+            runCycle();
           } else {
             runTrial();
           }
@@ -298,12 +322,12 @@ function sendToServer(curId, currentData) {
         </div>
 
         <div class='leftTwoThirds'>
-          <p>The first thing you will do is a short practice round (5 min). Watch the video below to see instructions before clicking the "See Controls" button to the right. <span class='small'>(Runtime: 2 min 10 s)</span></p><br>
+          <p>The first thing you will do is a short practice round (5 min). Watch the video below to see instructions before clicking the "See Controls" button to the right. <span class='small'>(Runtime: 2 min 18 s)</span></p><br>
           <p class='small'>If you don't have speakers, you can click "See Text Instructions" to read the instructions in text form.</p>
 
         
           <video id = 'tutorial' width = "460" height = "240" controls>
-            <source src = "exp1PracCued.mp4" type = "video/mp4">
+            <source src = "exp2PracCued.mp4" type = "video/mp4">
           </video>
         
         </div>
@@ -318,9 +342,9 @@ function sendToServer(curId, currentData) {
     <!-- BEGIN DETAIL SLIDE -->
     <div id='detailSlide'>
       <div class='textInstructionsContainer'>
-      <p>In this experiment, you'll be making a lot of repetitive, two-part judgments. The first part involves selecting between two decks of cards on the screen, the second part involves performing a simple task on the card that's selected from a given deck. The first thing that you'll do is practice the simple tasks that you'll be performing. You'll be seeing digits appearing on the screen, one through nine (excluding five), in either a red or blue font color. Your job is to perform one of two simple tasks on these digits. You can either perform the Magnitude task, by judging whether this digit is higher or lower than five, or you can perform the Parity task, by judging whether the digit is odd or even. These responses are mapped to keys on the keyboard. "J" and "K" map to "Low" and "High" judgments for the Magnitude task and they also map to "Odd" and "Even" for the Parity task. The task that you should perform is signaled by the color that the digit is presented in. For example, if the digit is presented in a blue font, that could mean that you need to perform the Magnitude task on the digit that is presented. The color-to-task mappings will be different for everyone, and you'll see your mapping (and controls) by clicking on the "See Controls" button. If you forget the colors and keys at any point during the experiment, you can hold down the Space bar to see the key codes presented on the screen. After you make a response, the digit will disappear, and a new one will reappear and you need to make a new response. Let's say that you make a mistake by, for example, pressing the "High" key when you're supposed to perform the Magnitude task and the digit presented is "3". The word "ERROR" will appear on the screen, and these trials take longer to reset than when you get them correct, so you want to avoid making errors to avoid incurring a time cost.</p><br>
+      <p>In this experiment, you'll be making a lot of repetitive, two-part judgments. The first part involves selecting between two decks of cards on the screen, the second part involves performing a simple task on the card that's selected from a given deck. The first thing that you'll do is practice the simple tasks that you'll be performing. You'll be seeing digits appearing on the screen, one through nine (excluding five), in either a red or blue font color. Your job is to perform one of two simple tasks on these digits. You can either perform the Magnitude task, by judging whether this digit is higher or lower than five, or you can perform the Parity task, by judging whether the digit is odd or even. These responses are mapped to keys on the keyboard. "J" and "K" map to "Low" and "High" judgments for the Magnitude task and they also map to "Odd" and "Even" for the Parity task. The task that you should perform is signaled by the color that the digit is presented in. For example, if the digit is presented in a blue font, that could mean that you need to perform the Magnitude task on the digit that is presented. The color-to-task mappings will be different for everyone, and you'll see your mapping (and controls) by clicking on the "See Controls" button. If you forget the colors and keys at any point during the experiment, you can hold down the Space bar to see the key codes presented on the screen. After you make a response, the digit will disappear, and a new one will reappear and you need to make a new response. You'll be making these judgments in 17-trial groups for about five minutes in this practice round. Let's say that you make a mistake by, for example, pressing the "High" key when you're supposed to perform the Magnitude task and the digit presented is "3". The word "ERROR" will appear on the screen, and these trials take longer to reset than when you get them correct, so you want to avoid making errors to avoid incurring a time cost.</p><br>
 
-      <p><strong>You might notice that when the digit changes color and you have to switch between tasks, it's actually harder and it takes more effort to respond than when the digit just remains the same color and you perform the same task. In this practice round, you'll be switching between tasks about 50% of the time. That's normal for these tasks and it's what can be expected for these types of tasks when you see them in the future.</strong></p>
+      <p><strong>You might notice that when the digit changes color and you have to switch between tasks, it's actually harder and it takes more effort to respond than when the digit just remains the same color and you perform the same task. In this practice round, half (ie, 8) of the possible 16 trial transitions will be task switches. That's normal for these tasks and it's what can be expected for these types of tasks when you see them in the future.</strong></p>
     </div>
 
       <div class='rightOneThirdsDown'>
@@ -328,6 +352,10 @@ function sendToServer(curId, currentData) {
         <button class='experimentButton textInstructionsButtons' id='seeKeysFromDetailSlide'>See Controls</button>
       </div>
     </div> <!-- end detail slide -->
+
+    <div class='interCycleSlide'>
+      <p>That was the end of that 17-trial cycle, the next one will begin shortly. Remember 8 of the 16 trial transitions will be task switches, and that is the difficulty level that can be expected during these types of tasks.</p>
+    </div>
 
     <!-- KEY REMIND SLIDE -->
     <div id='keyRemindSlide'>
