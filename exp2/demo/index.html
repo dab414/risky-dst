@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 	// Top Vars
 	var development = false;
-	var experimentName = 'dissertationExperiment1';
+	var experimentName = 'dissertationExperiment2';
 	var sessionCode = 'demo';
 	var experimentStartTime = urlArgsToVar('experimentStartTime');
 
@@ -46,7 +46,7 @@ $(document).ready(function(){
     	'curId': curId,
     	'workerId': GetWorkerId(),
     	'curTime': curDate.today() + '@' + curDate.timeNow(),
-    	'totalTime_mins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
+    	'totalTime_mins': experimentStartTime ? Math.round((Date.now() - experimentStartTime) / 1000 / 60) : 'null',
       'screen_width': screen.width,
       'screen_height': screen.height,
       'window_width': $(window).width(),
@@ -72,7 +72,7 @@ $(document).ready(function(){
 		};
 
 		$.post(
-			url = '../../../../cgi-bin/saveData.py',
+			url = '../../../../../cgi-bin/saveData.py',
 			data = dataToServer,
 			success = function(data){
 				$('#debrief').hide();

@@ -5,7 +5,7 @@
   <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
   <title>Braun Dissertation</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=1'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
   <link rel='stylesheet' type='text/css' href='../style/exp2Style.css'>
   <script src='../js/exp2Functions.js'></script>
@@ -21,7 +21,8 @@ $(document).ready(function(){
 // thresholds
 var responseThreshold = 17;
 var trialThreshold = 4;
-var cycleThreshold = 10;
+//development
+var cycleThreshold = 1;
 
 // parse url args
 var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? createTaskCue() : urlArgsToVar('taskCueCode');
@@ -279,16 +280,16 @@ function cuedTrial() {
             $('#' + chosenDeckLocation + 'CardFeedback').hide();
 
             // check whether run is over
-            if (responseCount < responseThreshold) {
+            if (responseCount == responseThreshold) {
               
-              if (cycleCount < cycleThreshold) {
-                cuedTrial();
+              if (cycleCount == cycleThreshold) {
+                runTrial();
               } else {
                 endSegment();
               }
 
             } else {
-              runTrial();
+              cuedTrial();
             }
 
 
@@ -298,16 +299,16 @@ function cuedTrial() {
         } else {
 
           // check whether run is over
-          if (responseCount < responseThreshold) {
+          if (responseCount == responseThreshold) {
             
-            if (cycleCount < cycleThreshold) {
-              cuedTrial();
+            if (cycleCount == cycleThreshold) {
+              runTrial();
             } else {
               endSegment();
             }
 
           } else {
-            runTrial();
+            cuedTrial();
           }
 
         } // end if accurate response
@@ -323,7 +324,7 @@ function cuedTrial() {
 
 function saveTrialData() {
 
-  if (deckCode['left']['name'] == 'risky') {
+  if (deckCode['left']['name'] == 'riskyDeck') {
     var safeDeckSwitch = deckCode['right']['pSwitch']['top'];
     var riskyDeckSwitch = [deckCode['left']['pSwitch']['top'], deckCode['left']['pSwitch']['bottom']];
   } else {
@@ -342,8 +343,8 @@ function saveTrialData() {
   trialStruct.push({
     'choiceTrial': trialCount,
     'cuedTrial': responseCount,
-    'overalltrial': trialCount * responseCount,
-    'experimentRunTimeMins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
+    'overalltrial': (trialCount * 17) + responseCount,
+    'experimentRunTimeMins': experimentStartTime ? Math.round((Date.now() - experimentStartTime) / 1000 / 60) : 'null',
     'phaseRunTimeMins': Math.round((Date.now() - phaseStartTime) / 1000 / 60),
     'stimulus': currentStim,
     'stimColor': currentTaskColor,
@@ -390,7 +391,7 @@ function endSegment() {
     'blueTask': taskCueCode['blue'],
     'redTask': taskCueCode['red'],
     'phaseRunTime': finishTime,
-    'blockStruct': blockStruct
+    'trialStruct': trialStruct
   };
 
   sendToServer(curId, currentData);

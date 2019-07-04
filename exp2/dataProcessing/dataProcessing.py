@@ -50,7 +50,7 @@ def summarize_data(args):
   returns a list of lists, where each nested list is a trial
   '''
   ## run a different procedure for each portion of the experiment
-  fTypes = ['pracCued','dst', 'demo']
+  fTypes = ['pracCued','dst', 'demo', 'rapidFire']
   out = {}
 
   ## look for subjects that started but didn't complete all phases of the experiment
@@ -144,12 +144,14 @@ def main():
   final_data = summarize_data(args)
 
   for entry in final_data:
+
+
     df = pd.DataFrame(np.array(final_data[entry][1:]), columns = final_data[entry][0])
     
-    if not os.path.exists('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp1/data/'):
-      os.mkdir('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp1/data/')
+    if not os.path.exists('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/'):
+      os.mkdir('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/')
     
-    df.to_csv('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp1/data/' + entry + '.csv', index = False)
+    df.to_csv('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/' + entry + '.csv', index = False)
 
 if __name__ == '__main__':
   main()

@@ -6,7 +6,7 @@
   <title>Braun Dissertation</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel='stylesheet' type='text/css' href='../style/exp1Style.css'>
-  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=2'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=3'>
   <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
   <script src='../js/exp1Functions.js?v=3'></script>
   <script src='../../globalJs/globalFunctions.js?v=3'></script>
@@ -18,10 +18,11 @@
 $(document).ready(function(){
   
 // GLOBAL VARS
+
 // thresholds
 var cycleThreshold = 2;
 // DEVELOPMENT
-var trialThreshold = 10;
+var trialThreshold = 30;
 
 // parse url args
 var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? createTaskCue() : urlArgsToVar('taskCueCode');
@@ -33,11 +34,6 @@ var phaseStartTime = Date.now();
 var trialCount = 0;
 var blockCount = 0;
 var cycleCount = 0;
-
-// thresholds
-// DEVELOPMENT
-var trialThreshold = 5;
-var cycleThreshold = 2;
 
 // not worrying about rsi
 var prevTaskColor = '';
@@ -135,7 +131,6 @@ function blockTransition() {
     feedback = '<p>You completed that last group in ' + String(Math.round(blockTime)) + ' seconds. (prob add accuracy feedback here)';
     blockStruct.push({
       'cycle': cycleCount,
-      'block': blockCount,
       'blockTime': blockTime,
       'trialStruct': trialStruct
     })
