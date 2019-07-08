@@ -15,8 +15,12 @@ mtc = MTurkConnection(aws_access_key_id=aws_access_key_id,
                         aws_secret_access_key=aws_secret_access_key,
                         host=HOST)
   
-hit_id = open('hit_id.txt', 'r').read()
+hit_ids = []
 
-mtc.expire_hit(hit_id)
-mtc.dispose_hit(hit_id)
-print mtc.get_hit(hit_id)
+for h in mtc.get_all_hits():
+	hit_ids.append(h.HITId)
+
+for h in hit_ids:
+	mtc.disable_hit(h)
+	print mtc.get_hit(h)[0].HITId + ': ' + mtc.get_hit(h)[0].HITStatus
+

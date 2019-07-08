@@ -32,7 +32,7 @@ def PostHits(pay, lifetime, max_assignments, exp):
   keywords = ['attention', 'psychology', 'experiment', 'research']
   title = 'A Decision Making Experiment'
   experimentName = 'Decision Making Experiment' ## this is NOT what it ends up getting called on my server
-  description = 'This HIT will take about 30 mins to complete.'
+  description = 'This HIT will take about 30 mins to complete. All HITS in this batch are the same, and you will only be able to perform one of the HITS in this batch.'
   
   qualifications = mtqu.Qualifications()
   qualifications.add(mtqu.PercentAssignmentsApprovedRequirement('GreaterThanOrEqualTo', 90))
