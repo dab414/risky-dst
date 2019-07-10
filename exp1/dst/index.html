@@ -51,6 +51,7 @@ var cuedRt = new Date();
 var choiceRt = new Date();
 var blockTime = new Date();
 var phaseStartTime = new Date();
+var accuracyCount = 0;
 
 // control conditions
 var conditionOrder = new Array();
@@ -125,10 +126,13 @@ function blockTransition() {
   // add instruction vars
   var startingInstructions = '';
   var feedback = '';
+  var accuracy = Math.round((accuracyCount / trialThreshold) * 100);
+
+  accuracyCount = 0;
 
   // things to do if it's not the first block of the experiment
   if (blockCount) {
-    feedback = '<p>You completed that last group in ' + String(Math.round(blockTime)) + ' seconds. (prob add accuracy feedback here)';
+    feedback = '<p>You completed that last group in ' + String(Math.round(blockTime)) + ' seconds with an accuracy of ' + String(accuracy);
     blockStruct.push({
       'cycle': cycleCount,
       'blockTime': blockTime,
@@ -278,6 +282,7 @@ function cuedTrial() {
       $(document).unbind('keydown.listenForResponseKeys');
       // code error
       error = cuedIsError(String(i.which), currentTask, currentStim);
+      accuracyCount += error ? 0 : 1;
       // code transition
       transition = codeTransition(prevTaskColor, currentTaskColor);
       // update previous task color
@@ -427,7 +432,7 @@ function sendToServer(curId, currentData) {
 
         
         
-        <video id='tutorial' width='460' height='240' controls>
+        <video id='tutorial' width='510' height='290' controls>
           <source src='exp1Dst.mp4' type='video/mp4'>
         </video>
         
