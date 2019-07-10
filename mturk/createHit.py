@@ -16,18 +16,23 @@ from dateutil.parser import *
 HOST = 'mechanicalturk.sandbox.amazonaws.com' # Use this to post to the sandbox instead
 #HOST = 'mechanicalturk.amazonaws.com'
 
-def PostHits():
+pay = 1.5
+max_assignments = 20
+lifetime = 14 * 24 * 60 * 60 # days, hours, mins, seconds
+
+exp = 'exp1'
+
+def PostHits(pay, lifetime, max_assignments, exp):
   mtc = MTurkConnection(aws_access_key_id=aws_access_key_id,
                         aws_secret_access_key=aws_secret_access_key,
                         host=HOST)
   
   
-  q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/exp1/", frame_height=675)
+  q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
   keywords = ['attention', 'psychology', 'experiment', 'research']
   title = 'A Decision Making Experiment'
   experimentName = 'Decision Making Experiment' ## this is NOT what it ends up getting called on my server
-  description = 'This HIT will take about 30 mins to complete.'
-  pay = 1.5
+  description = 'This HIT will take about 30 mins to complete. All HITS in this batch are the same, and you will only be able to perform one of the HITS in this batch.'
   
   qualifications = mtqu.Qualifications()
   qualifications.add(mtqu.PercentAssignmentsApprovedRequirement('GreaterThanOrEqualTo', 90))
@@ -35,8 +40,8 @@ def PostHits():
   #qualifications.add(mtqu.Requirement("2Z046OQ1SNQQREGXAFSQPCNR1605PN"))
 
   theHIT = mtc.create_hit(question=q,
-                          lifetime=14 * 24 * 60 * 60, # days, hours, mins, seconds
-                          max_assignments=20,
+                          lifetime=lifetime,
+                          max_assignments=max_assignments,
                           title=title,
                           description=description,
                           keywords=keywords,
@@ -50,11 +55,17 @@ def PostHits():
   assert(theHIT.status == True)
   print theHIT
   hit_type_id = theHIT[0].HITId
-  print hit_type_id
+  print hit_type_id + '\n'
   #print "https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id)
 
+  '''
   f = open('hit_id.txt', 'w')
   f.write(hit_type_id)
   f.close()
+  '''
 
-PostHits()
+  return hit_type_id
+
+if __name__ == '__main__':
+
+  PostHits(pay, lifetime, max_assignments, exp)

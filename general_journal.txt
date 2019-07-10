@@ -1,3 +1,22 @@
+7/8/2019
+  almost completely ready to go
+  added microbatching script
+    i don't think it should be too bad managing all that
+  managing unique workers
+    look here: http://uniqueturker.myleott.com/
+      to constrain to only unique workers to one *batch* of hits
+    what defines a batch?
+      i think it's all of one particular *HitType*
+        create a meta HitType: https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CreateHITTypeOperation.html
+        create a HIT of a particular, pre-existing HITType: https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_CreateHITWithHITTypeOperation.html
+    it might be to my advantage to just keep everything as one batch though
+      analogous to running two experiments under one ID in sona
+
+  misc
+    look into why full screen button doesn't appear on video controls
+    can prob start building up a library of MTurkConnection helper functions
+    save out response key to data
+
 6/13/2019
   im just adding in the deck background image for now
   then when dad leaves ill do the video
