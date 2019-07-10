@@ -19,10 +19,12 @@ $(document).ready(function(){
 
 // GLOBAL VARS
 // thresholds
+// 17 cued responses per choice
 var responseThreshold = 17;
+// randomly select 4 conditions without replacement across 4 consecutive choices
 var trialThreshold = 4;
-//development
-var cycleThreshold = 1;
+// how many times do all conditions repeat
+var cycleThreshold = 17;
 
 // parse url args
 var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? createTaskCue() : urlArgsToVar('taskCueCode');

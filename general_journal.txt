@@ -1,3 +1,14 @@
+7/10/2019
+  thresholds
+    prac cued (for exps 1 and 2): 160 trials
+    dst
+      exp1
+        100 trials per block (4 blocks per cycle)
+        4 cycles
+      exp2
+        17 trials per choice, 4 choices per cycle
+        17 cycles (from trial threshold calculations)
+
 7/8/2019
   almost completely ready to go
   added microbatching script
