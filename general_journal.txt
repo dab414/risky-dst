@@ -9,6 +9,9 @@
         17 trials per choice, 4 choices per cycle
         17 cycles (from trial threshold calculations)
 
+  remember to kill all console logging
+  add some type of warning about accuracy-based hit rejection
+
 7/8/2019
   almost completely ready to go
   added microbatching script

@@ -9,7 +9,7 @@ output:
 
 Hello!
 
-Thank you for piloting my study. I’m hoping this pilot shouldn’t take you longer than **30 minutes** at most. But the timing is something I'm hoping to get a better handle on from your data, so please bear with me for now!
+Thank you for piloting my study. I’m hoping this pilot will take you around **30 minutes** to complete and hopefully not longer than 60 minutes. The timing is something I'm hoping to get a better handle on from your data, so please bear with me for now!
 
 I’m testing this experiment in the Mturk “sandbox” (ie, development platform), and because of that you’ll have to sign up for a worker account (if you don’t already have one) before you can pilot this experiment (ie, human intelligence task or “HIT”, in mturk lingo).
 

@@ -132,7 +132,7 @@ function blockTransition() {
 
   // things to do if it's not the first block of the experiment
   if (blockCount) {
-    feedback = '<p>You completed that last group in ' + String(Math.round(blockTime)) + ' seconds with an accuracy of ' + String(accuracy);
+    feedback = '<p>You completed that last group in ' + String(Math.round(blockTime / 60)) + ' minutes  and ' + String(Math.round((blockTime % 1) * 60)  ' seconds with an accuracy of ' + String(accuracy) + '%';
     blockStruct.push({
       'cycle': cycleCount,
       'blockTime': blockTime,
