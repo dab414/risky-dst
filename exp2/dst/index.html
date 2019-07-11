@@ -75,7 +75,21 @@ $('#controlsFill').html(controlsString);
 $('#keyRemindSlide').hide();
 $('.expSlide').hide();
 $('#blockTransitionSlide').hide();
+$('#development').hide();
 
+if (!IsOnTurk()) {
+    $('#titleSlide').hide();
+    $('#development').show();
+    $('#submitDevelopment').click(function(){
+      if ($('input[name = expLength]:checked').val() == 'short') {
+        cycleThreshold = 2;
+      }
+
+      $('#development').hide();
+      $('#titleSlide').show();
+      console.log('Cycle Threshold: ' + String(cycleThreshold));
+    });
+  }
 
 // button controls
 $('#detail').click(function(){
@@ -138,6 +152,11 @@ function runTrial() {
     conditionOrder = createConditionOrder();
     cycleCount += 1;
     cycleTrialCount = 0;
+
+    if (cycleCount > cycleThreshold) {
+      endSegment();
+      return
+    }
   }
 
   // set condition and update counters
@@ -274,6 +293,9 @@ function cuedTrial() {
         // record cued key
         cuedResponseKey = i.which == 74 ? 'J' : 'K';
 
+        console.log('cycle trial count: ' + String(cycleTrialCount));
+        console.log('cycle count: ' + String(cycleCount));
+
         // record data
         saveTrialData()
 
@@ -290,13 +312,7 @@ function cuedTrial() {
 
             // check whether run is over
             if (responseCount == responseThreshold) {
-              
-              if (cycleCount == cycleThreshold) {
-                runTrial();
-              } else {
-                endSegment();
-              }
-
+              runTrial();
             } else {
               cuedTrial();
             }
@@ -309,13 +325,7 @@ function cuedTrial() {
 
           // check whether run is over
           if (responseCount == responseThreshold) {
-            
-            if (cycleCount == cycleThreshold) {
-              runTrial();
-            } else {
-              endSegment();
-            }
-
+            runTrial();
           } else {
             cuedTrial();
           }
@@ -446,6 +456,14 @@ function sendToServer(curId, currentData) {
 <div class='container'>
   <!-- the 800 x 600 experiment area -->
   <div class='screen'>
+
+    <!-- BEGIN DEVELOPMENT SLIDE -->
+      <div id='development'>
+        <p>Looks like you're not on turk, so I'm guessing you're testing. Do you want to do the full length phase, or a shortened one?</p>
+        <input type='radio' name='expLength' value='regular' checked>Regular<br>
+        <input type='radio' name='expLength' value='short'>Shortened<br>
+        <button id='submitDevelopment' class='experimentButton'>Submit</button>
+      </div>
 
     <!-- BEGIN TITLE SLIDE -->
       <div id='titleSlide'>
