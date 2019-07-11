@@ -132,9 +132,12 @@ function blockTransition() {
 
   accuracyCount = 0;
 
+  // multiply by 60 bc you need it as a proportion of seconds in a min
+  blockTimeSeconds = blockTime < 60 ? Math.round(blockTime) : Math.round(((blockTime / 60) % 1) * 60)
+
   // things to do if it's not the first block of the experiment
   if (blockCount) {
-    feedback = '<p>You completed that last group in ' + String(Math.round(blockTime / 60)) + ' minutes  and ' + String(Math.round((blockTime % 1) * 60)  ' seconds with an accuracy of ' + String(accuracy) + '%';
+    feedback = '<p>You completed that last group in ' + String(Math.round(blockTime / 60)) + ' minutes and ' + String(blockTimeSeconds) + ' seconds with an accuracy of ' + String(accuracy) + '%</p><br>';
     blockStruct.push({
       'cycle': cycleCount,
       'blockTime': blockTime,
