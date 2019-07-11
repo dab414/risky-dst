@@ -24,8 +24,6 @@
 			var workerId = GetWorkerId();
 			var assignmentId = GetAssignmentId();
 
-			console.log([workerId, assignmentId]);
-
 			// when pressing accept button
 			$('#accept_consent').click(function(){
 				
@@ -87,7 +85,8 @@
 	<div id = 'warning'>
 		<h2>Note!</h2>
 		<p><strong>Please try to refrain from pressing "refresh" or "back" at any point during the experiment!</strong></p> 
-		<p>Pressing these buttons may cause you to lose progress in the experiment.</p>
+		<p>Pressing these buttons may cause you to lose progress in the experiment.</p><br>
+		<p>Also- the attention check in this experiment is an accuracy threshold. <strong>To get your HIT accepted, you need an accuracy of at least 75%.</strong> Typical accuracy rates in these studies are over 90%, so if you're paying attention you should do fine.</p>
 		<button id='agree' class='experimentButton'>Got it.</button>
 	</div>
 </div>

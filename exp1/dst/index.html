@@ -52,6 +52,8 @@ var choiceRt = new Date();
 var blockTime = new Date();
 var phaseStartTime = new Date();
 var accuracyCount = 0;
+var cuedResponseKey = '';
+var choiceResponseKey = '';
 
 // control conditions
 var conditionOrder = new Array();
@@ -234,6 +236,9 @@ function runTrial() {
       // record choice rt
       choiceRt = new Date() - startTime;
 
+      // record choice key
+      choiceResponseKey = e.which == 68 ? 'D' : 'F';
+
       // get location of the chosen deck
       chosenDeckLocation = e.which == 68 ? 'left' : 'right';
 
@@ -288,6 +293,9 @@ function cuedTrial() {
       // update previous task color
       prevTaskColor = currentTaskColor;
 
+      // record cued key
+      cuedResponseKey = i.which == 74 ? 'J' : 'K';
+
       // record data
       saveTrialData();
 
@@ -337,6 +345,8 @@ function saveTrialData() {
     'condition': currentCondition['name'],
     'difference': difference,
     'difficulty': difficulty,
+    'cuedResponseKey': cuedResponseKey,
+    'choiceResponseKey': choiceResponseKey,
     'transition': transition,
     'leftDeckId': deckCode['left']['name'],
     'leftDeckSwitch': deckCode['left']['pSwitch'],
@@ -349,8 +359,6 @@ function saveTrialData() {
     'cuedRt': cuedRt
   });
 
-  // DEVELOPMENT
-  console.log(trialStruct);
 } // end saveTrialData()
 
 function endSegment() {

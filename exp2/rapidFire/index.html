@@ -50,6 +50,8 @@ var deckCode = {};
 var startTime = new Date();
 var phaseStartTime = new Date();
 var activeSeparator = '';
+var cuedResponseKey = '';
+var choiceResponseKey = '';
 
 // adding for rapid fire
 var selectedOutcomes = new Array();
@@ -175,6 +177,9 @@ function runTrial() {
         // determine outcome
         selectedOutcome = determineOutcomePswitch(chosenDeckLocation, deckCode);
         selectedOutcomes.push(selectedOutcome['pSwitch']);
+
+        // record choice key
+        choiceResponseKey = e.which == 68 ? 'D' : 'F';
 
         // save out choice data
         saveTrialData();
@@ -338,6 +343,8 @@ function saveTrialData() {
     'condition': currentCondition['name'],
     'difference': difference,
     'difficulty': difficulty,
+    'cuedResponseKey': cuedResponseKey,
+    'choiceResponseKey': choiceResponseKey,
     'leftDeckId': deckCode['left']['name'],
     'rightDeckId': deckCode['right']['name'],
     'riskyDeckSwitchTop': riskyDeckSwitch[0],
@@ -349,9 +356,6 @@ function saveTrialData() {
     'chosenDeckId': deckCode[chosenDeckLocation]['name'],
     'choiceRt': choiceRt,
   });
-
-  // Development
-  console.log(trialStruct);
 
 }
 

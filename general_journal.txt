@@ -1,3 +1,16 @@
+7/11/2019
+  to-do list:
+    kill console logging
+      done
+    add warning about accuracy-based hit rejection
+      done
+    save out response key
+      done
+    in cued intersperse version, add in more instructions 
+    post exps in sandbox with high max assignments
+    revise pilot recruit and host on website as html
+    figure out some type of protocol for easily changing between development / production thresholds
+
 7/10/2019
   thresholds
     prac cued (for exps 1 and 2): 160 trials
