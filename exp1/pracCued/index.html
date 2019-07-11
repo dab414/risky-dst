@@ -52,6 +52,18 @@ $(document).ready(function(){
   $('#controlsFill').html(controlsString);
   $('#keyRemindSlide').hide();
   $('.stimSlide').hide();
+  $('#development').hide();
+
+  if (!IsOnTurk()) {
+    $('#titleSlide').hide();
+    $('#development').show();
+    $('#submitDevelopment').click(function(){
+      trialThreshold = $('input[name = expLength]:checked').val() == 'short' ? 16 : trialThreshold;
+      $('#development').hide();
+      $('#titleSlide').show();
+      console.log(trialThreshold);
+    });
+  }
 
   var vid = document.getElementById('tutorial');
 
@@ -290,6 +302,14 @@ function sendToServer(curId, currentData) {
   <div class='container'>
     <!-- the 800 x 600 experiment area -->
     <div class='screen'>
+
+      <!-- BEGIN DEVELOPMENT SLIDE -->
+      <div id='development'>
+        <p>Looks like you're not on turk, so I'm guessing you're testing. Do you want to do the full length phase, or a shortened one?</p>
+        <input type='radio' name='expLength' value='regular' checked>Regular<br>
+        <input type='radio' name='expLength' value='short'>Shortened<br>
+        <button id='submitDevelopment' class='experimentButton'>Submit</button>
+      </div>
 
       <!-- BEGIN TITLE SLIDE -->
       <div id='titleSlide'>
