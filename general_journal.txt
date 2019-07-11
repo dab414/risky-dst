@@ -11,6 +11,9 @@
     post exps in sandbox with high max assignments
     revise pilot recruit and host on website as html
     figure out some type of protocol for easily changing between development / production thresholds
+      done
+
+  REMEMBER TO REENABLE THE UNIQUE WORKER SCRIPT BEFORE LAUNCHING!!
       
 
 7/10/2019

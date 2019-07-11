@@ -8,7 +8,14 @@
 
 	<script>
 		$(document).ready(function(){
+			// make secure connection
+			var loc = window.location.href+'';
+			if (loc.indexOf('http://') == 0){
+				window.location.href = loc.replace('http://', 'https://');
+			}
 
+			// DEVELOPMENT 
+			/*
 			if (IsOnTurk()) {
 				(function(){
 			    var ut_id = "7adc45e42e0cd1fb1652b7da034c198a";
@@ -18,6 +25,7 @@
 			    }
 				})();
 			}
+			*/
 
 			$('#warning').hide();
 
@@ -38,19 +46,7 @@
     			return false;
 				}
 
-				// come back to this (trying to be able to exclude subjects who have completed certain experiments already) 10/9
-				// need to be able to pass a list of studies that i don't want them to have participated in...
-				// https://www.elvenware.com/charlie/development/web/Python/PythonScripts.html
-				/*
-				$.post({
-					url: url,
-					data: {workerId: GetWorkerId(),
-								experimentName: 'rvtsSwitchExperiments_versionA'},
-					success: function(data){
-						console.log(data);
-					}});
-				*/
-
+				
 				$('#accept').hide();
 				$('#warning').show();
 

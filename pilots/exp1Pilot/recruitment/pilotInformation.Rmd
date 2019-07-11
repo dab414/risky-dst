@@ -3,36 +3,46 @@ title: "Dissertation Pilot Information"
 author: "Dave Braun"
 date: "7/10/2019"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 Hello!
 
 Thank you for piloting my study. I’m hoping this pilot will take you around **30 minutes** to complete and hopefully not longer than 60 minutes. The timing is something I'm hoping to get a better handle on from your data, so please bear with me for now!
 
+## How to Perform the Experiment
+
+### Basic Concepts
+
 I’m testing this experiment in the Mturk “sandbox” (ie, development platform), and because of that you’ll have to sign up for a worker account (if you don’t already have one) before you can pilot this experiment (ie, human intelligence task or “HIT”, in mturk lingo).
 
-To get to the experiment:
+### What to do:
   
-  1. First make an account (or sign in) by going here: https://workersandbox.mturk.com  
+1. First make an account (or sign in) by going here: https://workersandbox.mturk.com  
+    * Be sure that you're logging into the **sandbox** and not the regular MTurk marketplace.
+
+2. Then find the experiment in the list of existing HITs
+    * You should be able to pretty easily find it by searching "Braun Decision Making Experiment" in the MTurk **sandbox** marketplace.
+    
+3. Complete the experiment
+
+    * It should hopefully be self explanatory. Make sure to watch the instructional videos--I'd welcome your feedback as to whether or not you thought they were clear enough to know what you're supposed to be doing in the experiment.
   
-  2. Then find the experiment in the list of existing HITs
-      * I think this link should take you right to the experiment: [update with link]
-      * But if not, just search for “braun” or “multitasking” and it should be the only HIT that appears.  
+    * Once you get to the end of the experiment, it’ll ask you to fill out some demographic info and there will be a box for comments. It would be super helpful if in that comment box you could put:
+  
+      * Your name   
+        * I know, I technically can’t ask this of you, but if I go back and see something weird in your data it would be helpful for me to be able to ask you a question about it directly. But if you don’t want to put your name by all means don’t.  
+      * Did you encounter any bugs / programming errors?  
+      * Whether the instructions were clear / was there anything you didn’t understand.  
+      * About how long the whole thing took you from start to finish.  
+      * Any other comments or things you think I should change.  
 
-Make sure to watch the instructional videos--I'd welcome your feedback as to whether or not you thought they were clear enough to know what you're supposed to be doing in the experiment.
+### Other notes
+  
+* If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email (dab414@lehigh.edu) me and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches. Unanticipated bugs are the type of things that keep me up at night.
 
-Once you get to the end of the experiment, it’ll ask you to fill out some demographic info and there will be a box for comments. It would be super helpful if in that comment box you could put:
-
-  * Your name   
-    * I know, I technically can’t ask this of you, but if I go back and see something weird in your data it would be helpful for me to be able to ask you a question about it directly. But if you don’t want to put your name by all means don’t.  
-  * Did you encounter any bugs / programming errors?  
-  * Whether the instructions were clear / was there anything you didn’t understand.  
-  * About how long the whole thing took you from start to finish.  
-  * Any other comments or things you think I should change.  
-
-I’ve tested this experiment myself pretty thoroughly, but this type of browser experiment is relatively new territory for me. If anything feels weird at all, please let me know! Please email me (dab414@lehigh.edu) after you’ve completed the experiment, so I know that everyone who completed the experiment is showing up in the data.
+* I’ve tested this experiment myself pretty thoroughly, but this type of browser experiment is relatively new territory for me. If anything feels weird at all, please let me know! Please email me (dab414@lehigh.edu) after you’ve completed the experiment, so I know that everyone who completed the experiment is showing up in the data.
 
 Best,  
 Dave

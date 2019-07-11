@@ -14,6 +14,19 @@
 				window.location.href = loc.replace('http://', 'https://');
 			}
 
+			// DEVELOPMENT
+			/*
+			if (IsOnTurk()) {
+				(function(){
+			    var ut_id = "7adc45e42e0cd1fb1652b7da034c198a";
+			    if (UTWorkerLimitReached(ut_id) & GetWorkerId() != 'A2TWV7CJ6WS03O') {
+			        $("#accept").hide();
+			        document.getElementsByTagName('body')[0].innerHTML = "You have already completed the maximum number of HITs allowed by this requester. Please click 'Return HIT' to avoid any impact on your approval rating.";
+			    }
+				})();
+			}
+			*/
+
 			$('#warning').hide();
 
 			// check for mobile
@@ -33,18 +46,7 @@
     			return false;
 				}
 
-				// come back to this (trying to be able to exclude subjects who have completed certain experiments already) 10/9
-				// need to be able to pass a list of studies that i don't want them to have participated in...
-				// https://www.elvenware.com/charlie/development/web/Python/PythonScripts.html
-				/*
-				$.post({
-					url: url,
-					data: {workerId: GetWorkerId(),
-								experimentName: 'rvtsSwitchExperiments_versionA'},
-					success: function(data){
-						console.log(data);
-					}});
-				*/
+
 
 				$('#accept').hide();
 				$('#warning').show();
