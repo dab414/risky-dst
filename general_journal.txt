@@ -9,7 +9,9 @@
     in cued intersperse version, add in more instructions 
       done
     post exps in sandbox with high max assignments
+      done
     revise pilot recruit and host on website as html
+      done
     figure out some type of protocol for easily changing between development / production thresholds
       done
 
