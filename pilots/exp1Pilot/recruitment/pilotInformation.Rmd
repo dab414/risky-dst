@@ -2,9 +2,10 @@
 title: "Dissertation Pilot Information"
 author: "Dave Braun"
 date: "7/10/2019"
-output:
-  html_document: default
-  pdf_document: default
+knit: (function(inputFile, encoding){
+        rmarkdown::render(inputFile, 
+                          encoding = encoding,
+                          output_file = 'index.html')})
 ---
 
 Hello!
@@ -15,7 +16,7 @@ Thank you for piloting my study. I’m hoping this pilot will take you around **
 
 ### Basic Concepts
 
-I’m testing this experiment in the Mturk “sandbox” (ie, development platform), and because of that you’ll have to sign up for a worker account (if you don’t already have one) before you can pilot this experiment (ie, human intelligence task or “HIT”, in mturk lingo).
+Because I'm running this study on Amazon's Mechanical Turk (ie, MTurk), you'll need to have or create an MTurk Worker account. MTurk is basically a marketplace for labor run by Amazon. There are *requesters* who post what are called Human Intelligence Tasks (HITS, i.e., experiments), and there are workers who get paid to perform the HITs. In this scenario, I'm the requester and you're the worker, except, sadly, you won't be earning any money. You will be paid in a healthy amount of gratitude, however. I’m testing this experiment in the Mturk “sandbox” (ie, development platform), so that's where you'll need to go once you've made an account.
 
 ### What to do:
   
@@ -40,7 +41,7 @@ I’m testing this experiment in the Mturk “sandbox” (ie, development platfo
 
 ### Other notes
   
-* If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email (dab414@lehigh.edu) me and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches. Unanticipated bugs are the type of things that keep me up at night.
+* If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email me (dab414@lehigh.edu) and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches. Unanticipated bugs are the type of things that keep me up at night.
 
 * I’ve tested this experiment myself pretty thoroughly, but this type of browser experiment is relatively new territory for me. If anything feels weird at all, please let me know! Please email me (dab414@lehigh.edu) after you’ve completed the experiment, so I know that everyone who completed the experiment is showing up in the data.
 
