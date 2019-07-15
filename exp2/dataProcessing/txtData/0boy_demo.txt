@@ -1,1 +1,0 @@
-{"curId":"0boy","workerId":"NONE","curTime":"03/07/2019@18:42:37","totalTime_mins":"null","screen_width":1920,"screen_height":1080,"window_width":1908,"window_height":1066,"age":"28","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"very very bad"}
