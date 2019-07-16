@@ -20,7 +20,7 @@ pay = 1.5
 max_assignments = 40
 lifetime = 14 * 24 * 60 * 60 # days, hours, mins, seconds
 
-exp = 'exp2'
+exp = 'exp1'
 
 def PostHits(pay, lifetime, max_assignments, exp):
   mtc = MTurkConnection(aws_access_key_id=aws_access_key_id,
