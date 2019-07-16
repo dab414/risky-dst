@@ -8,7 +8,7 @@
   <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css?v=5'>
   <link rel='stylesheet' type='text/css' href='../style/exp2Style.css'>
   <script src='../js/exp2Functions.js'></script>
-  <script src='../../globalJs/globalFunctions.js'></script>
+  <script src='../../globalJs/globalFunctions.js?v=1'></script>
   <script src='../../globalJs/TimTurkTools.js'></script>
 
   <script>
@@ -36,10 +36,11 @@ $(document).ready(function(){
 
   // thresholds & manipulations
   // DEVELOPMENT
-  var trialThreshold = 160;
+  // trial threshold is how many cued trials per cycle
+  var trialThreshold = 17;
   var rsi = 200;
   var errorTimeout = 500;
-  var cycleThreshold = 3;
+  var cycleThreshold = 9;
   var cycleCount = 0;
   var notFirstRun = 0;
 
@@ -68,7 +69,7 @@ $(document).ready(function(){
     $('#titleSlide').hide();
     $('#development').show();
     $('#submitDevelopment').click(function(){
-      trialThreshold = $('input[name = expLength]:checked').val() == 'short' ? 16 : trialThreshold;
+      cycleThreshold = $('input[name = expLength]:checked').val() == 'short' ? 3 : cycleThreshold;
       $('#development').hide();
       $('#titleSlide').show();
       console.log(trialThreshold);
