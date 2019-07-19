@@ -1,0 +1,287 @@
+---
+title: "Experiment 1 Pilot Data Integrity"
+author: "Dave Braun"
+date: "July 19, 2019"
+output: 
+  html_document:
+    df_print: paged
+    includes:
+      after_body: footer.html
+---
+
+This document is dedicated to checking the stimulus presentation and data collection in the pilot of Experiment 1. As of (7-19-2019), two people have completed the Experiment 1 pilot. This will generally be broken down by the two phases of the experiment: *Practice Cued Task Switching* and *Demand Selection Task*.
+
+```{r include = FALSE}
+library(tidyverse)
+library(data.table)
+```
+
+
+# Practice Cued Task Switching
+
+The data can be viewed below:
+
+```{r}
+d <- read.csv('../data/pracCued.csv')
+d <- d %>% 
+  group_by(workerId) %>% 
+  summarize(dummy = n()) %>% 
+  mutate(subject = 1:2) %>% 
+  select(-dummy) %>% 
+  inner_join(d) %>% 
+  select(-workerId) %>% 
+  rename(workerId = subject)
+d
+```
+
+I did a visual inspection in Excel, and things appear to be coded correctly. But I'll verify that for a few variables here.
+
+### Transition
+This should map on directly to `stimColor` in the data.
+
+```{r}
+t <- d %>% 
+  mutate(transCheck = ifelse(trialCount == 1, 'startBlock', ifelse(stimColor == shift(stimColor), 'repeat', ifelse(stimColor != shift(stimColor), 'switch', '')))) 
+  
+sum(t$transCheck == t$transition) == nrow(d)
+           
+```
+
+```{r}
+d %>% 
+  filter(transition != 'startBlock') %>% 
+  group_by(workerId, transition) %>% 
+  summarize('Number of Trials' = n())
+```
+A few more repetitions per switches, but still within the range of what would be expected on a .5 probability.
+
+### Error
+```{r}
+t <- d %>% 
+  mutate(errorCheck = ifelse(taskCode == 'mag' & stimulus < 5 & responseKey == 'k', 1, 
+                             ifelse(taskCode == 'mag' & stimulus > 5 & responseKey == 'j', 1, 
+                                    ifelse(taskCode == 'par' & stimulus %% 2 == 1 & responseKey == 'k', 1, 
+                                    ifelse(taskCode == 'par' & stimulus %% 2 == 0 & responseKey == 'j', 1, 0)))))
+sum(t$errorCheck == t$error) == nrow(d)
+```
+
+### Timing Check
+
+```{r}
+d %>% 
+  group_by(workerId) %>% 
+  summarize(TimeMins = max(runTimeMins))
+```
+
+### RT Check
+```{r}
+d %>% 
+  filter(rt < 10000) %>% 
+  ggplot(aes(x = rt)) + geom_histogram() + xlab('Response Time (ms)') + theme_bw()
+```
+
+Looks good.
+
+
+### Switch Cost
+Just peek to see whether we have a switch cost for the two subjects that were run:
+
+```{r}
+d %>% 
+  mutate(errorTrim = ifelse(error | shift(error), 1, 0)) %>% 
+  filter(error == 0, errorTrim == 0, rt < 10000, transition != 'startBlock') %>% 
+  group_by(workerId, transition) %>% 
+  summarize(rtime = mean(rt), se = sd(rt) / sqrt(n())) %>% 
+  ggplot(aes(x = transition, y = rtime)) + 
+  geom_bar(stat = 'identity') + 
+  geom_errorbar(aes(ymin = rtime - se, ymax = rtime + se), width = 0.5) + 
+  facet_wrap(~workerId) + 
+  xlab('Transition') + ylab('Response Time (ms)') +
+  theme_bw()
+```
+
+# Demand Selection Task
+
+## Performance Data
+
+```{r}
+d <- read.csv('../data/dst.csv')
+d <- d %>% 
+  group_by(workerId) %>% 
+  summarize(dummy = n()) %>% 
+  mutate(subject = 1:2) %>% 
+  select(-dummy) %>% 
+  inner_join(d) %>% 
+  select(-workerId) %>% 
+  rename(workerId = subject)
+d
+```
+
+
+### Transition
+This should map on directly to `stimColor` in the data.
+
+```{r}
+t <- d %>% 
+  mutate(transCheck = ifelse(trial == 1, 'startBlock', ifelse(stimColor == shift(stimColor), 'repeat', ifelse(stimColor != shift(stimColor), 'switch', '')))) 
+  
+sum(t$transCheck == t$transition) == nrow(d)
+           
+```
+
+
+### Error
+```{r}
+t <- d %>% 
+  mutate(errorCheck = ifelse(task == 'mag' & stimulus < 5 & tolower(cuedResponseKey) == 'k', 1, 
+                             ifelse(task == 'mag' & stimulus > 5 & tolower(cuedResponseKey) == 'j', 1, 
+                                    ifelse(task == 'par' & stimulus %% 2 == 1 & tolower(cuedResponseKey) == 'k', 1, 
+                                    ifelse(task == 'par' & stimulus %% 2 == 0 & tolower(cuedResponseKey) == 'j', 1, 0)))))
+sum(t$errorCheck == t$error) == nrow(d)
+```
+
+
+### Timing Check
+
+```{r}
+d %>% 
+  group_by(workerId) %>% 
+  summarize(TimeMins = max(experimentRunTimeMins) - min(experimentRunTimeMins))
+```
+
+Worker 2 left and came back to the experiment.
+
+
+### RT Check
+```{r}
+d %>% 
+  filter(cuedRt < 5000, choiceRt < 500) %>% 
+  gather(var, rt, cuedRt, choiceRt) %>% 
+  mutate(var = factor(var)) %>% 
+  mutate(var = recode(var, "choiceRt" = "Choice", "cuedRt" = "Cued")) %>% 
+  ggplot(aes(x = rt)) + geom_histogram() + 
+  facet_wrap(~var) + 
+  xlab('Response Time (ms)') + ylab('') + 
+  theme_bw() + 
+  theme(strip.background = element_rect(fill = 'white', color = 'black'))
+```
+
+Choice RTs are fast.
+
+## Choice
+
+### Check Left / Right Coding
+
+```{r}
+t <- d %>% 
+  mutate(keyCheck = ifelse(tolower(choiceResponseKey) == 'd', 'left', ifelse(tolower(choiceResponseKey) == 'f', 'right', '')))
+
+sum(t$keyCheck == t$chosenDeckLocation) == nrow(t)
+```
+
+### Check Condition Cycling
+
+```{r}
+d %>% 
+  group_by(workerId, cycle, block) %>% 
+  summarize(condition = unique(condition))
+```
+
+```{r}
+d %>% 
+  group_by(workerId, cycle, block) %>% 
+  summarize(leftDeckId = unique(leftDeckId), rightDeckId = unique(rightDeckId))
+```
+
+
+I'm struggling to think of which other assumptions of stimulus presentation need to be checked.
+
+### Looking at some Choice Data
+
+```{r}
+d <- d %>% 
+  mutate(selectedReferenceDeck = ifelse(chosenDeckId == 'reference', 1, 0))
+
+d %>% 
+  unite(cycle_block, cycle, block) %>% 
+  mutate(workerId = factor(workerId)) %>%  
+  #mutate(workerId = recode(workerId, `1` = 'Subject 1', `2` = 'Subject 2')) %>%  # this line won't be reproducible with larger sample
+  group_by(workerId, cycle_block) %>% 
+  summarize(selRefDeck = mean(selectedReferenceDeck), se = sd(selectedReferenceDeck) / sqrt(n())) %>% 
+  ggplot(aes(x = cycle_block, y = selRefDeck)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = selRefDeck - se, ymax = selRefDeck + se), width = 0.5) + 
+  coord_flip() + 
+  facet_wrap(~workerId) + 
+  xlab('Cycles and Blocks of Experiment') + 
+  ylab('Proportion Selection of Reference Deck') + 
+  theme_bw() +
+  theme(strip.background = element_rect(fill = 'white', color = 'black')) + 
+  geom_hline(yintercept = 0.5, linetype = 'dashed') + 
+  labs(title = 'Selection Bias', subtitle = 'In each block, how balanced were choices between decks?', caption = 'Facets represent different subjects')
+```
+
+```{r}
+ d %>% 
+  mutate(trialBucket = as.numeric(cut(trial, breaks = seq(0, 100, by = 5)))) %>% 
+  group_by(workerId, condition, difference, difficulty, trialBucket) %>% 
+  summarize(selRefDeck = mean(selectedReferenceDeck)) %>% 
+  ggplot(aes(x = trialBucket, y = selRefDeck, group = condition)) + 
+  geom_line(aes(color = difficulty, linetype = difference)) + 
+  facet_wrap(~workerId) +
+  theme_bw()+
+  theme(legend.position = 'top',
+        strip.background = element_rect(fill = 'white', color = 'black')) + 
+  scale_color_manual(name = 'Difficulty', breaks = c('Easier than Reference', 'Harder than reference'), values = c('Blue', 'Red'), labels = c('Easier than Reference', 'Harder than Reference')) +
+  scale_linetype_manual(name = 'Difference', labels = c('Extreme', 'Moderate'), values = c('solid', 'dashed')) +
+  xlab('Binned Trial') + 
+  ylab('Proportion Selection of Reference Deck') + 
+  labs(caption = 'Facets represent different subjects')
+  
+```
+
+
+
+I just want to make sure I have what I need to set up the critical 2 X 2... not that I wanna peek at the effects just yet.
+
+```{r}
+condTable <- data.frame(condition = c('EE','EM','HE','HM'), difficulty = c(rep('Easier than Reference', 2), rep('Harder than Reference', 2)), difference = rep(c('Extreme', 'Moderate'), 2))
+d %>% 
+  group_by(workerId, condition) %>% 
+  summarize(selRefDeck = mean(selectedReferenceDeck)) %>% 
+  spread(condition, selRefDeck) %>% 
+  mutate(EEDEV = abs(EE - EM), EMDEV = abs(EM - 0.5), HMDEV = abs(HM - 0.5), HEDEV = abs(HE - HM)) %>% 
+  select(-(EE:HM)) %>% 
+  gather(condition, selRefDeck, contains('DEV')) %>%  
+  mutate(condition = str_replace(condition, 'DEV', '')) %>% 
+  inner_join(condTable) %>% 
+  select(-condition) %>% 
+  mutate(difference = factor(difference, levels = levels(factor(difference))[c(2,1)])) %>% 
+  ggplot(aes(x = difficulty, y = selRefDeck, group = difference)) +
+  geom_bar(stat = 'identity', aes(fill = difference), position = position_dodge(width = .9), color = 'black') + 
+  facet_wrap(~workerId) + 
+  theme_bw() + 
+  xlab('Difficulty') +
+  ylab('Change in Selection of Reference Deck') +
+  labs(caption = 'Facets represent different subjects') + 
+  scale_fill_manual(name = 'Difference', values = c(Moderate = 'Black', Extreme = 'Light Grey')) + 
+  theme(strip.background = element_rect(fill = 'white', color = 'black'),
+        legend.position = 'top')
+  
+```
+
+Subject 1 is really making me look. Subject 2 indicated that he / she didn't understand the instructions relating to choosing between decks. Maybe I'll add an extra note about that between blocks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
