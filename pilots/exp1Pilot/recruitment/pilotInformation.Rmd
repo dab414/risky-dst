@@ -41,7 +41,8 @@ Because I'm running this study on Amazon's Mechanical Turk (ie, MTurk), you'll n
 
 ### Other notes
   
-* If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email me (dab414@lehigh.edu) and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches. Unanticipated bugs are the type of things that keep me up at night.
+* If there's a bug so bad that causes you to not be able to reach the end of the experiment, please email me (dab414@lehigh.edu) and try to describe to me as exactly as possible what happened. I'll need to fix every possible error before this thing lauches. Unanticipated bugs are the type of things that keep me up at night.  
+  * **If you want to be a hero**, since these types of bugs are so hard to track down, if the bullet above happens to you, try to open a web developer console (varies by browser, but for Firefox you can open it with `CTRL` + `SHIFT` + `K`), take a screenshot of what you see and email it along to me. Hopefully there will be an error message in there that will point me to what happened, allowing me to get back to sleep at night.
 
 * I’ve tested this experiment myself pretty thoroughly, but this type of browser experiment is relatively new territory for me. If anything feels weird at all, please let me know! Please email me (dab414@lehigh.edu) after you’ve completed the experiment, so I know that everyone who completed the experiment is showing up in the data.
 
