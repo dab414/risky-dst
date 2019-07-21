@@ -242,7 +242,7 @@ d %>%
 
 
 
-I just want to make sure I have what I need to set up the critical 2 X 2... not that I wanna peek at the effects just yet.
+That Subject 1 data is beautiful. I just want to make sure I have what I need to set up the critical 2 X 2... not that I wanna peek at the effects just yet.
 
 ```{r}
 condTable <- data.frame(condition = c('EE','EM','HE','HM'), difficulty = c(rep('Easier than Reference', 2), rep('Harder than Reference', 2)), difference = rep(c('Extreme', 'Moderate'), 2))
