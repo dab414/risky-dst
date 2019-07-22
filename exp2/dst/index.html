@@ -87,7 +87,6 @@ if (!IsOnTurk()) {
 
       $('#development').hide();
       $('#titleSlide').show();
-      console.log('Cycle Threshold: ' + String(cycleThreshold));
     });
   }
 
@@ -292,9 +291,6 @@ function cuedTrial() {
         responseCount += 1;
         // record cued key
         cuedResponseKey = i.which == 74 ? 'J' : 'K';
-
-        console.log('cycle trial count: ' + String(cycleTrialCount));
-        console.log('cycle count: ' + String(cycleCount));
 
         // record data
         saveTrialData()

@@ -17,7 +17,7 @@ HOST = 'mechanicalturk.sandbox.amazonaws.com' # Use this to post to the sandbox 
 #HOST = 'mechanicalturk.amazonaws.com'
 
 pay = 1.5
-max_assignments = 2
+max_assignments = 15
 lifetime = 14 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp2'
