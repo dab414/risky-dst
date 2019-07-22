@@ -13,14 +13,14 @@ from boto.mturk.question import ExternalQuestion
 import boto.mturk.qualification as mtqu
 from dateutil.parser import *
 
-HOST = 'mechanicalturk.sandbox.amazonaws.com' # Use this to post to the sandbox instead
-#HOST = 'mechanicalturk.amazonaws.com'
+#HOST = 'mechanicalturk.sandbox.amazonaws.com' # Use this to post to the sandbox instead
+HOST = 'mechanicalturk.amazonaws.com'
 
 pay = 1.5
-max_assignments = 15
-lifetime = 14 * 24 * 60 * 60 # days, hours, mins, seconds
+max_assignments = 9
+lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
-exp = 'exp2'
+exp = 'exp1'
 
 def PostHits(pay, lifetime, max_assignments, exp):
   mtc = MTurkConnection(aws_access_key_id=aws_access_key_id,aws_secret_access_key=aws_secret_access_key,host=HOST)

@@ -21,7 +21,8 @@ def catchPartialData(args, fTypes):
   for arg in args:
     ## take out only the assignmentId and extension (ie, fType)
     ## regex assumes that there are no digits in any filepaths (if script is not called from folder that data is in)
-    l = re.search('\\d.*', arg).group().replace('.txt','').split('_')
+    l = re.search('\\/(\\d.*)', arg).group(1).replace('.txt','').split('_')
+
     ## if the assignment id isn't already in the dict
     if l[0] not in d.keys():
       ## add it in as a list
@@ -136,6 +137,9 @@ def main():
     libreoffice automatically brings in as delimited by commas AND semicolons.. which messes up the user agent
   '''
   args = sys.argv[1:]
+
+  ## if there are no files in a directory, '*.txt' gets brought in as a file name
+  [args.remove(h) for h in args if '*.txt' in h]
 
   if not args:
     print 'usage: file [file ...]'
