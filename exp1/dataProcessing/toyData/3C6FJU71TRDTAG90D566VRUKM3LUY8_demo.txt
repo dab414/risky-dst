@@ -1,1 +1,0 @@
-{"curId":"3C6FJU71TRDTAG90D566VRUKM3LUY8","workerId":"A3CH1Z6J9R38G9","curTime":"21/07/2019@14:21:55","totalTime_mins":41,"screen_width":1536,"screen_height":864,"window_width":1474,"window_height":1010,"age":"30","gender":"male","race":"white,black","ethnicity":"not_hispanic","vision":"normal","comments":""}
