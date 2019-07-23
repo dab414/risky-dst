@@ -1,3 +1,19 @@
+7/23/2019
+	back-to-back crises in two days
+	yesterday was attack of the bots
+	today boto stops being supported 
+	jesus christ
+	successfully migrated to boto3 (i think)
+	it's mostly the same.. just some differences with syntax
+	i think ive disabled all the automated stuff that manipulates boto
+	i was doing most of that stuff by hand anyway
+
+	i got freaked out bc i thought the IsOnTurk() function was broken
+		but it's not
+		whew
+
+	alright, we gon be good
+
 7/11/2019
   to-do list:
     kill console logging
