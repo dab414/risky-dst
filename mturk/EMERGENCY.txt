@@ -1,0 +1,17 @@
+need to figure out boto3 asap i guess
+
+https://stackoverflow.com/questions/46692234/how-to-submit-mechanical-turk-externalquestions-with-boto3
+
+^ the only information about implementing external hit in boto3
+
+the docs:
+https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/mturk.html#MTurk.Client.create_hit
+
+the trick is to call the question in the create_hit() method with:
+	q.get_as_xml()
+
+	and it works!
+
+	thank the fucking god
+
+	i need to thank that stack overflow dude
