@@ -7,8 +7,8 @@ from awsKeys import aws_secret_access_key
 import boto3
 from boto.mturk.question import ExternalQuestion
 
-#HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
-HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
+HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
+#HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1.5'
 max_assignments = 9
@@ -28,6 +28,20 @@ def PostHits(pay, lifetime, max_assignments, exp):
 
 	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
 
+	qr = [{
+    'QualificationTypeId': '000000000000000000L0',
+    'Comparator': 'GreaterThanOrEqualTo',
+    'IntegerValues': [90],
+    'RequiredToPreview': True,
+	}]
+
+	qr.append({
+		'QualificationTypeId': '00000000000000000071',
+		'Comparator': 'EqualTo',
+		'LocaleValues': [{'Country': 'US'}],
+		'RequiredToPreview': True
+		})
+
 	mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_access_key_id = aws_access_key_id,aws_secret_access_key = aws_secret_access_key)
 
 	theHit = mtc.create_hit(Question = q.get_as_xml(),
@@ -40,7 +54,8 @@ def PostHits(pay, lifetime, max_assignments, exp):
 													AssignmentDurationInSeconds = 120 * 60, # 120 minutes
 													AutoApprovalDelayInSeconds = 2* 24 * 60 * 60, # the number of seconds after an assignment is submitted is it automatically approved unless explicitly rejected
 	                        ## the norm is to try to keep this under 7 days, many requesters approve in less than 3 days
-	                        RequesterAnnotation = description)
+	                        RequesterAnnotation = description,
+	                        QualificationRequirements = qr)
 
 	print theHit['HIT']['HITId']
 
