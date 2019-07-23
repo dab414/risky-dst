@@ -1,0 +1,1 @@
+{"curId":"3T111IHZ5FAMTN9B1ZJLRZE96WP9RP","workerId":"A1KZ21TSAYUHO4","curTime":"21/07/2019@20:29:27","totalTime_mins":52,"screen_width":1280,"screen_height":720,"window_width":1186,"window_height":1007,"age":"34","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"It was hard to understand and keep track of the rules but i enjoyed doing it."}

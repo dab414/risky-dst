@@ -210,7 +210,7 @@ function blockTransition() {
 
 
   // general instructions
-  $('#blockInstructions').html(startingInstructions + feedback + '<p>You are about to perform Group ' + String(blockCount + (cycleCount - 1) * 4) + ' of ' + String(cycleThreshold * 4) + '. </p><br><p><strong>Remember, when starting a new group, the decks change, and you will want to select both decks in the beginning of the group before developing a preference for one or the other.</strong></p><br><p>Please press "Continue" when you are ready to start this group.</p>');
+  $('#blockInstructions').html(startingInstructions + feedback + '<p>You are about to perform Group ' + String(blockCount + (cycleCount - 1) * 4) + ' of ' + String(cycleThreshold * 4) + '. </p><br><p><strong>Remember, when starting a new group, the decks change, and you will want to select both decks in the beginning of the group before developing a preference for one or the other.</strong></p><br><p><strong>Remember, you need an overall accuracy of 75% in order for your HIT to be accepted</strong></p><br> <p>Please press "Continue" when you are ready to start this group.</p>');
   $('#blockTransitionSlide').show();
   $('.expSlide').hide();
   $('#startBlock').unbind().click(function(){

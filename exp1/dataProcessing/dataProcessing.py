@@ -63,7 +63,7 @@ def summarize_data(args):
     ## very ugly, but it works
     ## for each x in arg, reduce it down to only the assignmentId, and make sure it isn't partial data
     
-    relArgs = [x for x in args if proc in x and re.search('\\d.*', x).group().replace('.txt','').split('_')[0] not in partialData]
+    relArgs = [x for x in args if proc in x and re.search('\\/(\\d.*)', x).group(1).replace('.txt','').split('_')[0] not in partialData]
 
     if relArgs:
       ## extract the headers from the first file to use for the whole dataset
