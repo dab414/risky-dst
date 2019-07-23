@@ -76,6 +76,7 @@ $('#keyRemindSlide').hide();
 $('.expSlide').hide();
 $('#blockTransitionSlide').hide();
 $('#development').hide();
+$('#botCatcher').hide();
 
 if (!IsOnTurk()) {
     $('#titleSlide').hide();
@@ -153,6 +154,13 @@ function blockTransition() {
 
   // multiply by 60 bc you need it as a proportion of seconds in a min
   blockTimeSeconds = blockTime < 60 ? Math.round(blockTime) : Math.round(((blockTime / 60) % 1) * 60)
+
+  // bot catcher
+  if (accuracy < 70 && blockCount != 0) {
+  	$('.expSlide').hide();
+  	$('#botCatcher').show();
+  	return
+  }
 
   // things to do if it's not the first block of the experiment
   if (blockCount) {
@@ -449,6 +457,12 @@ function sendToServer(curId, currentData) {
 <div class='container'>
   <!-- the 800 X 600 experiment area -->
   <div class='screen'>
+
+  	<!-- BEGIN BOT CATCHER -->
+  	<div id='botCatcher'>
+  		<h1>This HIT is no longer available.</h1>
+  		<h2>Please return this HIT to avoid getting your HIT rejected</h2>
+  	</div>
 
     <!-- BEGIN DEVELOPMENT SLIDE -->
       <div id='development'>
