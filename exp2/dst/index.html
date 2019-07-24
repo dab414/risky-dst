@@ -258,10 +258,6 @@ function runTrial() {
 
 function cuedTrial() {
 
-  console.log('Error count: ' + String(errorCount));
-  console.log('Trial count: ' + String(trialCount));
-  console.log('Accuracy: ' + String(1 - (errorCount / ((trialCount - 1) * 17 + responseCount))));
-
   // Generate stimulus
   currentTaskColor = transitionArray[responseCount];
   currentStim = generateCuedStim();
