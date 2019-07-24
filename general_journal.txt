@@ -14,6 +14,13 @@
 
 	alright, we gon be good
 
+  wooo so i forgot to include qualifications so i had to terminate the hits early
+  a total of five subjects were collected, data from all looks good, all were accepted
+  will release a batch with qualifications tomorrow
+
+  **
+  need to revamp exp1RejectBots.py script
+
 7/11/2019
   to-do list:
     kill console logging
