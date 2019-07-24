@@ -44,6 +44,7 @@ var experimentName = 'dissertationExperiment2';
 var phase = 'dst';
 var rtStartTime = new Date();
 var error = 0;
+var errorCount = 0;
 var chosenDeckLocation = '';
 var selectionKey = 0;
 var trialStruct = new Array();
@@ -76,6 +77,7 @@ $('#keyRemindSlide').hide();
 $('.expSlide').hide();
 $('#blockTransitionSlide').hide();
 $('#development').hide();
+$('#botCatcher').hide();
 
 if (!IsOnTurk()) {
     $('#titleSlide').hide();
@@ -151,6 +153,18 @@ function runTrial() {
     conditionOrder = createConditionOrder();
     cycleCount += 1;
     cycleTrialCount = 0;
+
+    // add the bot catcher
+    if (trialCount) {
+      var nTrials = (trialCount) * 17;
+      var accuracy = 1 - (errorCount / nTrials);
+      if (accuracy < .7) {
+        $('.expSlide').hide();
+        $('#botCatcher').show();
+        return
+      }
+    }
+
 
     if (cycleCount > cycleThreshold) {
       endSegment();
@@ -244,6 +258,10 @@ function runTrial() {
 
 function cuedTrial() {
 
+  console.log('Error count: ' + String(errorCount));
+  console.log('Trial count: ' + String(trialCount));
+  console.log('Accuracy: ' + String(1 - (errorCount / ((trialCount - 1) * 17 + responseCount))));
+
   // Generate stimulus
   currentTaskColor = transitionArray[responseCount];
   currentStim = generateCuedStim();
@@ -298,6 +316,7 @@ function cuedTrial() {
         // start error sequence
 
         if (error) {
+          errorCount += 1;
           // fill and siaply error feedback
           $('#' + chosenDeckLocation + 'CardFeedback').html('<p><strong>ERROR</strong></p>');
           $('#' + chosenDeckLocation + 'CardFeedback').show();
@@ -454,6 +473,12 @@ function sendToServer(curId, currentData) {
   <!-- the 800 x 600 experiment area -->
   <div class='screen'>
 
+    <!-- BEGIN BOT CATCHER -->
+    <div id='botCatcher'>
+      <h1>This HIT is no longer available.</h1>
+      <h2>Please return this HIT to avoid having your work get rejected.</h2>
+    </div>
+
     <!-- BEGIN DEVELOPMENT SLIDE -->
       <div id='development'>
         <p>Looks like you're not on turk, so I'm guessing you're testing. Do you want to do the full length phase, or a shortened one?</p>
@@ -466,10 +491,11 @@ function sendToServer(curId, currentData) {
       <div id='titleSlide'>
         <div class='titleBar'>
           <h2>You are about to begin the main experiment.</h2>
+          <h3>Remember, you will need to maintain an accuracy of at least 75% in order for your work to be accepted.</h3>
         </div>
 
         <div class='leftTwoThirds'>
-          <p>That is it for the practice. The next phase will run throughout most of the rest of the experiment (about 25 min). Watch the video below to get final instructions before beginning. <i class='small'>(Runtime: 2 min 48 sec)</i>.</p>
+          <p>That is it for the practice. The next phase will run throughout most of the rest of the experiment (about 25 min). Watch the video below to get final instructions before beginning. <i class='small'>(Runtime: 2 min 48 sec)</i>.</p><br>
           <p class='small'>If you don't have speakers, you can click "See Text Instructions" to read the instructions in text form.</p>
 
         

@@ -1,1 +1,1 @@
-scp -P 18765 davebrau@ns1.us69.siteground.us:~/public_html/turk/data/dissertation/dissertationExperiment1/*.txt ./txtData
+rsync -avP -e 'ssh -p 18765' davebrau@ns1.us69.siteground.us:~/public_html/turk/data/dissertation/dissertationExperiment1/*.txt /home/dave/OneDrive/Research/By\ Project/Dissertation/experiments/production/exp1/dataProcessing/txtData/

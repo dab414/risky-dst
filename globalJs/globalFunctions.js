@@ -107,10 +107,6 @@ function cuedIsError(key, currentTask, currentStim) {
 
   // for now, im assuming that (for par) 74 (j) is odd and 75 (k) is even
 
-  console.log("Key " + String(key));
-  console.log("currentTask " + String(currentTask));
-  console.log("currentStim " + String(currentStim));
-
   var error = 0;
 
   // searching for cases where errors are committed
