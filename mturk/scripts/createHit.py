@@ -7,11 +7,11 @@ from awsKeys import aws_secret_access_key
 import boto3
 from boto.mturk.question import ExternalQuestion
 
-HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
-#HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
+#HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
+HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1.5'
-max_assignments = 1
+max_assignments = 2
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 
@@ -51,7 +51,7 @@ def PostHits(pay, lifetime, max_assignments, exp):
 													Description = description,
 													Keywords = keywords,
 													Reward = pay,
-													AssignmentDurationInSeconds = 120 * 60, # 120 minutes
+													AssignmentDurationInSeconds = 60 * 60, # 60 minutes
 													AutoApprovalDelayInSeconds = 2* 24 * 60 * 60, # the number of seconds after an assignment is submitted is it automatically approved unless explicitly rejected
 	                        ## the norm is to try to keep this under 7 days, many requesters approve in less than 3 days
 	                        RequesterAnnotation = description,

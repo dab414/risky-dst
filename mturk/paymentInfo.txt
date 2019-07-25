@@ -1,3 +1,21 @@
+7/25/2019
+  experiment 2:
+    collected 2 yesterday, but changed the thresholds since then so they're unusable
+    put out for 5 today, so far 2 are in
+      it's taking forever though
+      the 2 that came in look good, so im thinking about just leaving them in the main txtData/ directory and launching 
+    also i think im gonna knock the max time per assignment down to 1 hour from 2 hours
+
+    current balance: $14.30
+    additional workers needed: 65
+    cost of additional workers: $117.00
+    amount to add to balance: $117 - $14.30 = $102.7
+    I only added $100 cuz i made a math error the first time
+    adding an additional $50
+    to reach 70 subjects, i need to put out:
+      7 full HITs
+      1 HIT with 2 assignments
+
 7/24/2019
   had to cut the last one short, only collected 5 or so
   im gonna request an additional 23 today
