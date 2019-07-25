@@ -21,7 +21,8 @@ def catchPartialData(args, fTypes):
   for arg in args:
     ## take out only the assignmentId and extension (ie, fType)
     ## regex assumes that there are no digits in any filepaths (if script is not called from folder that data is in)
-    l = re.search('\\d.*', arg).group().replace('.txt','').split('_')
+    l = re.search('\\/(\\d.*)', arg).group(1).replace('.txt','').split('_')
+
     ## if the assignment id isn't already in the dict
     if l[0] not in d.keys():
       ## add it in as a list
@@ -62,7 +63,7 @@ def summarize_data(args):
     ## very ugly, but it works
     ## for each x in arg, reduce it down to only the assignmentId, and make sure it isn't partial data
     
-    relArgs = [x for x in args if proc in x and re.search('\\d.*', x).group().replace('.txt','').split('_')[0] not in partialData]
+    relArgs = [x for x in args if proc in x and re.search('\\/(\\d.*)', x).group(1).replace('.txt','').split('_')[0] not in partialData]
 
     if relArgs:
       ## extract the headers from the first file to use for the whole dataset
@@ -137,6 +138,9 @@ def main():
   '''
   args = sys.argv[1:]
 
+  ## if there are no files in a directory, '*.txt' gets brought in as a file name
+  [args.remove(h) for h in args if '*.txt' in h]
+
   if not args:
     print 'usage: file [file ...]'
     sys.exit(1)
@@ -144,8 +148,6 @@ def main():
   final_data = summarize_data(args)
 
   for entry in final_data:
-
-
     df = pd.DataFrame(np.array(final_data[entry][1:]), columns = final_data[entry][0])
     
     if not os.path.exists('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/'):

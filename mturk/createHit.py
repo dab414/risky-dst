@@ -11,11 +11,11 @@ from boto.mturk.question import ExternalQuestion
 HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1.5'
-max_assignments = 5
+max_assignments = 2
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 
-exp = 'exp1'
+exp = 'exp2'
 
 def PostHits(pay, lifetime, max_assignments, exp):
 
