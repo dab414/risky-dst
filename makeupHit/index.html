@@ -1,0 +1,29 @@
+<html>
+<head>
+	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+	<script src='../globalJs/TimTurkTools.js'></script>
+<script>
+
+$(document).ready(function(){
+	
+	// updates the value of the form that gets submitted to mturk
+	$('#assignmentId').val(GetAssignmentId()); 
+
+}); // end $(document).ready()
+
+</script>
+</head>
+
+<body>
+		<div class = 'submit_button'>
+			<!--DEVELOPMENT FLAG-->
+			<!--<form id="turkSubmit" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" autocomplete="off">-->
+			<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">
+			<input type="hidden" name="assignmentId" id="assignmentId" value="">
+			<input type="submit" value="Submit" name="submitButton" id="submitButton" class = 'experimentButton' style = 'font-size: 18pt'>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

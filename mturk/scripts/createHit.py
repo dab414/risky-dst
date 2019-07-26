@@ -11,7 +11,7 @@ from boto.mturk.question import ExternalQuestion
 HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1.5'
-max_assignments = 2
+max_assignments = 5
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 
@@ -27,6 +27,7 @@ def PostHits(pay, lifetime, max_assignments, exp):
 	description = 'This HIT will take about 30 mins to complete. All HITS in this batch are the same, and you will only be able to perform one of the HITS in this batch.'
 
 	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
+	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
 
 	qr = [{
     'QualificationTypeId': '000000000000000000L0',
@@ -41,6 +42,14 @@ def PostHits(pay, lifetime, max_assignments, exp):
 		'LocaleValues': [{'Country': 'US'}],
 		'RequiredToPreview': True
 		})
+
+	'''
+	## Make up hit qualification
+	qr.append({
+		'QualificationTypeId': '39G8RJBXZVGXWGOFKKWZFWUS2DYSFD',
+		'Comparator': 'Exists'
+		})
+	'''
 
 	mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_access_key_id = aws_access_key_id,aws_secret_access_key = aws_secret_access_key)
 
