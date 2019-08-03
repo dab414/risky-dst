@@ -52,6 +52,27 @@ $(document).ready(function(){
   // string for serving client key reminders
   var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
 
+  function registerId(experiment){
+  // posts a blank text file to server as a way of recording IDs who at least started the experiment
+
+  var curId = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you are on Turk, so you are probably testing." + 
+      "Enter an ID to save your data with:", "id");
+
+  var dataToServer = {
+    'curId': curId,
+    'experiment': experiment,
+    'sessionCode': 'init',
+    'currentData': 'Worker ID: ' + GetWorkerId()
+  }
+
+  $.post(
+    url = '../../../../../../cgi-bin/saveData.py',
+    data = dataToServer
+    )
+  }
+
+
+
   // save an init
   registerId(experimentName);
 

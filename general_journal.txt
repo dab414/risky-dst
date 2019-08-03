@@ -1,3 +1,19 @@
+8/2/2019
+  things to do to get exp 3 going:
+    finish tweaking the pilot
+      functionally, it's pretty much there
+      i just need to decide on exact stimuli and then do instructions
+      idk if i like the word 'decrease' being associated with what should be represented as gains
+
+      only once all this ^ is good can i do the instructional vid
+
+      finalize the questions i wanna ask in the survey
+
+    finish the power analysis
+      should be simple if im just simulating from the model that's fit to exp 2 data
+
+  then eventually prepare the report for the committee
+
 7/23/2019
 	back-to-back crises in two days
 	yesterday was attack of the bots

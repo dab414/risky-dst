@@ -194,7 +194,6 @@ function updateAttributeColors(deckCode){
     if (deckCode['right']['pSwitch']['top'] > 8) {
       $('#rightDeckTop').css({'color': 'rgb(' + String(translateSwitchToColor(deckCode['right']['pSwitch']['top'])) + ', 0, 0)'});
       $('#leftDeck' + jsUcfirst(updateParam)).css({'color': 'rgb(' + String(translateSwitchToColor(deckCode['left']['pSwitch'][updateParam])) + ', 0, 0)'});
-      $('#rightDeck' + jsUcfirst(blackParam)).css({'color': 'black'});
 
     // if all gains, make font green
     } else {

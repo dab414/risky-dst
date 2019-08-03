@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 	// Top Vars
 	var development = false;
-	var experimentName = 'dissertationExperiment2';
+	var experimentName = 'dissertationExperiment3';
 	var sessionCode = 'demo';
 	var experimentStartTime = urlArgsToVar('experimentStartTime');
 
@@ -69,7 +69,7 @@ $(document).ready(function(){
 		};
 
 		$.post(
-			url = '../../../../../cgi-bin/saveData.py',
+			url = '../../../../../../cgi-bin/saveData.py',
 			data = dataToServer,
 			success = function(data){
 				$('#debrief').hide();
