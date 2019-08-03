@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+  <title>Braun Dissertation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel='stylesheet' type='text/css' href='../../../globalStyle/globalStyle.css?v=5'>
+  <link rel='stylesheet' type='text/css' href='../style/exp2Style.css'>
+  <script src='../js/exp2Functions.js'></script>
+  <script src='../../../globalJs/globalFunctions.js?v=1'></script>
+  <script src='../../../globalJs/TimTurkTools.js'></script>
+
+  <script>
+
+$(document).ready(function(){
+  // global vars
+  var transition = 'startBlock';
+  var taskCueCode = createTaskCue();
+  var clientCueCode = createClientCueText(taskCueCode);
+  var transitionArray = [];
+  var currentTaskColor = '';
+  var currentTask = '';
+  var error = 0;
+  var currentStim = '';
+  var trialCount = 0;
+  var trialStruct = new Array();
+  var rt = 0;
+  var keyCode = {74: 'j', 75: 'k'}
+  var prevTaskColor = '';
+  var experimentName = 'dissertationExperiment3';
+  var phase = 'pracCued';
+  // experimentStartTime in MS
+  var experimentStartTime = Date.now();
+  var rtStartTime = new Date();
+
+  // thresholds & manipulations
+  // trial threshold is how many cued trials per cycle
+  var trialThreshold = 17;
+  var rsi = 200;
+  var errorTimeout = 500;
+  var cycleThreshold = 2;
+  var cycleCount = 0;
+  var notFirstRun = 0;
+
+  var vid = document.getElementById('tutorial');
+  var instructionsReceived = 0;
+  vid.onended = function() {
+    instructionsReceived = 1;
+  };
+
+  // string for serving client key reminders
+  var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
+  // save an init
+  registerId(experimentName);
+
+  // control flow of first few clicks
+  $('#titleSlide').show();
+  $('#detailSlide').hide();
+  $('#controlsFill').html(controlsString);
+  $('#keyRemindSlide').hide();
+  $('.stimSlide').hide();
+  $('.interCycleSlide').hide();
+  $('#development').hide();
+
+  if (!IsOnTurk()) {
+    $('#titleSlide').hide();
+    $('#development').show();
+    $('#submitDevelopment').click(function(){
+      cycleThreshold = $('input[name = expLength]:checked').val() == 'short' ? 3 : cycleThreshold;
+      $('#development').hide();
+      $('#titleSlide').show();
+      console.log(trialThreshold);
+    });
+  }
+
+
+  $('#detail').click(function(){
+    $('#titleSlide').hide();
+    $('#detailSlide').show();
+    vid.pause();
+  });
+
+  $('.resetTitle').click(function(){
+    $('#titleSlide').show();
+    $('#detailSlide').hide();
+    $('#keyRemindSlide').hide();
+  });
+
+  $('#seeKeys').click(function(){
+    if (instructionsReceived) {
+      $('#keyRemindSlide').show();
+      $('#titleSlide').hide();
+      vid.pause();
+    } else {
+      vid.pause();
+      alert('Please finish the video before continuing.');
+    }
+  });
+
+    // if reading the text
+  // from here: https://stackoverflow.com/questions/6271237/detecting-when-user-scrolls-to-bottom-of-div-with-jquery
+  jQuery(function($){
+    $('.textInstructionsContainer').on('scroll', function(){
+      if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+        instructionsReceived = 1;
+      }
+    })
+  }); 
+
+  $('#seeKeysFromDetailSlide').click(function(){
+    if (instructionsReceived) {
+      $('#detailSlide').hide();
+      $('#keyRemindSlide').show();
+    } else {
+      alert('Please read all of the instructions before clicking on the "See Controls" button.');
+    }
+  });
+
+  $('#startCued').click(function(){
+    startCued();
+  });
+
+
+function startCued() {
+  // set initial state
+
+  $('#keyRemindSlide').hide();
+  $('.keyContainer').html(controlsString);
+  $('.keyContainer').hide();
+  $('.errorContainer').hide();
+  runCycle();
+}
+
+function runCycle() {
+  $('.stimSlide').hide();
+  
+  if (cycleCount == cycleThreshold) {
+    endCued();
+  } else {
+    transitionArray = generateTransitionArray(8);
+    cycleCount += 1;
+    trialCount = 0;
+    if (notFirstRun) {
+      $('.interCycleSlide').show();
+      setTimeout(function(){
+        $('.interCycleSlide').hide();
+        $('.stimSlide').show()
+        runTrial();
+      }, 5000)
+    } else {
+      notFirstRun = 1;
+      $('.stimSlide').show()
+      runTrial();
+    }
+  }
+}
+
+function runTrial() {
+  // update count
+  trialCount += 1;
+
+  // generate stimulus
+  $('.stimContainer').hide();
+  currentTaskColor = transitionArray[trialCount - 1];
+  currentStim = generateCuedStim();
+  currentTask = taskCueCode[currentTaskColor];
+  $('.stimContainer').html('<p>' + currentStim + '</p>');
+  $('.stimContainer').css({'color': currentTaskColor});
+
+  // trigger RSI
+  setTimeout(function(){
+
+    // show stimulus
+    $('.stimContainer').show();
+
+    // start rt clock
+    rtStartTime = new Date();
+
+    // reset error 
+    error = 0;
+
+    // listen for space bar
+    $(document).bind('keydown.listenForSpaceDown', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').show();
+      }
+    });
+    $(document).bind('keyup.listenForSpaceUp', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').hide();
+      }
+    });
+
+    // listen for response keys 
+    $(document).bind('keydown.listenForKeys', function(e){
+      if ($.inArray(e.which, [74, 75]) + 1) {
+        
+        // log rt
+        rt = new Date() - rtStartTime;
+
+        // stop listening for response keys
+        $(document).unbind('keydown.listenForKeys');
+
+        // code error
+        error = cuedIsError(String(e.which), currentTask, currentStim);
+        
+        // code transition
+        transition = codeTransition(prevTaskColor, currentTaskColor);
+
+        // log data
+        trialStruct.push({
+          'trialCount': trialCount,
+          'rsi': rsi,
+          'runTimeMins': Math.round((Date.now() - experimentStartTime) / 1000 / 60),
+          'stimulus': currentStim,
+          'stimColor': currentTaskColor,
+          'taskCode': currentTask,
+          'responseKey': keyCode[e.which],
+          'transition': transition,
+          'error': error,
+          'rt': rt
+        });
+
+
+        // update prevTaskColor
+        prevTaskColor = currentTaskColor;
+
+        // prepare for next trial
+        if (error) {
+          $('.errorContainer').show();
+
+          setTimeout(function(){
+            if (trialCount == trialThreshold) {
+              $('.errorContainer').hide();
+              runCycle();
+            } else {
+              $('.errorContainer').hide();
+              runTrial();
+            }
+          }, errorTimeout)
+        } else {
+          if (trialCount == trialThreshold) {
+            runCycle();
+          } else {
+            runTrial();
+          }
+        }
+
+      }
+    });
+
+  }, rsi);
+
+
+}
+
+function endCued() {
+  // store and send cued data and ship to next phase
+  var curDate = new Date();
+  var finishTime = new Date() - experimentStartTime;
+  var curId = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you are on Turk, so I'm guessing you're probably testing." + 
+    " Enter an ID to save your data with:", "id");
+
+  var currentData = {
+    'curId': curId,
+    'workerId': GetWorkerId(),
+    'curTime': curDate.today() + '@' + curDate.timeNow(),
+    'userAgent': navigator.userAgent,
+    'screenWidth': screen.width,
+    'screenHeight': screen.height,
+    'windowWidth': $(window).width(),
+    'windowHeight': $(window).height(),
+    'phase': phase,
+    'blueTask': taskCueCode['blue'],
+    'redTask': taskCueCode['red'],
+    'cuedRunTime': finishTime,
+    'trialStruct': trialStruct
+  }
+
+
+  sendToServer(curId, currentData);
+}
+
+function sendToServer(curId, currentData) {
+  var dataToServer = {
+    'curId': curId,
+    'experiment': experimentName,
+    'sessionCode': phase,
+    'currentData': JSON.stringify(currentData)
+  };
+
+  var urlArgs = {
+    'workerId': GetWorkerId(),
+    'assignmentId': GetAssignmentId(),
+    'taskCueCode': taskCueCode,
+    'experimentStartTime':  experimentStartTime
+  };
+
+  $.post(
+    // relative to this script
+    url = '../../../../../cgi-bin/saveData.py',
+    data = dataToServer,
+    success = function(data) {
+      window.location.replace('../dst/?' + $.param(urlArgs));
+    }).fail(function(data){
+      console.log('FAILURE');
+      window.location.replace('../dst/?' + $.param(urlArgs));
+    });
+
+}
+
+
+}); // end documnet.ready()
+
+  </script>
+
+
+</head>
+
+<body>
+
+  <!-- the entire display -->
+  <div class='container'>
+    <!-- the 800 x 600 experiment area -->
+    <div class='screen'>
+
+      <!-- BEGIN DEVELOPMENT SLIDE -->
+      <div id='development'>
+        <p>Looks like you're not on turk, so I'm guessing you're testing. Do you want to do the full length phase, or a shortened one?</p>
+        <input type='radio' name='expLength' value='regular' checked>Regular<br>
+        <input type='radio' name='expLength' value='short'>Shortened<br>
+        <button id='submitDevelopment' class='experimentButton'>Submit</button>
+      </div>
+
+      <!-- BEGIN TITLE SLIDE -->
+      <div id='titleSlide'>
+        <div class='titleBar'>
+          <h2>Welcome to the HIT.</h2>
+          <p>You will be making simple responses to prompts on the screen. The HIT should last for about 30 mins. <strong>You will need to maintain an accuracy of at least 75% in order for your work to be accepted.</strong></p><br>
+        </div>
+
+        <div class='leftTwoThirds'>
+          <br><p>The first thing you will do is a short practice round (5 min). Watch the video below to see instructions before clicking the "See Controls" button to the right. <span class='small'>(Runtime: 2 min 18 s)</span></p><br>
+          <p class='small'>If you don't have speakers, you can click "See Text Instructions" to read the instructions in text form.</p>
+
+        
+          <video id='tutorial' width='510' height='290' controls>
+            <source src = "exp2PracCued.mp4" type = "video/mp4">
+          </video>
+        
+        </div>
+
+        <div class='rightOneThirdsDown'>
+          <button id='detail' class='experimentButton center smallButton'>See Text Instructions</button>
+          <button id='seeKeys' class='experimentButton center'>See Controls</button>
+        </div>
+      </div> <!-- end title slide -->
+
+
+    <!-- BEGIN DETAIL SLIDE -->
+    <div id='detailSlide'>
+      <div class='textInstructionsContainer'>
+      <p>In this experiment, you'll be making a lot of repetitive, two-part judgments. The first part involves selecting between two decks of cards on the screen, the second part involves performing a simple task on the card that's selected from a given deck. The first thing that you'll do is practice the simple tasks that you'll be performing. You'll be seeing digits appearing on the screen, one through nine (excluding five), in either a red or blue font color. Your job is to perform one of two simple tasks on these digits. You can either perform the Magnitude task, by judging whether this digit is higher or lower than five, or you can perform the Parity task, by judging whether the digit is odd or even. These responses are mapped to keys on the keyboard. "J" and "K" map to "Low" and "High" judgments for the Magnitude task and they also map to "Odd" and "Even" for the Parity task. The task that you should perform is signaled by the color that the digit is presented in. For example, if the digit is presented in a blue font, that could mean that you need to perform the Magnitude task on the digit that is presented. The color-to-task mappings will be different for everyone, and you'll see your mapping (and controls) by clicking on the "See Controls" button. If you forget the colors and keys at any point during the experiment, you can hold down the Space bar to see the key codes presented on the screen. After you make a response, the digit will disappear, and a new one will reappear and you need to make a new response. You'll be making these judgments in 17-trial groups for about five minutes in this practice round. Let's say that you make a mistake by, for example, pressing the "High" key when you're supposed to perform the Magnitude task and the digit presented is "3". The word "ERROR" will appear on the screen, and these trials take longer to reset than when you get them correct, so you want to avoid making errors to avoid incurring a time cost.</p><br>
+
+      <p><strong>You might notice that when the digit changes color and you have to switch between tasks, it's actually harder and it takes more effort to respond than when the digit just remains the same color and you perform the same task. In this practice round, half (ie, 8) of the possible 16 trial transitions will be task switches. That's normal for these tasks and it's what can be expected for these types of tasks when you see them in the future.</strong></p>
+    </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='experimentButton resetTitle smallButton textInstructionsButtons'>Go Back</button>
+        <button class='experimentButton textInstructionsButtons' id='seeKeysFromDetailSlide'>See Controls</button>
+      </div>
+    </div> <!-- end detail slide -->
+
+    <div class='interCycleSlide'>
+      <p>That was the end of that 17-trial cycle, the next one will begin shortly. Remember 8 of the 16 trial transitions will be task switches, and that is the difficulty level that can be expected during these types of tasks.</p>
+    </div>
+
+    <!-- KEY REMIND SLIDE -->
+    <div id='keyRemindSlide'>
+      <div class='titleBar'>
+        <p>Here are your controls. Remember, you can see this information at any point by holding down the space bar.</p>
+      </div>
+
+      <div class='leftTwoThirds' id='controlsFill'>
+      </div>
+
+      <div class='rightOneThirdsDown'>
+        <button class='resetTitle experimentButton smallButton center'>Go Back</button>
+        <button id='startCued' class='experimentButton center'>Begin Segment</button>
+      </div>
+    </div> <!-- end key remind slide -->
+
+    <!-- STIMULUS SLIDE -->
+    <!-- a centered column div serving as the parent flex-box -->
+    <div class='stimSlide'>
+      <!-- html filled from js -->
+      <div class='keyContainer'>
+      </div>
+
+      <div class='errorContainer'>
+        <p><strong>ERROR!</strong></p>
+      </div>
+
+      <div class='stimContainer'>
+      </div>
+    </div> <!-- end stimWrapper -->
+
+
+
+    </div> <!-- end screen -->
+  </div> <!-- end container-->
+
+</body>
+
+</html>

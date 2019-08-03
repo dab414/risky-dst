@@ -1,0 +1,166 @@
+<html>
+<head>
+<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+<link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
+<link rel='stylesheet' type='text/css' href='../../../globalStyle/globalStyle.css'>
+<link rel='stylesheet' type='text/css' href='../../../globalStyle/deckStyle.css'>
+<link rel='stylesheet' type='text/css' href='../../../globalStyle/demo.css?v=4'>
+<script src='../js/exp2Functions.js?v=3'></script>
+<script src='../../../globalJs/globalFunctions.js'></script>
+<script src='../../../globalJs/TimTurkTools.js'></script>
+<script src='../../../globalJs/jquery-bbq.js'></script>
+
+<script>
+
+$(document).ready(function(){
+	
+	// updates the value of the form that gets submitted to mturk
+	$('#assignmentId').val(GetAssignmentId()); 
+
+	// Top Vars
+	var development = false;
+	var experimentName = 'dissertationExperiment2';
+	var sessionCode = 'demo';
+	var experimentStartTime = urlArgsToVar('experimentStartTime');
+
+	//set initial state of html
+	$('#submit_hit').hide();
+
+	$('#submit_data').click(function(){
+		saveData();
+	});
+
+	function saveData(){
+		// save form data
+		var clarity = $("input[type='radio'][name = 'clarity']:checked");
+		var unitFeel = $("input[type='radio'][name = 'unitFeel']:checked");
+
+		//demo = parseDemos([clarity, unitFeel]);
+    curDate = new Date();
+    var curId = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you are on Turk, so you're probably testing." +
+    	"Enter an ID to save your data with:", "id");
+
+    var currentData = {
+    	'curId': curId,
+    	'workerId': GetWorkerId(),
+    	'curTime': curDate.today() + '@' + curDate.timeNow(),
+    	'totalTime_mins': experimentStartTime ? Math.round((Date.now() - experimentStartTime) / 1000 / 60) : 'null',
+      'screen_width': screen.width,
+      'screen_height': screen.height,
+      'window_width': $(window).width(),
+      'window_height': $(window).height(),
+      'clarity': clarity.val(),
+      'unitFeel': unitFeel.val(),
+      'comments': $('#comments').val(),          	
+    };
+
+    console.log(currentData);
+
+    sendToServer(curId, currentData);
+
+	}; // end saveData()
+
+	function sendToServer(curId, currentData){
+		var dataToServer = {
+			'curId': curId,
+			'experiment': experimentName,
+			'sessionCode': sessionCode,
+			'currentData': JSON.stringify(currentData)
+		};
+
+		$.post(
+			url = '../../../../../cgi-bin/saveData.py',
+			data = dataToServer,
+			success = function(data){
+				$('#debrief').hide();
+				$('#submit_hit').show();
+				console.log('success');
+			}).fail(function(data){
+				console.log('failure');
+				$('#debrief').hide();
+				$('#submit_hit').show();
+			});
+			
+	}; // end sendToServer
+
+}); // end $(document).ready()
+
+</script>
+</head>
+
+<body>
+
+	<div id = 'debrief' class = 'formContainer'>
+
+		<div id = 'demo_heading'>
+			<h3>You are almost done.</h3>
+			<p>Please be as honest and accurate with your responses as possible. Your responses won't affect acceptance of your HIT.</p>
+		</div>
+
+		<div id = 'demo_container'>
+			<form id = 'demo_form'>
+				
+				<fieldset>
+					<legend>Was it clear how effort units related to how difficult the task was?*</legend>
+						<input type='radio' id = 'clarity1' name = 'clarity' value='very-unclear' required>
+						<label for='clarity1'>Very Unclear</label>
+						<input type='radio' id = 'clarity2' name = 'clarity' value='somewhat-unclear'>
+						<label for='clarity2'>Somewhat Unclear</label>
+						<input type='radio' id = 'clarity3' name = 'clarity' value='neutral'>
+						<label for='clarity3'>Neutral</label>
+						<input type='radio' id = 'clarity4' name = 'clarity' value='somewhat-clear'>
+						<label for='clarity4'>Somewhat Clear</label>
+						<input type='radio' id = 'clarity5' name = 'clarity' value='very-clear'>
+						<label for='clarity5'>Very Clear</label>
+					</fieldset>
+
+					<fieldset>
+					<legend>Did you feel like the tasks with higher effort units were more difficult than those with lower effort units?*</legend>
+						<input type='radio' id = 'unitFeel1' name = 'unitFeel' value='no-relationship' required>
+						<label for='unitFeel1'>I felt no relationship between effort units and difficulty</label>
+						<input type='radio' id = 'unitFeel2' name = 'unitFeel' value='weak'>
+						<label for='unitFeel2'>I felt a weak relationship between effort units and difficulty</label><br>
+						<input type='radio' id = 'unitFeel3' name = 'unitFeel' value='moderate'>
+						<label for='unitFeel3'>I felt a moderate relationship between effort units and difficulty</label>
+						<input type='radio' id = 'unitFeel4' name = 'unitFeel' value='strong'>
+						<label for='unitFeel4'>I felt a strong relationship between effort units and difficulty</label>
+
+					</fieldset>
+
+				<fieldset>
+					<legend>Please describe anything about the task that was unclear or that you felt could have been explained better:</legend>
+					<textarea id = 'comments' style = 'height: 200px; width: 80%; resize: none' placeholder='Comments...' required></textarea><br><br>
+				</fieldset>
+	  	</form>
+	  	<button id = 'submit_data' class = 'experimentButton'>Continue</button>
+	  </div>
+
+	</div> <!-- end debrief div -->
+
+	<div id = 'submit_hit' class = 'formContainer' style = 'font-size: 12pt;'>
+		<h3>Press the submit button below to submit your HIT. </h3>
+		<h4>Feel free to read the text below to learn more about the study you participated in.</h4>
+		<p>If you have two major projects to finish, would you rather finish one first before moving on to the next, or complete parts of each project until you finish both? Switching tasks can be a very complicated process and doing so requires you to spend more time with the activity than when doing a single task. The experiment that you have participated in today examines the mechanisms involved in task switching.</p>
+		<p>When we have to switch from one task to another, several processes must occur. First we have to forget or inhibit the task that we have just completed. Then we have to prepare for or facilitate the task that we are going to perform next. Both of these processes take some amount of time, so that switching between two tasks from one trial to the next requires more time and effort than repeating the same task across two trials. But what if you were rewarded for switching tasks? </p>
+		<p>In the current experiment, we are interested in looking at how people switch tasks in response to rewards for switching tasks. Previous research in the lab has shown that when there is no reward system and people are told to respond randomly, choices are very influenced by factors such as how fast the number appears on each trial. We will be looking to see how adding this reward system affects decisions about which task to perform. We will also be looking at how varying the probabilities and values of those rewards affects behavior. Our goal is to better understand how external factors (stimulus timing) and internal factors (point maximizing strategies) interact with each other to produce decisions.</p>
+		<p>If you would like to learn more on this topic, one good place to find relevant background is:<p>
+		<p><a target = '_blank' href = 'https://davebraun.org/braun_arrington_2018.pdf'>Braun, D., Arrington, C. M. (2018). Assessing the role of reward in task selection using a reward-based voluntary task switching paradigm. <i>Psychological Research, 82</i>, 54-64.</a></p>
+		<div style = 'float: left'>
+			<p>If you have any questions about the experiment that you have just participated in please contact:</p>
+			<p>Dave Braun</p>
+			<p>dab414@lehigh.edu</p>
+			<p>Thank you for your participation in this research.</p>
+		</div>
+		
+		<div class = 'submit_button'>
+			<!--DEVELOPMENT FLAG-->
+			<!--<form id="turkSubmit" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" autocomplete="off">-->
+			<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">-
+			<input type="hidden" name="assignmentId" id="assignmentId" value="">
+			<input type="submit" value="Submit" name="submitButton" id="submitButton" class = 'experimentButton' style = 'font-size: 18pt'>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
