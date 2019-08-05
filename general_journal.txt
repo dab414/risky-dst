@@ -1,3 +1,7 @@
+8/5/2019
+	im noticing that there must be subtle rounding differences in the units presentation
+	sometimes they're off by like one unit
+
 8/2/2019
   things to do to get exp 3 going:
     finish tweaking the pilot

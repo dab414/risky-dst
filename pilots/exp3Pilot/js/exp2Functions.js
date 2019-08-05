@@ -148,14 +148,18 @@ function translateSwitchForDisplay(pSwitch) {
   var out = '';
 
   if (pSwitch == 8) {
-    out += 'Reference';
+    out += 'Neutral';
   } else {
     if (pSwitch > 8) {
-      out += 'Increase ';
+      out += ' loss';
     } else {
-      out += 'Decrease ';
+      out += ' gain';
     }
-    out += String(Math.abs(Math.round(pSwitch * 6.25) - 50))
+
+    units = Math.abs(Math.floor(pSwitch * 6.25) - 50);
+    units = pSwitch < 8 ? units - 1 : units;
+    out = String(units) + out;
+
   }
   return out;
 }
