@@ -1,3 +1,9 @@
+8/6/2019
+  pilot is released
+  i started building exp 3 for production
+  ill obv need to go through the details of this a lot
+  make sure all links are right, etc
+
 8/5/2019
 	im noticing that there must be subtle rounding differences in the units presentation
 	sometimes they're off by like one unit
