@@ -147,18 +147,25 @@ function updateDeckAttributes(deckCode) {
 function translateSwitchForDisplay(pSwitch) {
   var out = '';
 
+  // if it's reference, keep label at 50
   if (pSwitch == 8) {
-    out += 'Neutral';
+    out += '50';
+
   } else {
+    // else, add the absolute units on to out first
+    absUnits = Math.floor(pSwitch * 6.25);
+    absUnits = pSwitch < 8 ? absUnits + 1 : absUnits;
+    out += absUnits;
+    // then code the direction of shift from reference
     if (pSwitch > 8) {
-      out += ' loss';
+      out += '<br>(+';
     } else {
-      out += ' gain';
+      out += '<br>(-';
     }
 
-    units = Math.abs(Math.floor(pSwitch * 6.25) - 50);
-    units = pSwitch < 8 ? units - 1 : units;
-    out = String(units) + out;
+    // then add the difference
+    subUnits = Math.abs(absUnits - 50);
+    out = out + String(subUnits) + ')';
 
   }
   return out;
