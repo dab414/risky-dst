@@ -27,13 +27,20 @@ $(document).ready(function(){
 	$('#submit_hit').hide();
 
 	$('#submit_data').click(function(){
-		saveData();
+    var clarity = $("input[type='radio'][name = 'clarity']:checked");
+    var unitFeel = $("input[type='radio'][name = 'unitFeel']:checked");
+    var comments = $('#comments').val();
+    if (clarity && unitFeel && comments) {
+		  saveData();
+    } else {
+      alert('Please complete all questions before continuing');
+    }
 	});
 
 	function saveData(){
 		// save form data
 		var clarity = $("input[type='radio'][name = 'clarity']:checked");
-		var unitFeel = $("input[type='radio'][name = 'unitFeel']:checked");
+    var unitFeel = $("input[type='radio'][name = 'unitFeel']:checked");
 
 		//demo = parseDemos([clarity, unitFeel]);
     curDate = new Date();
@@ -155,7 +162,7 @@ $(document).ready(function(){
 		<div class = 'submit_button'>
 			<!--DEVELOPMENT FLAG-->
 			<!--<form id="turkSubmit" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" autocomplete="off">-->
-			<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">-
+			<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">
 			<input type="hidden" name="assignmentId" id="assignmentId" value="">
 			<input type="submit" value="Submit" name="submitButton" id="submitButton" class = 'experimentButton' style = 'font-size: 18pt'>
 			</form>
