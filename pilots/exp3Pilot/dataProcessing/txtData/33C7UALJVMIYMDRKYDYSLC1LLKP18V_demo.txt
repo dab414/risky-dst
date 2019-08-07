@@ -1,1 +1,0 @@
-{"curId":"33C7UALJVMIYMDRKYDYSLC1LLKP18V","workerId":"A3L8LSM7V7KX3T","curTime":"06/08/2019@17:14:04","totalTime_mins":11,"screen_width":1536,"screen_height":864,"window_width":1316,"window_height":742,"clarity":"very-clear","unitFeel":"weak","comments":"No issues, all good."}

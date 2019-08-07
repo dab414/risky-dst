@@ -1,1 +1,0 @@
-{"curId":"3ITXP059PX3N0EMX20A363X8RV2SJW","workerId":"A2ETY1O927Z1IF","curTime":"06/08/2019@17:22:33","totalTime_mins":10,"screen_width":1680,"screen_height":1050,"window_width":1108,"window_height":916,"clarity":"very-clear","unitFeel":"strong","comments":"nothing everything was simple and easy to understand"}
