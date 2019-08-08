@@ -11,7 +11,7 @@ from boto.mturk.question import ExternalQuestion
 HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1'
-max_assignments = 1
+max_assignments = 9
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp3'
@@ -30,10 +30,10 @@ def PostHits(pay, lifetime, max_assignments, exp):
 	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
 
 	## MAKE UP HIT LINK
-	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
+	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
 
 	## EXP 3 PILOT
-	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/pilots/exp3Pilot/", frame_height=675)
+	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/pilots/exp3Pilot/", frame_height=675)
 
 	qr = [{
     'QualificationTypeId': '000000000000000000L0',
@@ -51,11 +51,13 @@ def PostHits(pay, lifetime, max_assignments, exp):
 
 	
 	## Make up hit qualification
+  '''
 	qr.append({
 		'QualificationTypeId': '39G8RJBXZVGXWGOFKKWZFWUS2DYSFD',
 		'Comparator': 'Exists',
 		'ActionsGuarded': 'PreviewAndAccept'
 		})
+  '''
 	
 
 	mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_access_key_id = aws_access_key_id,aws_secret_access_key = aws_secret_access_key)
@@ -67,7 +69,8 @@ def PostHits(pay, lifetime, max_assignments, exp):
 													Description = description,
 													Keywords = keywords,
 													Reward = pay,
-													AssignmentDurationInSeconds = 60 * 60, # 30 minutes
+                          ## FOR PILOT
+													AssignmentDurationInSeconds = 30 * 60, # 30 minutes
 													AutoApprovalDelayInSeconds = 2* 24 * 60 * 60, # the number of seconds after an assignment is submitted is it automatically approved unless explicitly rejected
 	                        ## the norm is to try to keep this under 7 days, many requesters approve in less than 3 days
 	                        RequesterAnnotation = description,

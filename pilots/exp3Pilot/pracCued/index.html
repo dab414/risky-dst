@@ -321,7 +321,8 @@ function sendToServer(curId, currentData) {
 
   $.post(
     // relative to this script
-    url = '../../../../../cgi-bin/saveData.py',
+    // ADDED AN EXTRA BACKTRACK FOR PILOTING
+    url = '../../../../../../cgi-bin/saveData.py',
     data = dataToServer,
     success = function(data) {
       window.location.replace('../dst/?' + $.param(urlArgs));
@@ -368,7 +369,7 @@ function sendToServer(curId, currentData) {
 
         
           <video id='tutorial' width='510' height='290' controls>
-            <source src = "exp2PracCued.mp4" type = "video/mp4">
+            <source src = "exp3PracCued.mp4" type = "video/mp4">
           </video>
         
         </div>
