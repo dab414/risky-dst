@@ -7,11 +7,11 @@ from awsKeys import aws_secret_access_key
 import boto3
 from boto.mturk.question import ExternalQuestion
 
-HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
-#HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
+#HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
+HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
-pay = '1.5'
-max_assignments = 9
+pay = '1'
+max_assignments = 1
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp3'
@@ -27,10 +27,10 @@ def PostHits(pay, lifetime, max_assignments, exp):
 
 
   ## PRODUCTION LINK
-	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
+	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
 
 	## MAKE UP HIT LINK
-	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
+	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
 
 	## EXP 3 PILOT
 	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/pilots/exp3Pilot/", frame_height=675)
@@ -49,13 +49,14 @@ def PostHits(pay, lifetime, max_assignments, exp):
 		'RequiredToPreview': True
 		})
 
-	'''
+	
 	## Make up hit qualification
 	qr.append({
 		'QualificationTypeId': '39G8RJBXZVGXWGOFKKWZFWUS2DYSFD',
-		'Comparator': 'Exists'
+		'Comparator': 'Exists',
+		'ActionsGuarded': 'PreviewAndAccept'
 		})
-	'''
+	
 
 	mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_access_key_id = aws_access_key_id,aws_secret_access_key = aws_secret_access_key)
 
