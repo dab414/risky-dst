@@ -213,9 +213,11 @@ function prepCuedTrial() {
   absUnits = currentCondition < 8 ? absUnits + 1 : absUnits;
   subUnits = Math.abs(absUnits - 50);
 
+  console.log(currentCondition);
+
   if (subUnits) {
-    compare = subUnits < 0 ? ' easier than ' : ' harder than ';
-    sign = subUnits < 0 ? '-' : '+';
+    compare = currentCondition < 8 ? ' easier than ' : ' harder than ';
+    sign = currentCondition < 8 ? '-' : '+';
     htmlFill = '<div><p>The randomly-selected number of effort units for the upcoming run is <strong>' + sign + String(subUnits) + '</strong>, meaning that the upcoming run will be ' + String(subUnits) + compare + 'medium difficulty.</p><br>'
   } else {
     htmlFill = '<div><p>The randomly-selected number of effort units for the upcoming run is <strong>0</strong>, meaning that the upcoming run will be medium difficulty.</p><br>'

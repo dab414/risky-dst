@@ -29,7 +29,7 @@ This document is dedicated to conducting a descriptive summary of the survey dat
 
 And the instructional video was modified to be the following:
 
-<video controls>
+<video height = '290' width = '510' controls>
   <source src='../../../dst/exp3Dst.mp4' type = 'video/mp4'>
 </video>
 
