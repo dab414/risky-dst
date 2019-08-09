@@ -2,13 +2,13 @@
 <head>
 <script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
 <link rel='stylesheet' type='text/css' href='../css/exp1Style.css'>
-<link rel='stylesheet' type='text/css' href='../../../globalStyle/globalStyle.css'>
-<link rel='stylesheet' type='text/css' href='../../../globalStyle/deckStyle.css'>
-<link rel='stylesheet' type='text/css' href='../../../globalStyle/demo.css?v=4'>
-<script src='../js/exp2Functions.js?v=3'></script>
-<script src='../../../globalJs/globalFunctions.js'></script>
-<script src='../../../globalJs/TimTurkTools.js'></script>
-<script src='../../../globalJs/jquery-bbq.js'></script>
+<link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css'>
+<link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
+<link rel='stylesheet' type='text/css' href='../../globalStyle/demo.css?v=4'>
+<script src='../js/exp1Functions.js?v=3'></script>
+<script src='../../globalJs/globalFunctions.js'></script>
+<script src='../../globalJs/TimTurkTools.js'></script>
+<script src='../../globalJs/jquery-bbq.js'></script>
 
 <script>
 
@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 	// Top Vars
 	var development = false;
-	var experimentName = 'dissertationExperiment3';
+	var experimentName = 'dissertationExperiment2';
 	var sessionCode = 'demo';
 	var experimentStartTime = urlArgsToVar('experimentStartTime');
 
@@ -27,24 +27,17 @@ $(document).ready(function(){
 	$('#submit_hit').hide();
 
 	$('#submit_data').click(function(){
-    var clarity = $("input[type='radio'][name = 'clarity']:checked").val();
-    var unitFeel = $("input[type='radio'][name = 'unitFeel']:checked").val();
-    var comments = $('#comments').val();
-    console.log(clarity);
-    console.log(unitFeel);
-    if (clarity && unitFeel && comments) {
-		  saveData();
-    } else {
-      alert('Please complete all questions before continuing');
-    }
+		saveData();
 	});
 
 	function saveData(){
 		// save form data
-		var clarity = $("input[type='radio'][name = 'clarity']:checked");
-    var unitFeel = $("input[type='radio'][name = 'unitFeel']:checked");
+		var gender = $("input[type='radio'][name = 'gender']:checked");
+		var race = $("input[type='checkbox'][name = 'race']:checked");
+		var ethnicity = $("input[type='radio'][name = 'ethnicity']:checked");
+		var vision = $("input[type='radio'][name = 'vision']:checked");
 
-		//demo = parseDemos([clarity, unitFeel]);
+		demo = parseDemos([gender, race, ethnicity, vision]);
     curDate = new Date();
     var curId = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you are on Turk, so you're probably testing." +
     	"Enter an ID to save your data with:", "id");
@@ -58,12 +51,13 @@ $(document).ready(function(){
       'screen_height': screen.height,
       'window_width': $(window).width(),
       'window_height': $(window).height(),
-      'clarity': clarity.val(),
-      'unitFeel': unitFeel.val(),
+      'age': $('#age').val(),
+      'gender': demo[0],
+      'race': demo[1],
+      'ethnicity': demo[2],
+      'vision': demo[3],
       'comments': $('#comments').val(),          	
     };
-
-    console.log(currentData);
 
     sendToServer(curId, currentData);
 
@@ -103,42 +97,73 @@ $(document).ready(function(){
 
 		<div id = 'demo_heading'>
 			<h3>You are almost done.</h3>
-			<p>Please be as honest and accurate with your responses as possible. Your responses won't affect acceptance of your HIT.</p>
+			<p>Please fill out this short survey to continue submitting the HIT.</p>
 		</div>
 
 		<div id = 'demo_container'>
 			<form id = 'demo_form'>
-				
 				<fieldset>
-					<legend>Was the relationship between effort units and task difficulty clear?*</legend>
-						<input type='radio' id = 'clarity1' name = 'clarity' value='very-unclear' required>
-						<label for='clarity1'>Very Unclear</label>
-						<input type='radio' id = 'clarity2' name = 'clarity' value='somewhat-unclear'>
-						<label for='clarity2'>Somewhat Unclear</label>
-						<input type='radio' id = 'clarity3' name = 'clarity' value='neutral'>
-						<label for='clarity3'>Neutral</label>
-						<input type='radio' id = 'clarity4' name = 'clarity' value='somewhat-clear'>
-						<label for='clarity4'>Somewhat Clear</label>
-						<input type='radio' id = 'clarity5' name = 'clarity' value='very-clear'>
-						<label for='clarity5'>Very Clear</label>
-					</fieldset>
+					<legend>Please fill in your age:* <span style='font-style: italic'>Type "Prefer not to respond" if you'd rather not report your age.</span></legend>
+					<input type = 'text' id = 'age' value = '' placeholder='Age' required>
+				</fieldset>
 
-					<fieldset>
-					<legend>Did you feel like the tasks with higher effort units were more difficult than those with lower effort units?*</legend>
-						<input type='radio' id = 'unitFeel1' name = 'unitFeel' value='no-relationship' required>
-						<label for='unitFeel1'>I felt no relationship between effort units and difficulty</label>
-						<input type='radio' id = 'unitFeel2' name = 'unitFeel' value='weak'>
-						<label for='unitFeel2'>I felt a weak relationship between effort units and difficulty</label><br>
-						<input type='radio' id = 'unitFeel3' name = 'unitFeel' value='moderate'>
-						<label for='unitFeel3'>I felt a moderate relationship between effort units and difficulty</label>
-						<input type='radio' id = 'unitFeel4' name = 'unitFeel' value='strong'>
-						<label for='unitFeel4'>I felt a strong relationship between effort units and difficulty</label>
-
+				<fieldset>
+					<legend>How would you describe your gender identity:*</legend>
+						<input type='radio' id = 'gender1' name = 'gender' value='male' required>
+						<label for='gender1'>Male</label>
+						<input type='radio' id = 'gender2' name = 'gender' value='female'>
+						<label for='gender2'>Female</label>
+						<input type='radio' id = 'gender3' name = 'gender' value='non-binary'>
+						<label for='gender3'>Non-Binary</label>
+						<input type='radio' id = 'gender4' name = 'gender' value='other'>
+						<label for='gender4'>Other Gender</label>
+						<input type='radio' id = 'gender5' name = 'gender' value='no_answer'>
+						<label for='gender5'>Prefer not to Answer</label>
 					</fieldset>
 
 				<fieldset>
-					<legend>Please describe anything about the task that was unclear or that you felt could have been explained better:</legend>
-					<textarea id = 'comments' style = 'height: 200px; width: 80%; resize: none' placeholder='Comments...' required></textarea><br><br>
+					<legend>What race do you consider yourself? Please select one or more of the following.*</legend>
+					<input type='checkbox' id = 'white' name = 'race' value='white'>
+					<label for='white'>White</label>
+					<input type='checkbox' id = 'black' name = 'race' value='black'>
+					<label for='black'>Black or African American</label>
+					<input type='checkbox' id = 'indian' name = 'race' value='indian'>
+					<label for='indian'>American Indian or Alaska Native</label>
+					<input type='checkbox' id = 'asian' name = 'race' value='asian'>
+					<label for='asian'>Asian</label>
+					<input type='checkbox' id = 'hawaiian' name = 'race' value='hawaiian'>
+					<label for='hawaiian'>Native Hawaiian or Pacific Islander</label><br>
+					<input type='checkbox' id = 'other' name = 'race' value='other'>
+					<label for='other'>Other</label>
+					<input type='checkbox' id = 'no_response' name = 'race' value='no_response'>
+					<label for='no_response'>Prefer not to Respond</label>					
+				</fieldset>
+
+				<fieldset>
+					<legend>Please select which of the following you consider yourself to be (select one):*</legend>
+						<input type='radio' id = 'hispanic' name = 'ethnicity' value='hispanic' required>
+						<label for='hispanic'>Hispanic or Latino</label>
+						<input type='radio' id = 'not_hispanic' name = 'ethnicity' value='not_hispanic'>
+						<label for='not_hispanic'>Not Hispanic or Latino</label>
+						<input type='radio' id = 'no_response' name = 'ethnicity' value='no_response'>
+						<label for='no_response'>Prefer not to Respond</label>
+				</fieldset>
+
+				<fieldset>
+					<legend>Please select the option that best describes your vision:*</legend>
+						<input type='radio' id = 'normal' name = 'vision' value='normal' required>
+						<label for='normal'>Normal</label>
+						<input type='radio' id = 'corrected' name = 'vision' value='corrected'>
+						<label for='corrected'>Corrected to Normal</label>
+						<input type='radio' id = 'impaired' name = 'vision' value='impaired'>
+						<label for='impaired'>Impaired</label>
+						<input type='radio' id = 'no_response' name = 'vision' value='no_response'>
+						<label for='no_response'>Prefer not to Respond</label>
+				</fieldset>
+
+				<fieldset>
+					<legend>Please leave any comments you have about the HIT:</legend>
+					<textarea id = 'comments' style = 'height: 200px; width: 80%; resize: none' placeholder='Comments...'></textarea><br><br>
 				</fieldset>
 	  	</form>
 	  	<button id = 'submit_data' class = 'experimentButton'>Continue</button>
@@ -157,14 +182,14 @@ $(document).ready(function(){
 		<div style = 'float: left'>
 			<p>If you have any questions about the experiment that you have just participated in please contact:</p>
 			<p>Dave Braun</p>
-			<p>dab414@lehigh.edu</p>
+			<p>admin@davebraun.org</p>
 			<p>Thank you for your participation in this research.</p>
 		</div>
 		
 		<div class = 'submit_button'>
 			<!--DEVELOPMENT FLAG-->
-			<form id="turkSubmit" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" autocomplete="off">
-			<!--<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">-->
+			<!--<form id="turkSubmit" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST" autocomplete="off">-->
+			<form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off">-
 			<input type="hidden" name="assignmentId" id="assignmentId" value="">
 			<input type="submit" value="Submit" name="submitButton" id="submitButton" class = 'experimentButton' style = 'font-size: 18pt'>
 			</form>

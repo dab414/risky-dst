@@ -1,7 +1,7 @@
 ---
-title: "Experiment 3 Pilot Analysis"
+title: "Experiment 3 Pilot Analysis (round 2)"
 author: "Dave Braun"
-date: "8/6/2019"
+date: "8/9/2019"
 output: 
   html_document:
     code_folding: hide
@@ -23,7 +23,7 @@ library(tidyverse)
 
 *This document was last updated at `r Sys.time()`.*
 
-This document is dedicated to conducting a descriptive summary of the survey data from the Experiment 3 pilot. Briefly, this pilot was conducted mostly to assess the clarity of instructions. **Nine subjects were recruited for the pilot.** The survey that was given to subjects can be seen below:  
+This document is dedicated to conducting a descriptive summary of the survey data from the Experiment 3 pilot. Briefly, this pilot was conducted mostly to assess the clarity of instructions. **Twenty five subjects were recruited for the pilot.** The survey that was given to subjects can be seen below:  
 
 <img src='exp3Survey.png'>
 

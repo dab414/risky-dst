@@ -11,7 +11,7 @@ from boto.mturk.question import ExternalQuestion
 HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1'
-max_assignments = 9
+max_assignments = 7
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp3'
@@ -51,13 +51,13 @@ def PostHits(pay, lifetime, max_assignments, exp):
 
 	
 	## Make up hit qualification
-  '''
+	'''
 	qr.append({
 		'QualificationTypeId': '39G8RJBXZVGXWGOFKKWZFWUS2DYSFD',
 		'Comparator': 'Exists',
 		'ActionsGuarded': 'PreviewAndAccept'
 		})
-  '''
+	'''
 	
 
 	mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_access_key_id = aws_access_key_id,aws_secret_access_key = aws_secret_access_key)

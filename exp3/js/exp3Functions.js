@@ -149,23 +149,26 @@ function translateSwitchForDisplay(pSwitch) {
 
   // if it's reference, keep label at 50
   if (pSwitch == 8) {
-    out += '50';
+    out += '0';
 
   } else {
     // else, add the absolute units on to out first
     absUnits = Math.floor(pSwitch * 6.25);
     absUnits = pSwitch < 8 ? absUnits + 1 : absUnits;
-    out += absUnits;
+    
+    // omitting this information
+    //out += absUnits;
+
     // then code the direction of shift from reference
     if (pSwitch > 8) {
-      out += '<br>(+';
+      out += '+';
     } else {
-      out += '<br>(-';
+      out += '-';
     }
 
     // then add the difference
     subUnits = Math.abs(absUnits - 50);
-    out = out + String(subUnits) + ')';
+    out = out + String(subUnits);
 
   }
   return out;

@@ -1,1 +1,1 @@
-rsync -avP -e 'ssh -p 18765' davebrau@ns1.us69.siteground.us:~/public_html/turk/data/dissertation/dissertationExperiment2/ /home/dave/OneDrive/Research/By\ Project/Dissertation/experiments/production/exp2/dataProcessing/txtData/
+rsync -avP -e 'ssh -p 18765' davebrau@ns1.us69.siteground.us:~/public_html/turk/data/dissertation/dissertationExperimente/ /home/dave/OneDrive/Research/By\ Project/Dissertation/experiments/production/exp3/dataProcessing/txtData/

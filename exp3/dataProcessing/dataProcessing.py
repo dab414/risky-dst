@@ -150,10 +150,10 @@ def main():
   for entry in final_data:
     df = pd.DataFrame(np.array(final_data[entry][1:]), columns = final_data[entry][0])
     
-    if not os.path.exists('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/'):
-      os.mkdir('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/')
+    if not os.path.exists('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp3/data/'):
+      os.mkdir('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp3/data/')
     
-    df.to_csv('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp2/data/' + entry + '.csv', index = False)
+    df.to_csv('/home/dave/OneDrive/Research/By Project/Dissertation/experiments/analysis/exp3/data/' + entry + '.csv', index = False)
 
 if __name__ == '__main__':
   main()
