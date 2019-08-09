@@ -23,7 +23,17 @@ library(tidyverse)
 
 *This document was last updated at `r Sys.time()`.*
 
-This document is dedicated to conducting a descriptive summary of the survey data from the Experiment 3 pilot. Briefly, this pilot was conducted mostly to assess the clarity of instructions. **Twenty five subjects were recruited for the pilot.** The survey that was given to subjects can be seen below:  
+This document is dedicated to conducting a descriptive summary of the survey data from the Experiment 3 pilot. Briefly, this pilot was conducted mostly to assess the clarity of instructions. **Twenty five subjects were recruited for the pilot.** This is the *second* round of piloting, where the stimuli have been simplified such that we are no longer displaying the absolute effort units. The stimuli now look like the following:
+
+<img src='exp3Stimuli.png'>
+
+And the instructional video was modified to be the following:
+
+<video controls>
+  <source src='../../../dst/exp3Dst.mp4' type = 'video/mp4'>
+</video>
+
+The survey that was given to subjects (which is the same as the last round of piloting) can be seen below:  
 
 <img src='exp3Survey.png'>
 
@@ -38,6 +48,10 @@ d <- read.csv('../../data/demo.csv')
 ```{r warning = FALSE}
 d$clarity <- factor(d$clarity, levels = rev(c('very-clear', 'somewhat-clear', 'neutral', 'somewhat-unclear', 'very-unclear')))
 d$unitFeel <- factor(d$unitFeel, levels = c('no-relationship', 'weak', 'moderate', 'strong'))
+d %>% 
+  group_by(clarity) %>% 
+  summarize(Count = n()) %>% 
+  mutate(Relative.Proportion = Count / sum(Count))
 ggplot(d, aes(x = clarity)) +
   geom_histogram(stat = 'count', fill = 'light grey', color = 'black') +
   scale_x_discrete(drop = FALSE, labels = c(`very-clear` = 'Very Clear', `somewhat-clear` = 'Somewhat Clear', `neutral` = 'Neutral', `somewhat-unclear` = 'Somewhat Unclear', `very-unclear` = 'Very Unclear')) +
@@ -52,6 +66,10 @@ ggplot(d, aes(x = clarity)) +
 ### Did you feel like the tasks with higher effort units were more difficult than those with lower effort units?
 
 ```{r warning = FALSE}
+d %>% 
+  group_by(unitFeel) %>% 
+  summarize(Count = n()) %>% 
+  mutate(Relative.Proportion = Count / sum(Count))
 ggplot(d, aes(x = unitFeel)) +
   geom_histogram(stat = 'count', fill = 'light grey', color = 'black') +
   scale_x_discrete(drop = FALSE, labels = c(`no-relationship` = 'No Relationship', `weak` = 'Weak', `moderate` = 'Moderate', `strong` = 'Strong')) +
