@@ -22,6 +22,7 @@ $(document).ready(function(){
   var currentTaskColor = '';
   var currentTask = '';
   var error = 0;
+  var errorCount = 0;
   var currentStim = '';
   var trialCount = 0;
   var trialStruct = new Array();
@@ -66,7 +67,7 @@ $(document).ready(function(){
   }
 
   $.post(
-    url = '../../../../../../cgi-bin/saveData.py',
+    url = '../../../../../cgi-bin/saveData.py',
     data = dataToServer
     )
   }
@@ -84,6 +85,7 @@ $(document).ready(function(){
   $('.stimSlide').hide();
   $('.interCycleSlide').hide();
   $('#development').hide();
+  $('#botCatcher').hide();
 
   if (!IsOnTurk()) {
     $('#titleSlide').hide();
@@ -160,6 +162,19 @@ function runCycle() {
   if (cycleCount == cycleThreshold) {
     endCued();
   } else {
+
+    // bot catcher
+    if (cycleCount > 1) {
+      var nTrials = cycleCount * 17;
+      var accuracy = 1 - (errorCount / nTrials);
+      console.log(accuracy);
+      if (accuracy < .7) {
+        $('.stimSlide').hide();
+        $('#botCatcher').show();
+        return
+      }
+    }
+
     transitionArray = generateTransitionArray(8);
     cycleCount += 1;
     trialCount = 0;
@@ -251,6 +266,7 @@ function runTrial() {
         // prepare for next trial
         if (error) {
           $('.errorContainer').show();
+          errorCount += 1;
 
           setTimeout(function(){
             if (trialCount == trialThreshold) {
@@ -353,6 +369,12 @@ function sendToServer(curId, currentData) {
         <input type='radio' name='expLength' value='regular' checked>Regular<br>
         <input type='radio' name='expLength' value='short'>Shortened<br>
         <button id='submitDevelopment' class='experimentButton'>Submit</button>
+      </div>
+
+      <!-- BOT CATCHER -->
+      <div id = 'botCatcher'>
+        <h1>This HIT is no longer available</h1>
+        <h2>Please return this HIT to avoid having your work get rejected</h2>
       </div>
 
       <!-- BEGIN TITLE SLIDE -->
