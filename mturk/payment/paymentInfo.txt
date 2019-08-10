@@ -1,3 +1,14 @@
+8/10/2019
+	total spent: $319
+	total remaining: $381
+
+	cost of 130 at $2 / assignment: $312
+
+	cost of 130 at $1.5 / assignment: $234
+
+	cost = 130 * x + (130 * x * 0.2)
+	target cost: 381
+
 8/9/2019
   putting out for 9 subjects of the real experiment
   should cost a total of $16.20
