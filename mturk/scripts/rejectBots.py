@@ -10,7 +10,7 @@ import boto3
 
 args = sys.argv[1:]
 
-if len(args) > 1 or not args or args[0] not in ['exp1', 'exp2']:
+if len(args) > 1 or not args or args[0] not in ['exp1', 'exp2', 'exp3']:
 	print 'Usage: [exp1 / exp2 / exp3]'
 	sys.exit(1)
 
