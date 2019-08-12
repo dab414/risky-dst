@@ -7,8 +7,8 @@ from awsKeys import aws_secret_access_key
 import boto3
 from boto.mturk.question import ExternalQuestion
 
-#HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
-HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
+HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
+#HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '1.5'
 max_assignments = 9
@@ -23,7 +23,7 @@ def PostHits(pay, lifetime, max_assignments, exp):
 	keywords = 'attention, psychology, experiment, research'
 	title = 'A Decision Making Experiment'
 	experimentName = 'Decision Making Experiment' ## this is NOT what it ends up getting called on my server
-	description = 'This HIT will take about 30 mins to complete. All HITS in this batch are the same, and you will only be able to perform one of the HITS in this batch.'
+	description = 'This HIT will take between 30-40 mins to complete. All HITS in this batch are the same, and you will only be able to perform one of the HITS in this batch.'
 
 
   ## PRODUCTION LINK
@@ -76,6 +76,7 @@ def PostHits(pay, lifetime, max_assignments, exp):
 	                        QualificationRequirements = qr)
 
 	print theHit['HIT']['HITId']
+	return theHit['HIT']['HITId']
 
 
 if __name__ == '__main__':
