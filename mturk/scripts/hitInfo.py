@@ -19,7 +19,7 @@ mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_ac
 
 print '\n'
 
-for hit in mtc.list_hits()['HITs']:
+for hit in mtc.list_hits(MaxResults = 100)['HITs']:
 	maxAssignments = hit['MaxAssignments']
 	availableAssignments = hit['NumberOfAssignmentsAvailable']
 	pendingAssignments = hit['NumberOfAssignmentsPending']

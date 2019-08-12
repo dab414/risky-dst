@@ -23,10 +23,11 @@ if not targetAssignments or len(targetAssignments) > 1:
 
 targetAssignments = int(targetAssignments[0])
 
-HOST = 'mechanicalturk.sandbox.amazonaws.com' # Use this to post to the sandbox instead
-#HOST = 'mechanicalturk.amazonaws.com'
 
-pay = '1.5'
+#HOST = 'mechanicalturk.sandbox.amazonaws.com' # Use this to post to the sandbox instead
+HOST = 'mechanicalturk.amazonaws.com'
+
+pay = '2.3'
 max_assignments = 9
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
@@ -38,6 +39,7 @@ if targetAssignments % 9:
 	batches += 1
 
 hit_id_container = []
+
 
 for batch in range(batches):
 	if batch == range(batches)[-1]:

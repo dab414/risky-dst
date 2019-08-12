@@ -7,11 +7,11 @@ from awsKeys import aws_secret_access_key
 import boto3
 from boto.mturk.question import ExternalQuestion
 
-HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
-#HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
+#HOST = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com' # Use this to post to the sandbox instead
+HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
-pay = '1.5'
-max_assignments = 9
+pay = '2.3'
+max_assignments = 1
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp3'
@@ -35,6 +35,7 @@ def PostHits(pay, lifetime, max_assignments, exp):
 	## EXP 3 PILOT
 	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/pilots/exp3Pilot/", frame_height=675)
 
+
 	qr = [{
     'QualificationTypeId': '000000000000000000L0',
     'Comparator': 'GreaterThanOrEqualTo',
@@ -57,8 +58,15 @@ def PostHits(pay, lifetime, max_assignments, exp):
 		'Comparator': 'Exists',
 		'ActionsGuarded': 'PreviewAndAccept'
 		})
-	'''
 	
+
+	## Selective worker qualification
+	qr = [{
+		'QualificationTypeId': '38TZ8V8N0DPKTFADTBYQNO29VLSIPN',
+		'Comparator': 'Exists',
+		'ActionsGuarded': 'PreviewAndAccept'
+		}]
+	'''
 
 	mtc = boto3.client('mturk', endpoint_url = HOST,region_name = region_name,aws_access_key_id = aws_access_key_id,aws_secret_access_key = aws_secret_access_key)
 

@@ -1,12 +1,14 @@
 library(tidyverse)
 
-computeCost <- function(payment) {
-	return(payment * 130 + (payment * 130 * 0.2))
+N <- 138
+
+computeCost <- function(payment, N) {
+	return(payment * N + (payment * N * 0.2))
 }
 
 
 d <- data.frame(payment = seq(1.5, 3, 0.1))
-d$totalCost <- computeCost(d$payment)
+d$totalCost <- computeCost(d$payment, N)
 
 m1 <- lm(totalCost ~ payment, data = d)
 intercept <- m1$coefficients[1]
@@ -20,7 +22,7 @@ ggplot(d, aes(x = payment, y = totalCost)) +
 		title = 'Relationship Between Total Cost and Possible Payments',
 		x = 'Payment Per Subject in Dollars',
 		y = 'Total Cost in Dollars',
-		caption = 'Dashed line represents the amount of $700 that is remaining') +
+		caption = paste('Calculated for sample size of', N)) +
 	geom_hline(yintercept = 381, linetype = 'dashed') +
 	geom_point(data = d1, aes(x = targetPayment, y = targetCost), size = 3, color = 'red') +
 	#annotate('text', data = d1, aes(x = targetPayment + 10, y = targetCost + 10), label = paste('(', round(d1$targetPayment[1], 2), ', ', d1$targetCost[1], ')', sep = '')) +

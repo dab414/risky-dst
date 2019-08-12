@@ -35,7 +35,7 @@ def catchPartialData(args, fTypes):
 
   for key in d:
     ## if an assignment id doesnt have the length of phase types (plus init)
-    if len(d[key]) < len(fTypes) + 1:
+    if len(d[key]) < len(fTypes):
       ## add it to partialData
       partialData.append(key)
 
