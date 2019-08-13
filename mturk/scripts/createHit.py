@@ -11,7 +11,7 @@ from boto.mturk.question import ExternalQuestion
 HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '2.3'
-max_assignments = 1
+max_assignments = 5
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp3'
