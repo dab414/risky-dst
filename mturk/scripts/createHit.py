@@ -11,7 +11,7 @@ from boto.mturk.question import ExternalQuestion
 HOST = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 pay = '2.3'
-max_assignments = 3
+max_assignments = 2
 lifetime = 2 * 24 * 60 * 60 # days, hours, mins, seconds
 
 exp = 'exp3'
@@ -27,10 +27,10 @@ def PostHits(pay, lifetime, max_assignments, exp):
 
 
   ## PRODUCTION LINK
-	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
+	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/" + exp +"/", frame_height=675)
 
 	## MAKE UP HIT LINK
-	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
+	q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/makeupHit", frame_height=675)
 
 	## EXP 3 PILOT
 	#q = ExternalQuestion(external_url = "https://davebraun.org/dissertation/experiments/production/pilots/exp3Pilot/", frame_height=675)
@@ -52,14 +52,14 @@ def PostHits(pay, lifetime, max_assignments, exp):
 
 	
 	## Make up hit qualification
-	'''
+	
 	qr.append({
 		'QualificationTypeId': '39G8RJBXZVGXWGOFKKWZFWUS2DYSFD',
 		'Comparator': 'Exists',
 		'ActionsGuarded': 'PreviewAndAccept'
 		})
 	
-
+	'''
 	## Selective worker qualification
 	qr = [{
 		'QualificationTypeId': '38TZ8V8N0DPKTFADTBYQNO29VLSIPN',

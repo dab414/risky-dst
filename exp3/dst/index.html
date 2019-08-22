@@ -259,6 +259,7 @@ function runTrial() {
 
         // Create stim color array
         transitionArray = generateTransitionArray(selectedOutcome['pSwitch']);
+
         // Draw box around selected outcome
         $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).addClass('selectedAttribute').removeClass('deSelectedAttribute');
 
@@ -385,7 +386,6 @@ function saveTrialData() {
   } else if (chosenDeckLocation == 'right' && deckCode['right']['name'] == 'riskyDeck') {
     selectedRiskyDeck = 1;
   }
-
 
   trialStruct.push({
     'choiceTrial': trialCount,
