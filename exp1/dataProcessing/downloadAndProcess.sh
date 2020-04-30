@@ -9,4 +9,4 @@ Rscript --vanilla /home/dave/OneDrive/Research/By\ Project/Dissertation/experime
 ## Upload modified markdown docs to live
 /home/dave/OneDrive/Research/By\ Project/Dissertation/experiments/upload.sh
 ## Check it out
-firefox https://davebraun.org/results &
+firefox https://davebraun.net/results?q=1 &

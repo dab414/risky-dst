@@ -146,7 +146,8 @@ ggplot(graphData, aes(x = pSwitch, y = value, group = 1)) + geom_line() + geom_p
   scale_x_continuous(breaks = seq(0,1,0.2)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         strip.background = element_blank(),
-        axis.title.y = element_blank())
+        axis.title.y = element_blank(),
+        axis.ticks = element_blank())
   
 ggsave('pilotSummary.png', height = 3.5, width = 5.5, units = 'in')
 ```

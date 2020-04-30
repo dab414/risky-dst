@@ -1,7 +1,6 @@
 # Dissertation Experiments
 This repository contains the source code for my dissertation experiments to be run on MTurk.  
 
-*These experiments are still under development (6/28/2019)*  
 
 ## Pilot Data  
 
@@ -36,3 +35,15 @@ Experiment 2 is broken down into three general phases, the code for which can be
 * [Rapid Fire Demand Selection Task](exp2/rapidFire/index.html)
 
 The JavaScript specific to this experiment is [here](exp2/js/exp2Functions.js)
+
+## Experiment 3
+
+The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp3
+
+Experiment 3 is broken down into three general phases, the code for which can be found below:  
+
+* [Practice Cued Task Switching](exp3/pracCued/index.html)  
+* [Demand Selection Task](exp3/dst/index.html)  
+* [Rapid Fire Demand Selection Task](exp3/rapidFire/index.html)
+
+The JavaScript specific to this experiment is [here](exp3/js/exp3Functions.js)
