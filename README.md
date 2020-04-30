@@ -4,11 +4,11 @@ This repository contains the source code for my dissertation experiments to be r
 
 ## Pilot Data  
 
-* [Pilot Data Summary](http://davebraun.org/dissertation/experiments/production/pilots/scripts/dissertationPilot_1-23.html)
+* [Pilot Data Summary](http://davebraun.net/dissertation/experiments/production/pilots/scripts/dissertationPilot_1-23.html)
 
 ## Experiment 1
 
-The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp1  
+The experiment is hosted at: https://davebraun.net/dissertation/experiments/production/exp1  
 
 Experiment 1 is broken down into two phases, the code for which can be found below:  
 
@@ -26,7 +26,7 @@ Data processing scripts:
 
 ## Experiment 2
 
-The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp2
+The experiment is hosted at: https://davebraun.net/dissertation/experiments/production/exp2
 
 Experiment 2 is broken down into three general phases, the code for which can be found below:  
 
@@ -38,7 +38,7 @@ The JavaScript specific to this experiment is [here](exp2/js/exp2Functions.js)
 
 ## Experiment 3
 
-The experiment is hosted at: https://davebraun.org/dissertation/experiments/production/exp3
+The experiment is hosted at: https://davebraun.net/dissertation/experiments/production/exp3
 
 Experiment 3 is broken down into three general phases, the code for which can be found below:  
 
