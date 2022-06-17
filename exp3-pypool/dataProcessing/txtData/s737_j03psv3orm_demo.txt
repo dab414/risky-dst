@@ -1,0 +1,1 @@
+{"subject":"s737_j03psv3orm","survey_code":"12813","curTime":"19/11/2021@16:48:51","totalTime_mins":33,"screen_width":1440,"screen_height":900,"window_width":1262,"window_height":1004,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

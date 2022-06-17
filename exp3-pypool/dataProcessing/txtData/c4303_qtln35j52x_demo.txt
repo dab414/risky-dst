@@ -1,0 +1,1 @@
+{"subject":"c4303_qtln35j52x","survey_code":"12648","curTime":"08/11/2021@12:50:29","totalTime_mins":42,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"21","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"It was really hard to focus on the task for so long. "}

@@ -1,0 +1,1 @@
+{"subject":"h9412_6slbvxksqfo","survey_code":"12700","curTime":"08/11/2021@19:01:43","totalTime_mins":41,"screen_width":1280,"screen_height":800,"window_width":1280,"window_height":1007,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":"N/A"}

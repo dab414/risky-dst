@@ -1,0 +1,1 @@
+{"subject":"b317_mjjxzo8ejr","survey_code":"12629","curTime":"19/11/2021@09:41:38","totalTime_mins":36,"screen_width":1368,"screen_height":912,"window_width":1351,"window_height":1006,"age":"21","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"Brain Teaser"}

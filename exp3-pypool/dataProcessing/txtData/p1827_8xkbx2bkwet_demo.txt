@@ -1,0 +1,1 @@
+{"subject":"p1827_8xkbx2bkwet","survey_code":"12791","curTime":"11/11/2021@18:18:53","totalTime_mins":45,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"22","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

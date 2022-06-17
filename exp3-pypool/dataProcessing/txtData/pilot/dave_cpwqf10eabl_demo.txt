@@ -1,0 +1,1 @@
+{"subject":"dave_cpwqf10eabl","survey_code":"random","curTime":"04/11/2021@15:34:47","totalTime_mins":4,"screen_width":1920,"screen_height":995,"window_width":1908,"window_height":1016,"age":"31","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"booooo"}

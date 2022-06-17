@@ -1,0 +1,1 @@
+{"subject":"d0242_vs3vfn4pee","survey_code":"12664","curTime":"10/11/2021@22:32:46","totalTime_mins":39,"screen_width":1280,"screen_height":800,"window_width":1263,"window_height":1005,"age":"18","gender":"male","race":"other","ethnicity":"hispanic","vision":"corrected","comments":""}

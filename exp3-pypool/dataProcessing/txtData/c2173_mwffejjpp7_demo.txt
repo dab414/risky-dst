@@ -1,0 +1,1 @@
+{"subject":"c2173_mwffejjpp7","survey_code":"12653","curTime":"10/11/2021@12:35:23","totalTime_mins":25,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"19","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

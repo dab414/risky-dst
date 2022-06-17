@@ -1,0 +1,1 @@
+{"subject":"n424_3g9gnd2ajbw","survey_code":"11486","curTime":"19/11/2021@12:46:50","totalTime_mins":32,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"22","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"Lots of fun but seemed to last forever. "}

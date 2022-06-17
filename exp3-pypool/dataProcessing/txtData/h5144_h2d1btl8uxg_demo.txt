@@ -1,0 +1,1 @@
+{"subject":"h5144_h2d1btl8uxg","survey_code":"12702","curTime":"15/11/2021@14:35:30","totalTime_mins":29,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"18","gender":"male","race":"white","ethnicity":"na","vision":"normal","comments":""}

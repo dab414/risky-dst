@@ -1,0 +1,1 @@
+{"subject":"fnone2713_150yn8ffsu2g","survey_code":"12681","curTime":"17/11/2021@22:58:59","totalTime_mins":38,"screen_width":1440,"screen_height":900,"window_width":1324,"window_height":1007,"age":"18","gender":"female","race":"asian","ethnicity":"not_hispanic","vision":"normal","comments":"too boring \nI almost fall asleep"}

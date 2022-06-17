@@ -1,0 +1,1 @@
+{"subject":"t32729_8fn3ydglqe5","survey_code":"13132","curTime":"17/11/2021@18:02:14","totalTime_mins":27,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"19","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"normal","comments":"none"}

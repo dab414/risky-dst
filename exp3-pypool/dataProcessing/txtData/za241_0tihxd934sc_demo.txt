@@ -1,0 +1,1 @@
+{"subject":"za241_0tihxd934sc","survey_code":"12614","curTime":"19/11/2021@14:00:40","totalTime_mins":64,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"18","gender":"female","race":"asian","ethnicity":"na","vision":"normal","comments":"Took me over an hour with my phone in a different room."}

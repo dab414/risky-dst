@@ -1,0 +1,1 @@
+{"subject":"w%2525252F18%2525252F_fnyckh7pxro","survey_code":"12849","curTime":"18/11/2021@11:50:03","totalTime_mins":55,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"20","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"no_response","comments":""}

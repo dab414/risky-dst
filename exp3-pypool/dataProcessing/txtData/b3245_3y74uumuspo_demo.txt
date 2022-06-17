@@ -1,0 +1,1 @@
+{"subject":"b3245_3y74uumuspo","survey_code":"12634","curTime":"08/11/2021@21:29:13","totalTime_mins":28,"screen_width":1504,"screen_height":1003,"window_width":1487,"window_height":1005,"age":"19","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

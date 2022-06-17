@@ -1,0 +1,1 @@
+{"subject":"w136_34506qhumba","survey_code":"12856","curTime":"14/11/2021@19:29:34","totalTime_mins":86,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

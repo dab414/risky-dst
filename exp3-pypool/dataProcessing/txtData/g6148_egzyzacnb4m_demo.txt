@@ -1,0 +1,1 @@
+{"subject":"g6148_egzyzacnb4m","survey_code":"13147","curTime":"15/11/2021@19:34:39","totalTime_mins":35,"screen_width":1920,"screen_height":1080,"window_width":1903,"window_height":1007,"age":"18","gender":"male","race":"white","ethnicity":"hispanic","vision":"normal","comments":"cool experiment "}

@@ -1,0 +1,1 @@
+{"subject":"w62412_67o3f43vgk","survey_code":"12858","curTime":"19/11/2021@14:24:13","totalTime_mins":31,"screen_width":1440,"screen_height":900,"window_width":1326,"window_height":1004,"age":"","gender":"female","race":"white","ethnicity":"no_response","vision":"normal","comments":""}

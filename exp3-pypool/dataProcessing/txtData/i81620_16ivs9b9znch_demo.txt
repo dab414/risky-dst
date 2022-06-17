@@ -1,0 +1,1 @@
+{"subject":"i81620_16ivs9b9znch","survey_code":"12711","curTime":"08/11/2021@16:20:15","totalTime_mins":31,"screen_width":1280,"screen_height":800,"window_width":1261,"window_height":1006,"age":"19","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"normal","comments":""}

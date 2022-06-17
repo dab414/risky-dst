@@ -1,0 +1,1 @@
+{"subject":"n3306_u4u13lapaic","survey_code":"12767","curTime":"19/11/2021@16:10:28","totalTime_mins":51,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"19","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

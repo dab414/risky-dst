@@ -1,0 +1,1 @@
+{"subject":"m01015_gyvhacy0ard","survey_code":"12756","curTime":"09/11/2021@17:37:36","totalTime_mins":31,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1005,"age":"21","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

@@ -1,0 +1,1 @@
+{"subject":"p22719_3nf1d2ffn8v","survey_code":"12790","curTime":"09/11/2021@12:49:11","totalTime_mins":31,"screen_width":1366,"screen_height":768,"window_width":1366,"window_height":1012,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

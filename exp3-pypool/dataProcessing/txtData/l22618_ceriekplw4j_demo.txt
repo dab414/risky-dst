@@ -1,0 +1,1 @@
+{"subject":"l22618_ceriekplw4j","survey_code":"12731","curTime":"15/11/2021@20:45:21","totalTime_mins":27,"screen_width":1680,"screen_height":1050,"window_width":1530,"window_height":1007,"age":"21","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"N/A"}

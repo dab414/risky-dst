@@ -1,0 +1,1 @@
+{"subject":"d01024_mmas99ivxir","survey_code":"12668","curTime":"08/11/2021@15:51:33","totalTime_mins":28,"screen_width":1440,"screen_height":900,"window_width":1416,"window_height":1007,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

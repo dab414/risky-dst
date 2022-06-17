@@ -1,0 +1,1 @@
+{"subject":"k62713_plqjdl654qb","survey_code":"12726","curTime":"09/11/2021@18:34:58","totalTime_mins":37,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

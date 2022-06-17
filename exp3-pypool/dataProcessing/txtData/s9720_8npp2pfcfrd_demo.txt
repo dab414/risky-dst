@@ -1,0 +1,1 @@
+{"subject":"s9720_8npp2pfcfrd","survey_code":"13131","curTime":"19/11/2021@15:37:23","totalTime_mins":45,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"female","race":"na","ethnicity":"not_hispanic","vision":"impaired","comments":""}

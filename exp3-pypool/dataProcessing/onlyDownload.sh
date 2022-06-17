@@ -1,0 +1,1 @@
+rsync -avP -e 'ssh -p 18765' u231-f6hnzkbwb44b@davebraun.net:~/www/davebraun.net/public_html/turk/data/dissertation/dissertationExperiment3-pypool/ /home/dave/Dropbox\ \(Lehigh\ University\)/Research/By\ Project/Dissertation/experiments/production/exp3-pypool/dataProcessing/txtData/

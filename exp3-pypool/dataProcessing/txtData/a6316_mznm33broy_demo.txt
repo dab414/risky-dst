@@ -1,0 +1,1 @@
+{"subject":"a6316_mznm33broy","survey_code":"12613","curTime":"18/11/2021@19:15:04","totalTime_mins":35,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"20","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":""}

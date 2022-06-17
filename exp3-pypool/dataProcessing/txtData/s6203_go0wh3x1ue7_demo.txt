@@ -1,0 +1,1 @@
+{"subject":"s6203_go0wh3x1ue7","survey_code":"12821","curTime":"08/11/2021@10:02:45","totalTime_mins":36,"screen_width":1440,"screen_height":900,"window_width":1216,"window_height":1004,"age":"19","gender":"female","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":"I LIKE THE NUMBERS 1,3,6 AND 8. KINDA WISHED ALL NUMBERS WERE LIKE THEM"}

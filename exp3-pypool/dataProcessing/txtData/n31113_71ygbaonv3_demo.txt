@@ -1,0 +1,1 @@
+{"subject":"n31113_71ygbaonv3","survey_code":"12771","curTime":"07/11/2021@21:40:09","totalTime_mins":36,"screen_width":1368,"screen_height":912,"window_width":1351,"window_height":1006,"age":"20","gender":"female","race":"no_response","ethnicity":"hispanic","vision":"corrected","comments":""}

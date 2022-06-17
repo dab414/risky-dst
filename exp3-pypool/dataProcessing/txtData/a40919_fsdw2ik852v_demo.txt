@@ -1,0 +1,1 @@
+{"subject":"a40919_fsdw2ik852v","survey_code":"12610","curTime":"08/11/2021@12:40:22","totalTime_mins":28,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

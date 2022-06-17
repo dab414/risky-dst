@@ -1,0 +1,1 @@
+{"subject":"e6252_rx35bbttdo","survey_code":"12671","curTime":"08/11/2021@23:07:00","totalTime_mins":28,"screen_width":1920,"screen_height":1080,"window_width":1903,"window_height":1007,"age":"20","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":""}

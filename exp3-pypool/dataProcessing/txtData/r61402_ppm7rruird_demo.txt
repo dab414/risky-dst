@@ -1,0 +1,1 @@
+{"subject":"r61402_ppm7rruird","survey_code":"12803","curTime":"15/11/2021@18:29:23","totalTime_mins":489,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

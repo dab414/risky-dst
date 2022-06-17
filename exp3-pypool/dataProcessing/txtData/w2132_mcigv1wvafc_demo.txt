@@ -1,0 +1,1 @@
+{"subject":"w2132_mcigv1wvafc","survey_code":"12851","curTime":"16/11/2021@11:35:40","totalTime_mins":23,"screen_width":1792,"screen_height":1120,"window_width":1792,"window_height":1007,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

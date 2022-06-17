@@ -1,0 +1,1 @@
+{"subject":"w72117_3befel1e903","survey_code":"12860","curTime":"08/11/2021@11:35:35","totalTime_mins":29,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":"N/A"}

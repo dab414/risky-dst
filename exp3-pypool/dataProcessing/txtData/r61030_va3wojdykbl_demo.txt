@@ -1,0 +1,1 @@
+{"subject":"r61030_va3wojdykbl","survey_code":"12796","curTime":"12/11/2021@11:42:32","totalTime_mins":30,"screen_width":1440,"screen_height":900,"window_width":1321,"window_height":1007,"age":"19","gender":"female","race":"white,no_response","ethnicity":"hispanic","vision":"normal","comments":""}

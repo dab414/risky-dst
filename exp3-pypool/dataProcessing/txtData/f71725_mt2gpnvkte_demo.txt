@@ -1,0 +1,1 @@
+{"subject":"f71725_mt2gpnvkte","survey_code":"12684","curTime":"08/11/2021@14:39:10","totalTime_mins":31,"screen_width":1440,"screen_height":900,"window_width":1264,"window_height":1007,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

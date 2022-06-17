@@ -1,0 +1,1 @@
+{"subject":"f8101_s2na9niksql","survey_code":"12599","curTime":"09/11/2021@10:25:40","totalTime_mins":26,"screen_width":1920,"screen_height":1080,"window_width":1903,"window_height":1007,"age":"18","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":""}

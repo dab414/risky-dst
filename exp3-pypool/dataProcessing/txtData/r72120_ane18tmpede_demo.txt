@@ -1,0 +1,1 @@
+{"subject":"r72120_ane18tmpede","survey_code":"12809","curTime":"19/11/2021@13:54:37","totalTime_mins":33,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}
