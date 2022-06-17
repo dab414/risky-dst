@@ -1,49 +1,26 @@
-# Dissertation Experiments
-This repository contains the source code for my dissertation experiments to be run on MTurk.  
+# Risky Demand Selection Task
 
+This repository contains the source code for the version of the demand selection task (originally developed by [Wouter Kool and colleagues](https://psycnet.apa.org/doi/10.1037/a0020198)) incorporating risk into choice. 
 
-## Pilot Data  
-
-* [Pilot Data Summary](http://davebraun.net/dissertation/experiments/production/pilots/scripts/dissertationPilot_1-23.html)
-
-## Experiment 1
-
-The experiment is hosted at: https://davebraun.net/dissertation/experiments/production/exp1  
-
-Experiment 1 is broken down into two phases, the code for which can be found below:  
-
-* [Practice Cued Task Switching](exp1/pracCued/index.html)  
-* [Demand Selection Task](exp1/dst/index.html)  
-
-The supplementary JavaScript functions for the experiment are separated into two files based on whether they will generalize across all three experiments:  
-
-* [JavaScript specific to Exp 1](exp1/js/exp1Functions.js)  
-* [JavaScript for all three exps](globalJs/globalFunctions.js)  
-
-Data processing scripts:  
-
-* Convert subject JSON files to aggregate CSV files: [`dataProcessing.py`](exp1/dataProcessing/dataProcessing.py)
-
-## Experiment 2
-
-The experiment is hosted at: https://davebraun.net/dissertation/experiments/production/exp2
-
-Experiment 2 is broken down into three general phases, the code for which can be found below:  
-
-* [Practice Cued Task Switching](exp2/pracCued/index.html)  
-* [Demand Selection Task](exp2/dst/index.html)  
-* [Rapid Fire Demand Selection Task](exp2/rapidFire/index.html)
-
-The JavaScript specific to this experiment is [here](exp2/js/exp2Functions.js)
-
-## Experiment 3
+<img src='dst.jpg' alt='risky-dst' width='500' />
 
 The experiment is hosted at: https://davebraun.net/dissertation/experiments/production/exp3
 
-Experiment 3 is broken down into three general phases, the code for which can be found below:  
+The experiment is broken down into three general phases, the code for which can be found at the following:  
 
-* [Practice Cued Task Switching](exp3/pracCued/index.html)  
-* [Demand Selection Task](exp3/dst/index.html)  
-* [Rapid Fire Demand Selection Task](exp3/rapidFire/index.html)
+* `experiment/pracCued/index.html`  
+* `experiment/dst/index.html`  
+* `experiment/rapidFire/index.html`
 
-The JavaScript specific to this experiment is [here](exp3/js/exp3Functions.js)
+Custom JavaScript functions are `experiment/js/exp3Functions.js` and
+`globalJs/globalFunctions.js`.
+
+## Data saving
+
+Saving data as I've implemented it in this experiment relies on hosting the
+experiment on a server that supports [common gateway
+interface (CGI)](https://stackoverflow.com/questions/2089271/what-is-common-gateway-interface-cgi).
+You need to make an AJAX call in your JS to a Python (or some other language)
+CGI script (usually located in the `~/cgi-bin` directory on the server), and the
+CGI script will write the data to the server. See an excellent tutorial by Tim
+Brady on how to set all that up [here](https://bradylab.ucsd.edu/ttt/).
