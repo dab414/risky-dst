@@ -1,1 +1,0 @@
-{"subject":"k5277_9a7cmxtwlyn","survey_code":"12727","curTime":"09/11/2021@23:20:57","totalTime_mins":22,"screen_width":1920,"screen_height":1080,"window_width":1903,"window_height":1007,"age":"21","gender":"male","race":"asian,no_response","ethnicity":"not_hispanic","vision":"normal","comments":"bro this was wack"}

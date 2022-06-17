@@ -1,1 +1,0 @@
-{"subject":"e6721_06wuwmx78qem","survey_code":"12669","curTime":"15/11/2021@20:09:26","totalTime_mins":32,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"19","gender":"male","race":"other","ethnicity":"not_hispanic","vision":"normal","comments":"Interesting how effect corelates to reaction time and correctness"}

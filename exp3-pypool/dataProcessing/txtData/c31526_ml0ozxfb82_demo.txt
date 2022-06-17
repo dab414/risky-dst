@@ -1,1 +1,0 @@
-{"subject":"c31526_ml0ozxfb82","survey_code":"12646","curTime":"18/11/2021@15:37:08","totalTime_mins":30,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"19","gender":"female","race":"white,asian","ethnicity":"not_hispanic","vision":"normal","comments":"Hard to focus in easily distracting environments "}

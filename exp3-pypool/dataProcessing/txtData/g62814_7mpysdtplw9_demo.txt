@@ -1,1 +1,0 @@
-{"subject":"g62814_7mpysdtplw9","survey_code":"12693","curTime":"19/11/2021@16:54:55","totalTime_mins":307,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"19","gender":"male","race":"black,no_response","ethnicity":"not_hispanic","vision":"corrected","comments":"too long"}

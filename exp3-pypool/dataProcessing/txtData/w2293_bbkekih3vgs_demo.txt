@@ -1,1 +1,0 @@
-{"subject":"w2293_bbkekih3vgs","survey_code":"13133","curTime":"18/11/2021@18:01:21","totalTime_mins":35,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1005,"age":"19","gender":"male","race":"white,black","ethnicity":"na","vision":"na","comments":""}

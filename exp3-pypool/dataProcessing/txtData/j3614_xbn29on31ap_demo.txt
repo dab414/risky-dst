@@ -1,1 +1,0 @@
-{"subject":"j3614_xbn29on31ap","survey_code":"12714","curTime":"08/11/2021@11:02:29","totalTime_mins":46,"screen_width":1440,"screen_height":900,"window_width":1052,"window_height":1007,"age":"20","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"no_response","comments":""}

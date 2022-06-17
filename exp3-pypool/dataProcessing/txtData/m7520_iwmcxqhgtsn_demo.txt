@@ -1,1 +1,0 @@
-{"subject":"m7520_iwmcxqhgtsn","survey_code":"12740","curTime":"12/11/2021@22:22:38","totalTime_mins":37,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"19","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

@@ -1,1 +1,0 @@
-{"subject":"s92125_rnvbyyb5mrk","survey_code":"12819","curTime":"15/11/2021@15:36:23","totalTime_mins":35,"screen_width":1500,"screen_height":1000,"window_width":1483,"window_height":1006,"age":"20","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

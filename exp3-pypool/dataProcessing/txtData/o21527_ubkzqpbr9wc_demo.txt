@@ -1,1 +1,0 @@
-{"subject":"o21527_ubkzqpbr9wc","survey_code":"12777","curTime":"08/11/2021@12:40:54","totalTime_mins":21,"screen_width":1366,"screen_height":768,"window_width":1686,"window_height":996,"age":"21","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

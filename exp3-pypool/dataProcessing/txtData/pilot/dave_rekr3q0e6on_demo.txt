@@ -1,1 +1,0 @@
-{"curId":"dave_rekr3q0e6on","survey_code":"4960","curTime":"29/10/2021@16:41:08","totalTime_mins":11,"screen_width":1920,"screen_height":995,"window_width":1908,"window_height":1016,"age":"31","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"i really hated this"}

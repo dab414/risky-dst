@@ -1,1 +1,0 @@
-{"subject":"r11030_o002e1f3bx8","survey_code":"13129","curTime":"15/11/2021@09:23:33","totalTime_mins":32,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"20","gender":"female","race":"white,asian","ethnicity":"not_hispanic","vision":"normal","comments":""}

@@ -1,1 +1,0 @@
-{"subject":"s81818_squeh9xu03","survey_code":"12824","curTime":"15/11/2021@22:25:35","totalTime_mins":29,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"21","gender":"male","race":"black","ethnicity":"not_hispanic","vision":"normal","comments":""}

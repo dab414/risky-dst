@@ -1,1 +1,0 @@
-{"subject":"r0121_chvw2ihc2rd","survey_code":"12810","curTime":"19/11/2021@15:12:36","totalTime_mins":30,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"20","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

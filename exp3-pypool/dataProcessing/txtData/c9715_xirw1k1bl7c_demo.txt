@@ -1,1 +1,0 @@
-{"subject":"c9715_xirw1k1bl7c","survey_code":"12637","curTime":"14/11/2021@21:17:14","totalTime_mins":37,"screen_width":1440,"screen_height":900,"window_width":1366,"window_height":1007,"age":"18","gender":"female","race":"no_response","ethnicity":"hispanic","vision":"normal","comments":"It was very tiring"}

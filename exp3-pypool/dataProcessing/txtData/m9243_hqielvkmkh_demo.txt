@@ -1,1 +1,0 @@
-{"subject":"m9243_hqielvkmkh","survey_code":"12760","curTime":"09/11/2021@15:36:44","totalTime_mins":32,"screen_width":1440,"screen_height":900,"window_width":1095,"window_height":1004,"age":"18","gender":"male","race":"white,black","ethnicity":"not_hispanic","vision":"normal","comments":""}

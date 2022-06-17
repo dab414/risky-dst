@@ -1,1 +1,0 @@
-{"subject":"t21111_apu7j0hum1","survey_code":"12835","curTime":"15/11/2021@21:33:25","totalTime_mins":4681,"screen_width":1440,"screen_height":900,"window_width":1346,"window_height":1007,"age":"18","gender":"female","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":""}

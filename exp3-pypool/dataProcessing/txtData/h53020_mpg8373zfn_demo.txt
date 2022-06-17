@@ -1,1 +1,0 @@
-{"subject":"h53020_mpg8373zfn","survey_code":"12710","curTime":"08/11/2021@15:04:06","totalTime_mins":30,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1005,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

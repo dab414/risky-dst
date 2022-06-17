@@ -1,1 +1,0 @@
-{"subject":"s11211_jah556jryc","survey_code":"12822","curTime":"17/11/2021@15:58:09","totalTime_mins":37,"screen_width":1728,"screen_height":1117,"window_width":1728,"window_height":1007,"age":"21","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":""}

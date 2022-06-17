@@ -1,1 +1,0 @@
-{"subject":"l958_5c23745rbjw","survey_code":"12735","curTime":"18/11/2021@16:41:32","totalTime_mins":34,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"20","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

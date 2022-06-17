@@ -1,1 +1,0 @@
-{"subject":"s4814_br2mmzi8ocg","survey_code":"12728","curTime":"17/11/2021@14:57:10","totalTime_mins":35,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"Very interesting experiment"}

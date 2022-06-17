@@ -1,1 +1,0 @@
-{"subject":"f02621_kjeyfh8wddj","survey_code":"12679","curTime":"08/11/2021@12:38:52","totalTime_mins":45,"screen_width":1440,"screen_height":900,"window_width":1393,"window_height":1004,"age":"19","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

@@ -1,1 +1,0 @@
-{"subject":"b0825_oak32q9nm3o","survey_code":"12627","curTime":"08/11/2021@19:50:50","totalTime_mins":37,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"18","gender":"female","race":"asian","ethnicity":"not_hispanic","vision":"impaired","comments":""}

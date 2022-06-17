@@ -1,1 +1,0 @@
-{"subject":"c444_ntzmqfye34","survey_code":"12660","curTime":"09/11/2021@13:57:04","totalTime_mins":33,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"20","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

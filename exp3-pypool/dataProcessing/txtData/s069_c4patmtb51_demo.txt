@@ -1,1 +1,0 @@
-{"subject":"s069_c4patmtb51","survey_code":"12826","curTime":"19/11/2021@16:23:52","totalTime_mins":41,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

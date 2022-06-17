@@ -1,1 +1,0 @@
-{"subject":"m91023_wb0x25jl2","survey_code":"12759","curTime":"09/11/2021@22:44:37","totalTime_mins":42,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"20","gender":"male","race":"white","ethnicity":"hispanic","vision":"normal","comments":""}

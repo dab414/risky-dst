@@ -1,1 +1,0 @@
-{"subject":"c31429_g64b1vms1b","survey_code":"13156","curTime":"10/11/2021@17:45:21","totalTime_mins":45,"screen_width":1440,"screen_height":900,"window_width":1451,"window_height":1004,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"none"}

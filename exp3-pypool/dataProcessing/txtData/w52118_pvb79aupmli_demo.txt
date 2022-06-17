@@ -1,1 +1,0 @@
-{"subject":"w52118_pvb79aupmli","survey_code":"12848","curTime":"19/11/2021@11:13:05","totalTime_mins":34,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"20","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

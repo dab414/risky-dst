@@ -1,1 +1,0 @@
-{"subject":"h92116_lbed9gqqzt","survey_code":"12598","curTime":"18/11/2021@16:44:30","totalTime_mins":28,"screen_width":1920,"screen_height":1080,"window_width":941,"window_height":1015,"age":"20","gender":"male","race":"white","ethnicity":"hispanic","vision":"normal","comments":""}

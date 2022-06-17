@@ -1,1 +1,0 @@
-ls -l *_demo.txt | wc -l

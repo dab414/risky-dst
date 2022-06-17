@@ -1,1 +1,0 @@
-{"subject":"f732_5jnachj5kpm","survey_code":"12682","curTime":"11/11/2021@17:16:38","totalTime_mins":26,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"19","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

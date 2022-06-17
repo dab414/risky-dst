@@ -1,1 +1,0 @@
-{"subject":"p1169_rttq54djcpm","survey_code":"13114","curTime":"10/11/2021@13:19:45","totalTime_mins":29,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

@@ -1,1 +1,0 @@
-{"subject":"zn%2525252Fa2627_vquddi4majs","survey_code":"12874","curTime":"08/11/2021@18:12:36","totalTime_mins":50,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"19","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"normal","comments":""}

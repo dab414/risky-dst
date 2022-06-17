@@ -1,1 +1,0 @@
-{"subject":"p8216_61fetiaksdw","survey_code":"12786","curTime":"08/11/2021@22:08:50","totalTime_mins":32,"screen_width":1440,"screen_height":900,"window_width":1255,"window_height":1007,"age":"19","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

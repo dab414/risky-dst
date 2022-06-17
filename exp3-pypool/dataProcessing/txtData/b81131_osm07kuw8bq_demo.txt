@@ -1,1 +1,0 @@
-{"subject":"b81131_osm07kuw8bq","survey_code":"12623","curTime":"19/11/2021@13:22:20","totalTime_mins":37,"screen_width":1280,"screen_height":720,"window_width":1263,"window_height":1005,"age":"18","gender":"male","race":"asian","ethnicity":"not_hispanic","vision":"normal","comments":""}

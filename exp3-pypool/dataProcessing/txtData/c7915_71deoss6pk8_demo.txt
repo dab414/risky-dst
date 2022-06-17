@@ -1,1 +1,0 @@
-{"subject":"c7915_71deoss6pk8","survey_code":"12644","curTime":"16/11/2021@22:26:34","totalTime_mins":23,"screen_width":1536,"screen_height":864,"window_width":1519,"window_height":1010,"age":"18","gender":"na","race":"asian","ethnicity":"not_hispanic","vision":"normal","comments":""}

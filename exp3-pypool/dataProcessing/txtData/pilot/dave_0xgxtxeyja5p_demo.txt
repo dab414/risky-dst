@@ -1,1 +1,0 @@
-{"curId":"dave_0xgxtxeyja5p","survey_code":"12525","curTime":"30/10/2021@19:38:14","totalTime_mins":204,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"20","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"na","comments":""}

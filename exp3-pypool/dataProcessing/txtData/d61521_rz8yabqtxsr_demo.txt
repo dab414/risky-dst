@@ -1,1 +1,0 @@
-{"subject":"d61521_rz8yabqtxsr","survey_code":"12663","curTime":"10/11/2021@16:19:25","totalTime_mins":32,"screen_width":1440,"screen_height":900,"window_width":1300,"window_height":1004,"age":"18","gender":"female","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":""}

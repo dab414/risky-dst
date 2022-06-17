@@ -1,1 +1,0 @@
-{"subject":"m%2525252F2515_is5od12dxad","survey_code":"12739","curTime":"18/11/2021@20:50:58","totalTime_mins":30,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"female","race":"asian","ethnicity":"no_response","vision":"no_response","comments":""}

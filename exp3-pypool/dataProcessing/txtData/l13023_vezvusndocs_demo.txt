@@ -1,1 +1,0 @@
-{"subject":"l13023_vezvusndocs","survey_code":"12734","curTime":"17/11/2021@13:22:28","totalTime_mins":27,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"male","race":"asian","ethnicity":"no_response","vision":"normal","comments":"So long....... should set some break time during trial..."}

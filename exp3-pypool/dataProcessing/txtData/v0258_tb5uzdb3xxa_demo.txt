@@ -1,1 +1,0 @@
-{"subject":"v0258_tb5uzdb3xxa","survey_code":"12847","curTime":"11/11/2021@19:54:00","totalTime_mins":32,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"18","gender":"male","race":"no_response","ethnicity":"no_response","vision":"no_response","comments":""}

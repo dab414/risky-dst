@@ -1,1 +1,0 @@
-{"subject":"w9517_k502l16uzp","survey_code":"12857","curTime":"15/11/2021@12:03:07","totalTime_mins":48,"screen_width":1440,"screen_height":900,"window_width":1320,"window_height":1004,"age":"19","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

@@ -1,1 +1,0 @@
-{"subject":"m0421_g5t59znfii","survey_code":"12750","curTime":"09/11/2021@23:47:25","totalTime_mins":30,"screen_width":1440,"screen_height":900,"window_width":1000,"window_height":1110,"age":"18","gender":"female","race":"white","ethnicity":"not_hispanic","vision":"corrected","comments":""}

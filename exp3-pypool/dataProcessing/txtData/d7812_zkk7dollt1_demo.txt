@@ -1,1 +1,0 @@
-{"subject":"d7812_zkk7dollt1","survey_code":"12661","curTime":"13/11/2021@18:15:09","totalTime_mins":48,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1007,"age":"18","gender":"female","race":"white,black","ethnicity":"not_hispanic","vision":"normal","comments":""}

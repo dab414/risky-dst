@@ -1,1 +1,0 @@
-{"subject":"c0235_2acgmd697aq","survey_code":"12657","curTime":"18/11/2021@19:48:05","totalTime_mins":38,"screen_width":1440,"screen_height":900,"window_width":1440,"window_height":1004,"age":"21","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":""}

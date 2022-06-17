@@ -1,1 +1,0 @@
-{"subject":"d51615_rl9fd8s8djb","survey_code":"12662","curTime":"16/11/2021@14:50:33","totalTime_mins":37,"screen_width":1500,"screen_height":1000,"window_width":1483,"window_height":1006,"age":"23","gender":"male","race":"white","ethnicity":"not_hispanic","vision":"normal","comments":"the averages of both decks was always the same so I just stopped paying attention to it."}

@@ -1,1 +1,0 @@
-{"subject":"m9714_cx317srg8m8","survey_code":"12742","curTime":"10/11/2021@19:43:28","totalTime_mins":240,"screen_width":1366,"screen_height":768,"window_width":1366,"window_height":1004,"age":"18","gender":"male","race":"white,other","ethnicity":"hispanic","vision":"normal","comments":""}

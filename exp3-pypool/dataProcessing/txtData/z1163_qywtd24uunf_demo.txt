@@ -1,1 +1,0 @@
-{"subject":"z1163_qywtd24uunf","survey_code":"12873","curTime":"08/11/2021@14:54:44","totalTime_mins":25,"screen_width":1440,"screen_height":900,"window_width":1353,"window_height":1007,"age":"18","gender":"female","race":"asian","ethnicity":"not_hispanic","vision":"corrected","comments":"Pretty difficult to understand "}
