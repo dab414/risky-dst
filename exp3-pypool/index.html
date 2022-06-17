@@ -1,0 +1,101 @@
+<html>
+<head>
+	<link rel="stylesheet" href="../globalStyle/globalStyle.css" type="text/css" charset="utf-8"/>
+	<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+	<script src="//uniqueturker.myleott.com/lib.js" type="text/javascript"></script>
+	<script src = '../globalJs/TimTurkTools.js'></script>
+	<script src = 'js/exp3Functions.js'></script>
+
+	<script>
+		$(document).ready(function(){
+			
+			// make secure connection
+			var loc = window.location.href+'';
+			if (loc.indexOf('http://') == 0){
+				window.location.href = loc.replace('http://', 'https://');
+			}
+
+
+			$('#warning').hide();
+			$('#error').hide();
+
+			// check for mobile
+			if(screen.width <= 799 | screen.height <= 599){
+				document.location = 'mobile/';
+			}
+
+			var sona_id = getParam('id', 'error');
+			
+			if (sona_id == 'error' | sona_id == '') {
+				$('#error').show();
+				$('#accept').hide();
+			}
+
+
+			// when pressing accept button
+			$('#accept_consent').click(function(){
+				
+				$('#accept').hide();
+				$('#warning').show();
+
+			});
+
+			// if consent is rejected
+			$('#reject_consent').click(function(){
+				urlArgs = {
+					'survey_code': sona_id,
+					'credit_token': '637cec40967f47ca9ba904b1514e6aa2',
+					'experiment_id': '280'
+				}
+
+				// PUT SONA LINK HERE
+				window.location.replace('https://lehigh.sona-systems.com/webstudy_credit.aspx?' + $.param(urlArgs));
+			});
+
+			$('#agree').click(function(){
+				//otherwise, send to instruction screen
+
+			urlArgs = {
+				'id': sona_id
+			}
+
+			window.location.replace('record-id/?' + $.param(urlArgs));
+			});
+
+		});
+	</script>
+
+</head>
+<body>
+<div style='margin: 100px'>
+	<div id='accept'>
+		<h2>Please read and accept the following before beginning the experiment.</h2>
+		<p>I hereby agree to participate as a subject in the research project Cognitive Processes in Multitask Environments</p></br>
+		<p>The purpose of the study is to study the cognitive processes involved when people select and perform tasks in multitask environments. Your participation in the study will involve performing several simple classification tasks presented on a computer display. You may also be asked to complete some simple survey questions regarding personal characteristics and demographics. You are free to skip any questions that you may not wish to answer.</p></br>
+		<p>This experiment will include one session that will last approximately 30 minutes (although time will vary depending on how well you perform the task), and you will be compensated with course credit for your time.</p></br>
+		<p>The possible risks associated with the study are no greater than you would experience in viewing a standard computer screen for the same period of time. You will also be making repetitive key-press responses throughout the 30 mins. If you suffer from acute pain in your hands or difficulty typing, this experiment may be challenging for you for reasons unintended by the researchers. You may not receive any direct benefits from participating in this study other than increased knowledge of scientific research in general, but participation may help to increase knowledge that may benefit others in the future. Any data or answers to questions will remain confidential with regard to your identity. Any information collected through this research project that personally identifies you will not be voluntarily released or disclosed without your separate consent, except as specifically required by law.  </p></br>
+		<p>Your participation is voluntary and you are free to withdraw from this study at any time. Again, when completing the survey at the end of the experiment, you may skip any questions that you are not comfortable answering.</p></br>
+		<p>After this study is complete, deidentified data will be uploaded to the Open Science Framework (osf.io) for other researchers to access. This is generally done to increase transparency in methods and data analysis in the social sciences.</p></br>
+		<p>If you have any questions about this study, you may email the post doctoral fellow running the study (Dave Braun; dab414@lehigh.edu).</p>
+		<p>If you have any questions or concerns regarding this study and would like to talk to someone other than the researcher(s), you are encouraged to contact Lehigh University's Office of Research Integrity at (610) 758-2871 or inirb@lehigh.edu. All reports or correspondence will be kept confidential.</p></br>
+		<p>By clicking the button below, I acknowledge that I have read and understood the foregoing information.</p></br>
+		<button id="accept_consent" class="experimentButton">I consent</button></br>
+		<button id="reject_consent" class="experimentButton" style="font-size: 8pt">I do not consent</button>
+	</div>
+	<div id = 'warning'>
+		<h2>Note!</h2>
+		<p><strong>Please try to refrain from pressing "refresh" or "back" at any point during the experiment!</strong></p> 
+		<p>Pressing these buttons may cause you to lose progress in the experiment.</p><br>
+		<p>Also- <strong>To get credit for this experiment, you need an accuracy of at least 75%.</strong> Typical accuracy rates in these studies are over 90%, so if you're paying attention you should do fine.</p>
+		<button id='agree' class='experimentButton'>Got it.</button>
+	</div>
+
+	<div id = 'error'>
+		<h2>Error 66</h2>
+		<p>There was an error processing your SONA ID. Please contact the researcher (Dave Braun: dab414@lehigh.edu) with the error code and he'll find a way to work things out with you.</p>
+	</div>
+
+</div>
+</body>
+</html>
+

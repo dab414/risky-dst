@@ -1,3 +1,24 @@
+10-26-2021
+  think im most of the way there
+  cgi script is failing (of course) and need to confirm that sona credits are being passed appropriately
+
+
+10-25-2021
+  now replicating e3 of the original dissertation study on the subject pool to ensure that the rounding confound doesn't impact the results
+    i have a sinking feeling that it won't replicate regardless......
+
+  need to be mindful of passing the sona id as a param throughout the exp, needs to be handed back to sona with name 'id'
+    https://www.sona-systems.com/help/qualtrics_chaining.aspx
+
+  how to handle ppl who are spamming
+    i think im content to just shut them down with a screen that says they can contact me if they want another shot
+    but not actually do anything programatically that will prevent them from just doing it again
+
+  dont forget to put the sona link under the reject consent button
+
+  alright, i think ive updated everything through cued prac
+    obviously still needs a lot of checking and testing
+
 8/6/2019
   pilot is released
   i started building exp 3 for production

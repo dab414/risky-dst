@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/bin/python
 
 import cgi, os, sys
 sys.stderr = sys.stdout
@@ -18,14 +18,14 @@ try:
 
   f.close()
 
-  print "Status: 200 OK"
-  print "Content-type: text/plain"
-  print
-  print fs["curId"].value + " saved."
+  print("Status: 200 OK")
+  print("Content-type: text/plain")
+  print()
+  print(fs["curId"].value + " saved.")
 
-except:
+except Exception as e:
   ## tell jquery something went wrong
-  print "Status: 400 Bad Request"
-  print "Content-type: text/plain"
-  print
-  print "Error"
+  print("Status: 400 Bad Request")
+  print("Content-type: text/plain")
+  print()
+  print(str(e))

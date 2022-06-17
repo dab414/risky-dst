@@ -147,9 +147,10 @@ ggplot(graphData, aes(x = pSwitch, y = value, group = 1)) + geom_line() + geom_p
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         strip.background = element_blank(),
         axis.title.y = element_blank(),
-        axis.ticks = element_blank())
+        axis.ticks = element_blank(),
+        text = element_text(size = 15))
   
-ggsave('pilotSummary.png', height = 3.5, width = 5.5, units = 'in')
+ggsave('pilotSummary.png', height = 5.5, width = 7.5, units = 'in', dpi = 300)
 ```
 
 

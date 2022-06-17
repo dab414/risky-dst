@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>
+  <title>Braun Dissertation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/globalStyle.css'>
+  <link rel='stylesheet' type='text/css' href='../../globalStyle/deckStyle.css'>
+  <link rel='stylesheet' type='text/css' href='../style/exp3Style.css'>
+  <script src='../js/exp3Functions.js?v=1'></script>
+  <script src='../../globalJs/globalFunctions.js'></script>
+  <script src='../../globalJs/TimTurkTools.js'></script>
+  <script src='../../globalJs/jquery-bbq.js'></script>
+
+<script>
+
+$(document).ready(function(){
+
+// GLOBAL VARS
+// id vars
+var survey_code = getParam('id', '');
+var secret_code = getParam('secret-code', '');
+
+// CORRECTED handles the rounding error
+var corrected = getParam('corrected', '');
+
+// thresholds
+var responseThreshold = 17;
+var trialThreshold = 4;
+var cycleThreshold = 10;
+
+// i got lazy and just hard-coded a bunch of thresholds in for this one cuz they shouldn't need to change
+
+// parse url args
+var taskCueCode = urlArgsToVar('taskCueCode')=='NONE'? createTaskCue() : urlArgsToVar('taskCueCode');
+var clientCueCode = createClientCueText(taskCueCode);
+var experimentStartTime = urlArgsToVar('experimentStartTime');
+var phaseStartTime = Date.now();
+
+// Other global vars
+var cycleCount = 0;
+var trialCount = 0;
+var cycleTrialCount = 0;
+var responseCount = 0;
+var cuedRsi = 200;
+var choiceRsi = 500;
+var prevTaskColor = '';
+var experimentName = 'dissertationExperiment3-pypool';
+var phase = 'rapidFire';
+var rtStartTime = new Date();
+var error = 0;
+var chosenDeckLocation = '';
+var selectionKey = 0;
+var trialStruct = new Array();
+var deckCode = {};
+var startTime = new Date();
+var phaseStartTime = new Date();
+var activeSeparator = '';
+var cuedResponseKey = '';
+var choiceResponseKey = '';
+
+// adding for rapid fire
+var selectedOutcomes = new Array();
+
+
+// control conditions
+var conditionOrder = new Array();
+var transitionArray = new Array();
+var difficulty = '';
+var difference = '';
+
+//DEVELOPMENT
+// var vid = document.getElementById('tutorial');
+
+// serve client facing controls string
+var controlsString = '<p>The blue task is: ' + clientCueCode['blue'] + (clientCueCode['blue'] == 'Magnitude'? ' (j: low, k: high)': ' (j: odd, k: even)') +'</p><p>The red task is: ' + clientCueCode['red'] + (clientCueCode['red'] == 'Magnitude'? ' (j: low, k: high)' : ' (j: odd, k: even)') +'</p>';
+
+// set initial state
+//$('#controlsFill').html(controlsString);
+
+$('#keyRemindSlide').show();
+$('.expSlide').hide();
+$('.interCycleSlide').hide();
+$('.stimSlide').hide();
+
+
+$('#startSegment').click(function(){
+  startSegment();
+});
+
+
+function startSegment() {
+
+  $('#keyRemindSlide').hide();
+  $('#keyToggle').html(controlsString);
+  $('.keyContainer').html(controlsString);
+  $('#keyToggle').hide();
+  $('.card').addClass('cardHidden');
+  $('.expSlide').show();
+
+  runTrial();
+
+} // end startSegment()
+
+function runTrial() {
+
+  // control display
+  $('.keyContainer').hide();
+  $('.deckAttributeContainer').hide();
+  $('.cardStim').hide();
+  $('.deckAttributeSeparator').hide();
+  $('#leftDeckBottom').hide();
+  $('#rightDeckBottom').hide();
+  if (chosenDeckLocation) {
+    $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).removeClass('selectedAttribute').addClass('deSelectedAttribute');
+  }
+
+  // control between cycle condition update and counters
+  if (cycleTrialCount == trialThreshold | cycleTrialCount == 0) {
+    conditionOrder = createConditionOrder();
+    cycleCount += 1;
+    cycleTrialCount = 0;
+  }
+
+  // set condition and update counters
+  currentCondition = conditionOrder[cycleTrialCount];
+
+  cycleTrialCount += 1;
+  trialCount += 1;
+  difficulty = currentCondition['name'] == 'HE' || currentCondition['name'] == 'HM' ? 'Harder than Reference' : 'Easier than Reference';
+  difference = currentCondition['name'] == 'HE' || currentCondition['name'] == 'EE' ? 'Extreme' : 'Moderate';
+  // Get deck code that maps condition to decks
+  deckCode = getDeckCode(currentCondition);
+
+  activeSeparator = updateDeckAttributes(deckCode, corrected);
+  updateAttributeColors(deckCode);
+
+  // listen for space bar
+  $(document).bind('keydown.listenForSpaceDown', function(e){
+    if (e.which == 32) {
+      $('#keyToggle').show();
+    }
+  });
+  $(document).bind('keyup.listenForSpaceUp', function(e){
+    if (e.which == 32) {
+      $('#keyToggle').hide();
+    }
+  });
+
+  setTimeout(function(){
+    
+    // Control Display
+    $('.deckAttributeContainer').show();
+    $('#' + activeSeparator + 'DeckBottom').show();
+    $('#' + activeSeparator + 'DeckAttributeSeparator').show();
+
+    // start rt choice timer
+    startTime = new Date();
+
+    // listen for choice keys
+    $(document).bind('keydown.listenForChoiceKeys', function(e){
+
+      if ($.inArray(e.which, [68, 70]) + 1) {
+
+        // record choice rt
+        choiceRt = new Date() - startTime;
+
+        // Get the location of choice
+        chosenDeckLocation = e.which == 68 ? 'left' : 'right';
+
+        // stop listening for choice keys
+        $(document).unbind('keydown.listenForChoiceKeys');
+
+        // determine outcome
+        selectedOutcome = determineOutcomePswitch(chosenDeckLocation, deckCode);
+        selectedOutcomes.push(selectedOutcome['pSwitch']);
+
+        // record choice key
+        choiceResponseKey = e.which == 68 ? 'D' : 'F';
+
+        // save out choice data
+        saveTrialData();
+
+        // Draw box around selected outcome
+        $('#' + selectedOutcome['horizontal'] + 'Deck' + selectedOutcome['vertical']).addClass('selectedAttribute').removeClass('deSelectedAttribute');
+
+        // Give them 200 ms to see the outcome
+        setTimeout(function(){
+          if (trialCount < 40) {
+            runTrial();
+          } else {
+            prepCuedTrial();
+          }
+
+        }, 200);
+        
+
+      } // end is response key valid?
+
+    }) // end listenForChoiceKeys()
+
+  }, choiceRsi); // end timeout
+
+} // end runTrial()
+
+
+function prepCuedTrial() {
+  // pick a random pSwitch
+  currentCondition = selectedOutcomes[Math.floor(Math.random() * selectedOutcomes.length)]
+  transitionArray = generateTransitionArray(currentCondition);
+
+  // control display
+  $('.expSlide').hide();
+  $('.interCycleSlide').show();
+
+  var timeRemaining = 10;
+
+  absUnits = Math.floor(currentCondition * 6.25);
+  absUnits = currentCondition < 8 ? absUnits + 1 : absUnits;
+  subUnits = Math.abs(absUnits - 50);
+
+  console.log(currentCondition);
+
+  if (subUnits) {
+    compare = currentCondition < 8 ? ' easier than ' : ' harder than ';
+    sign = currentCondition < 8 ? '-' : '+';
+    htmlFill = '<div><p>The randomly-selected number of effort units for the upcoming run is <strong>' + sign + String(subUnits) + '</strong>, meaning that the upcoming run will be ' + String(subUnits) + compare + 'medium difficulty.</p><br>'
+  } else {
+    htmlFill = '<div><p>The randomly-selected number of effort units for the upcoming run is <strong>0</strong>, meaning that the upcoming run will be medium difficulty.</p><br>'
+  }
+
+  // Alert P about condition and that it will start in five seconds
+  $('.interCycleSlide').html(htmlFill + String(timeRemaining) + ' seconds.</p></div>');
+  var alert = setInterval(function(){
+    timeRemaining -= 1;
+    $('.interCycleSlide').html(htmlFill + '<p>These trials will begin in ' + String(timeRemaining) + ' seconds.</p></div>');
+
+    if (timeRemaining == 0) {
+      clearInterval(alert);
+    }
+  }, 1000);
+
+  setTimeout(function(){
+    $('.interCycleSlide').hide();
+    $('.keyContainer').hide();
+    $('.errorContainer').hide();
+    $('.stimSlide').show();
+    responseCount = 0;
+    cuedTrial();
+  }, 10000);
+
+} // end prepCuedTrial()
+
+
+function cuedTrial() {
+  // update trial count
+  responseCount += 1;
+
+  // generate stimulus
+  $('.stimContainer').hide();
+  currentTaskColor = transitionArray[responseCount - 1];
+  currentStim = generateCuedStim();
+  currentTask = taskCueCode[currentTaskColor];
+  $('.stimContainer').html('<p>' + currentStim + '<p>');
+  $('.stimContainer').css({'color': currentTaskColor});
+
+  // Trigger RSI
+  setTimeout(function(){
+
+    // show stimulus
+    $('.stimContainer').show();
+
+    // reset error
+    error = 0;
+
+     // listen for space bar
+    $(document).bind('keydown.listenForSpaceDown', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').show();
+      }
+    });
+    $(document).bind('keyup.listenForSpaceUp', function(e){
+      if (e.which == 32) {
+        $('.keyContainer').hide();
+      }
+    });
+
+    $(document).bind('keydown.listenForKeys', function(e){
+      if ($.inArray(e.which, [74, 75]) + 1) {
+
+        // stop listening for keys
+        $(document).unbind('keydown.listenForKeys');
+
+        // code error
+        error = cuedIsError(String(e.which), currentTask, currentStim);
+
+        // prepare for next trial
+        if (error) {
+          $('.errorContainer').show();
+
+          setTimeout(function(){
+
+            if (responseCount == 17) {
+              endSegment();
+            } else {
+              $('.errorContainer').hide();
+              cuedTrial();
+            }
+
+          }, 500); // end error timeout
+
+        } else {
+
+          if (responseCount == 17) {
+            endSegment();
+          } else {
+            cuedTrial();
+          }
+
+        }
+
+      } // end is response a valid key
+
+    }); // end listen for keys
+
+
+  }, cuedRsi); // end cued rsi
+
+} // end cuedTrial()
+
+
+function saveTrialData() {
+
+  if (deckCode['left']['name'] == 'riskyDeck') {
+    var safeDeckSwitch = deckCode['right']['pSwitch']['top'];
+    var riskyDeckSwitch = [deckCode['left']['pSwitch']['top'], deckCode['left']['pSwitch']['bottom']];
+  } else {
+    var safeDeckSwitch = deckCode['left']['pSwitch']['top'];
+    var riskyDeckSwitch = [deckCode['right']['pSwitch']['top'], deckCode['right']['pSwitch']['bottom']];
+  }
+
+  var selectedRiskyDeck = 0;
+  if (chosenDeckLocation == 'left' && deckCode['left']['name'] == 'riskyDeck') {
+    selectedRiskyDeck = 1;
+  } else if (chosenDeckLocation == 'right' && deckCode['right']['name'] == 'riskyDeck') {
+    selectedRiskyDeck = 1;
+  }
+
+
+  trialStruct.push({
+    'choiceTrial': trialCount,
+    'experimentRunTimeMins': experimentStartTime ? Math.round((Date.now() - experimentStartTime) / 1000 / 60) : 'null',
+    'phaseRunTimeMins': Math.round((Date.now() - phaseStartTime) / 1000 / 60),
+    'condition': currentCondition['name'],
+    'difference': difference,
+    'difficulty': difficulty,
+    'cuedResponseKey': cuedResponseKey,
+    'choiceResponseKey': choiceResponseKey,
+    'leftDeckId': deckCode['left']['name'],
+    'rightDeckId': deckCode['right']['name'],
+    'riskyDeckSwitchTop': riskyDeckSwitch[0],
+    'riskyDeckSwitchBottom': riskyDeckSwitch[1],
+    'safeDeckSwitch': safeDeckSwitch,
+    'selectedDeckLocation': chosenDeckLocation,
+    'outcomeSwitch': selectedOutcome['pSwitch'],
+    'selectedRiskyDeck': selectedRiskyDeck,
+    'chosenDeckId': deckCode[chosenDeckLocation]['name'],
+    'choiceRt': choiceRt,
+  });
+
+}
+
+function endSegment() {
+
+  var curDate = new Date();
+  var finishTime = new Date() - phaseStartTime;
+  var curId = secret_code;
+
+  var currentData = {
+    'subject': curId,
+    'survey_code': survey_code,
+    'curTime': curDate.today() + '@' + curDate.timeNow(),
+    'userAgent': navigator.userAgent,
+    'screenWidth': screen.width,
+    'screenHeight': screen.height,
+    'windowWidth': $(window).width(),
+    'windowHeight': $(window).height(),
+    'phase': phase,
+    'blueTask': taskCueCode['blue'],
+    'redTask': taskCueCode['red'],
+    'phaseRunTime': finishTime,
+    'corrected_effort_units': corrected,
+    'trialStruct': trialStruct
+  };
+
+  sendToServer(curId, currentData);
+
+} // end endSegment()
+
+function sendToServer(curId, currentData) {
+
+  var dataToServer = {
+    'curId': curId,
+    'experiment': experimentName,
+    'sessionCode': phase,
+    'currentData': JSON.stringify(currentData)
+  };
+
+  var urlArgs = {
+    'id': survey_code,
+    'secret-code': secret_code,
+    'experimentStartTime': experimentStartTime
+  };
+
+  $.post(
+    url = '../../../../../cgi-bin/saveData.py',
+    data = dataToServer,
+    success = function(data){
+      window.location.replace('../demo/?' + $.param(urlArgs));
+    }).fail(function(data){
+      console.log('FAILURE');
+      window.location.replace('../demo/?' + $.param(urlArgs));
+    });
+
+} // end sendToServer()
+
+
+}); // end document.ready()
+
+</script>
+
+</head>
+
+<body>
+
+<!-- the entire display -->
+<div class='container'>
+  <!-- the 800 x 600 experiment area -->
+  <div class='screen'>
+
+    <!-- KEY REMIND SLIDE, which, here, I'm just using as a quick instructions slide -->
+    <div id='keyRemindSlide'>
+      <div class='titleBar'>
+        <p>You're almost done. There's one more (short) phase like the one you just did, followed by a very short survey. In total, these two phases should only take a few minutes.</p><br>
+        <p>In this phase, you'll be making choices between decks just like before, except now you'll be making these choices back-to-back without performing cued task switching in between. After you've made 40 choices, we'll randomly select an outcome from one of your choices for you to perform at the end, like you were doing between each selection in the last phase. So it's important to make choices carefully, because one of your choices will affect how difficult the cued task switching is that you'll need to perform at the end.</p><br>
+        <p>Press "Begin" to start this phase.</p>
+      </div>
+
+      <div class='leftTwoThirds' id='controlsFill'>
+      </div>
+
+      <div class='rightOneThirdsDown'>
+        <button id='startSegment' class='experimentButton center'>Begin</button>
+      </div>
+    </div> <!-- end key remind slide -->
+
+    <div class='interCycleSlide'>
+    </div>
+
+    <div class='expSlide'>
+      <div class='feedbackContainer'>
+        <!--<div class='feedbackLevelOne'>
+          <div class='bonusFeedback'>
+          </div>
+        </div> -->
+
+        <div class='feedbackLevelTwo'>
+          <div id='keyToggle' class='keyFormat'>
+          </div>
+        </div>
+
+      </div>
+      
+
+      <div class='topHalf'>
+        <div class='card' id='leftCard'>
+          <div class='cardFeedback' id='leftCardFeedback'>
+          </div>
+          <div class='cardStim' id='leftCardStim'>
+          </div>
+        </div>
+
+        <div class='card' id='rightCard'>
+          <div class='cardFeedback' id='rightCardFeedback'>
+          </div>          
+          <div class='cardStim' id='rightCardStim'>
+          </div>
+        </div>        
+      
+      </div> <!-- end top half -->
+
+      <div class='bottomHalf'>
+        <div class='deckOutline' id='leftDeck'>
+          <div class='deckAttributeContext'>
+            <p>Effort Units:</p>
+          </div>
+          <div class='deckAttributeContainer'>
+            <div class='deckAttribute' id='leftDeckTop'>
+            </div>
+            <div class='deckAttributeSeparator' id='leftDeckAttributeSeparator'>
+              <p>OR</p>
+            </div>                   
+            <div class='deckAttribute' id='leftDeckBottom'>
+            </div>
+          </div>
+        </div>
+
+        <div class='deckOutline' id='rightDeck'>
+          <div class='deckAttributeContext'>
+            <p>Effort Units:</p>
+          </div>
+          <div class='deckAttributeContainer'>
+            <div class='deckAttribute' id='rightDeckTop'>
+            </div>
+            <div class='deckAttributeSeparator' id='rightDeckAttributeSeparator'>
+              <p>OR</p>
+            </div>                   
+            <div class='deckAttribute' id='rightDeckBottom'>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end bottom half -->
+
+
+    </div> <!-- end expSlide -->
+
+    <div class='stimSlide'>
+      <div class='keyContainer'>
+      </div>
+
+      <div class='errorContainer'>
+        <p><strong>ERROR</strong></p>
+      </div>
+
+      <div class='stimContainer'>
+      </div>
+    </div>
+
+
+
+
+  </div> <!-- end screen -->
+
+</div> <!-- end container -->
+
+
+</body>
+</html>

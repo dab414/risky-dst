@@ -1,0 +1,100 @@
+<html>
+<head>
+<script type = 'text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+<link rel='stylesheet' type='text/css' href='demo.css'>
+<script src = '../js/exp3Functions.js'></script>
+
+<script src='../../globalJs/jquery-bbq.js'></script>
+
+<script>
+
+$(document).ready(function(){
+	$.ajaxSetup({cache: false});
+	
+	sona_id = getParam('id', '')
+	$('#problem').hide();
+
+
+	$('#submit_data').click(function(){
+		last_name = $('#last_name').val();
+		last_name = last_name.toLowerCase().trim().replace(/['"]+/g, '');
+		ss_number = $('#ss_number').val();
+		ss_number = ss_number.toLowerCase().trim().replace(/['"]+/g, '');
+		you_born = $('#you_born').val();
+		you_born = you_born.toLowerCase().trim().replace(/['"]+/g, '');
+		mom_born = $('#mom_born').val();
+		mom_born = mom_born.toLowerCase().trim().replace(/['"]+/g, '');
+		secret_code = last_name + ss_number + you_born + mom_born
+
+		if (secret_code == '' | last_name == '' | ss_number == '' | you_born == '' | mom_born == '') {
+			$('#problem').show()
+		} else {
+
+			secret_code = secret_code + '_' + Math.random().toString(36).slice(2);
+
+			urlArgs = {
+				'id': sona_id,
+				'secret-code': secret_code
+			}
+
+			window.location.replace('../pracCued/?' + $.param(urlArgs));
+	}
+
+	});
+
+
+
+
+
+}); // end $(document).ready()
+
+</script>
+</head>
+
+<body>
+
+	<div id = 'debrief' class = 'formContainer'>
+
+		<div id = 'demo_heading'>
+			<h4>Please enter your responses to the questions that you answered on the original prescreening survey for the "secret code" so we can keep track of unique responses.</h4> 
+		</div>
+
+		<div id = 'demo_container'>
+
+			<div id='problem'> <p style='color: red'>You must fill out the information below before proceeding.</p></div>
+			<form id = 'demo_form'>
+
+				<fieldset>
+					<legend>What is the FIRST letter of your LAST name? (eg, "S" if your name is John Smith):</legend>
+					<input type = 'text' id = 'last_name' value = '' placeholder = 'S' required>
+				</fieldset>
+
+				<fieldset>
+					<legend>What is the LAST digit of your Social Security number? (eg, "9" if your SSN is 111-00-1119)</legend>
+					<input type = 'text' id = 'ss_number' value = '' placeholder = '9' required>
+				</fieldset>
+
+				<fieldset>
+					<legend>What (numbered) DAY OF THE MONTH were YOU born on? (eg, "18" if your birthday is February 18th)</legend>
+					<input type = 'text' id = 'you_born' value = '' placeholder = '18' required>
+				</fieldset>
+
+				<fieldset>
+					<legend>What (numbered) DAY OF THE MONTH was your MOTHER born on? (eg, "8" if your birthday is December 8th)</legend>
+					<input type = 'text' id = 'mom_born' value = '' placeholder = '8' required>
+				</fieldset>
+
+				
+	  	</form>
+	  	<button id = 'submit_data' class = 'experimentButton'>Submit and continue.</button>
+	  </div>
+
+	  <div id = 'test_area'>
+	  </div>
+
+	</div> <!-- end debrief div -->
+
+	
+
+</body>
+</html>
