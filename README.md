@@ -12,7 +12,7 @@ The experiment is broken down into three general phases, the code for which can 
 * `experiment/dst/index.html`  
 * `experiment/rapidFire/index.html`
 
-Custom JavaScript functions are `experiment/js/exp3Functions.js` and
+Custom JavaScript functions are found in `experiment/js/exp3Functions.js` and
 `globalJs/globalFunctions.js`.
 
 ## Data saving
